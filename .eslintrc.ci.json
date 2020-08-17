@@ -1,0 +1,15 @@
+{
+    "root": true,
+    "extends": ["./.eslintrc.json"],
+    "rules": {
+        // Check these rules only on CI for quicker dev workflow.
+        // See: https://github.com/typescript-eslint/typescript-eslint/blob/master/docs/getting-started/linting/FAQ.md#eslint-plugin-import
+        "import/no-named-as-default": 2,
+        "import/no-cycle": 2,
+        "import/no-unused-modules": 2,
+        "import/no-deprecated": 2,
+        "no-console": 1
+    },
+    // See: https://eslint.org/docs/user-guide/configuring#report-unused-eslint-disable-comments
+    "reportUnusedDisableDirectives": true
+}

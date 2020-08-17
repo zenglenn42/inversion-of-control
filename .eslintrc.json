@@ -1,0 +1,104 @@
+{
+    // Shared lint config.
+    "root": true,
+    "plugins": ["html"],
+    "env": {
+        "browser": true
+    },
+    "settings": {
+        "react": {
+            "version": "detect"
+        }
+    },
+    "parserOptions": {
+        "ecmaVersion": 2018,
+        "sourceType": "module"
+    },
+    "overrides": [
+        {
+            // Lint config just for .js / .jsx
+            "files": ["**/*.js?(x)"],
+            "parser": "babel-eslint",
+            "extends": [
+                "react-app",
+                "airbnb",
+                "eslint:recommended",
+                "plugin:jsx-a11y/recommended",
+                "plugin:import/errors",
+                "plugin:import/warnings",
+                "plugin:react/recommended",
+                // Is react-hooks needed? Implied by "react-app"?
+                "plugin:react-hooks/recommended"
+            ],
+            "rules": {
+                // Files that may include jsx.
+                "react/jsx-filename-extension": [
+                    1,
+                    // Goal is to drop ".js" here as it's bad style
+                    // to munge jsx inside of js files.
+                    { "extensions": [".js", ".jsx"] }
+                ],
+                // Necessary for .js files only. Not .ts
+                // since typescript provides these checks out-of-the box.
+                // See: https://github.com/typescript-eslint/typescript-eslint/blob/master/docs/getting-started/linting/FAQ.md#eslint-plugin-import
+                "import/named": 1,
+                "import/namespace": 1,
+                "import/default": 1,
+                "import/no-named-as-default-member": 1,
+                "no-var": 1,
+                "prefer-const": 1,
+                "react/prop-types": 1,
+                "react/no-unescaped-entities": 1,
+                "react/no-unknown-property": 1,
+                "react/jsx-key": 1,
+                "react/jsx-indent": 0,
+                "react/jsx-indent-props": 0,
+                "react/jsx-props-no-spreading": 1,
+                "no-trailing-spaces": 2,
+                "indent": "off",
+                "semi": 0,
+                "comma-dangle": [1, "never"],
+                "react/jsx-one-expression-per-line": 0,
+                "import/prefer-default-export": 0
+            }
+        },
+        {
+            // Lint config just for .ts / .tsx
+            "files": ["**/*.ts?(x)"],
+            "parser": "@typescript-eslint/parser",
+            "parserOptions": {
+                "tsconfigRootDir": "./",
+                "project": ["./tsconfig.json"]
+            },
+            "extends": [
+                "react-app",
+                "airbnb-typescript",
+                "eslint:recommended",
+                "plugin:jsx-a11y/recommended",
+                "plugin:import/errors",
+                "plugin:import/warnings",
+                "plugin:react/recommended",
+                // Is react-hooks needed? Implied by "react-app"?
+                "plugin:react-hooks/recommended",
+                "plugin:prettier/recommended",
+                "plugin:import/typescript"
+            ],
+            "plugins": ["@typescript-eslint"],
+            "rules": {
+                // Files that may include jsx.
+                "react/jsx-filename-extension": [1, { "extensions": [".tsx"] }],
+                "@typescript-eslint/indent": 0,
+                "@typescript-eslint/no-var-requires": 1,
+                "@typescript-eslint/no-unused-vars": 1,
+                "@typescript-eslint/no-empty-function": 1,
+                "@typescript-eslint/semi": 0,
+                "react/jsx-indent": 0,
+                "react/jsx-indent-props": 0,
+                "no-trailing-spaces": 2,
+                "indent": "off",
+                "semi": 0,
+                "comma-dangle": [1, "never"]
+            }
+        }
+    ]
+}
