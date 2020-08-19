@@ -3,10 +3,10 @@ import posed from 'react-pose'
 import styled from '@emotion/styled'
 import {useAccordion, accordionReducer, actionTypes} from './useAccordion'
 
-function combineReducers(...reducers) {
+function combineReducers(...stateReducers) {
   return (state, action) => {
-    for (const reducer of reducers) {
-      const result = reducer(state, action)
+    for (const stateReducer of stateReducers) {
+      const result = stateReducer(state, action)
       if (result) return result
     }
   }
@@ -82,9 +82,9 @@ const AccordionItem = styled('div')(
   }),
 )
 
-function Accordion({items, reducer = () => {}, ...props}) {
+function Accordion({items, stateReducer = () => {}, ...props}) {
   const {openedItems, toggleIndex} = useAccordion({
-    reducer: combineReducers(reducer, accordionReducer),
+    stateReducer: combineReducers(stateReducer, accordionReducer),
   })
 
   return (
