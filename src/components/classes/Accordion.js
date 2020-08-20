@@ -1,19 +1,19 @@
 import React from 'react'
 import posed from 'react-pose'
 import styled from '@emotion/styled'
-import {BaseAccordion} from './BaseAccordion'
+import { BaseAccordion } from './BaseAccordion'
 
 const combineReducers = (...reducers) => (state, changes) =>
   reducers.reduce((acc, reducer) => reducer(state, acc), changes)
 
-const preventClose = (state, changes) =>
+const preventCloseReducer = (state, changes) =>
   changes.type === 'closing' && state.openIndices.length < 2
-    ? {...changes, openIndices: state.openIndices}
+    ? { ...changes, openIndices: state.openIndices }
     : changes
 
-const single = (state, changes) =>
+const singleReducer = (state, changes) =>
   changes.type === 'opening'
-    ? {...changes, openIndices: changes.openIndices.slice(-1)}
+    ? { ...changes, openIndices: changes.openIndices.slice(-1) }
     : changes
 
 const AccordionButton = styled('button')(
@@ -32,7 +32,7 @@ const AccordionButton = styled('button')(
       backgroundColor: 'rgba(255, 255, 255, 0.4)',
     },
   },
-  ({isOpen}) =>
+  ({ isOpen }) =>
     isOpen
       ? {
           backgroundColor: 'rgba(255, 255, 255, 0.2)',
@@ -41,15 +41,15 @@ const AccordionButton = styled('button')(
 )
 
 const PoseAccordionContents = posed.div({
-  open: {maxHeight: 200},
-  closed: {maxHeight: 0},
+  open: { maxHeight: 200 },
+  closed: { maxHeight: 0 },
 })
 
-function AccordionContents({isOpen, ...props}) {
+function AccordionContents({ isOpen, ...props }) {
   return (
     <PoseAccordionContents
       pose={isOpen ? 'open' : 'closed'}
-      style={{overflowY: 'hidden', textAlign: 'justify'}}
+      style={{ overflowY: 'hidden', textAlign: 'justify' }}
       {...props}
     />
   )
@@ -67,10 +67,10 @@ const AccordionItem = styled('div')(
   }),
 )
 
-function Accordion({items, ...props}) {
+function Accordion({ items, ...props }) {
   return (
     <BaseAccordion {...props}>
-      {({openIndices, handleItemClick}) => (
+      {({ openIndices, handleItemClick }) => (
         <div>
           {items.map((item, index) => (
             <AccordionItem key={item.title} direction="vertical">
@@ -92,4 +92,4 @@ function Accordion({items, ...props}) {
   )
 }
 
-export default App
+export { Accordion, combineReducers, preventCloseReducer, singleReducer }
