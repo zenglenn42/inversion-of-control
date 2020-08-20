@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useCallback, useEffect, useReducer } from 'react'
 import posed from 'react-pose'
 import styled from '@emotion/styled'
+import { useExpandable } from './useExpandable'
 
 const AccordionButton = styled('button')(
   {
@@ -53,129 +54,55 @@ const AccordionItem = styled('div')(
   }),
 )
 
-const behaviorActionTypes = { toggle_index: 'toggle_index' }
-
-function defaultBehaviorReducer(openedItems, action) {
-  switch (action.type) {
-    case behaviorActionTypes.toggle_index: {
-      const closing = openedItems.includes(action.index)
-      const nextOpenIndices = closing
-        ? openedItems.filter((i) => i !== action.index)
-        : [...openedItems, action.index]
-      return nextOpenIndices
-    }
-    default: {
-      throw new Error(
-        'Unhandled type in Accordion defaultBehaviorReducer: ' + action.type,
-      )
-    }
-  }
-}
-
-function combineReducers(...reducers) {
-  return (state, action) => {
-    for (const reducer of reducers) {
-      const result = reducer(state, action)
-      if (result) return result
-    }
-  }
-}
-
-function preventCloseReducer(openedItems, action) {
-  if (action.type === behaviorActionTypes.toggle_index) {
-    const closing = openedItems.includes(action.index)
-    const isLast = openedItems.length < 2
-    if (closing && isLast) {
-      return openedItems
-    }
-  }
-}
-
-function singleReducer(openedItems, action) {
-  if (action.type === behaviorActionTypes.toggle_index) {
-    const closing = openedItems.includes(action.index)
-    if (!closing) {
-      return [action.index]
-    }
-  }
-}
-
 const layoutActionTypes = { map_items: 'map_items' }
 
-function defaultLayoutReducer(components, action) {
+function dfltLayoutReducer(components, action) {
   switch (action.type) {
     case layoutActionTypes.map_items:
-      // console.log('defaultLayoutReducer action:', action)
-      console.log('typeof action.toggle:', action.toggle)
+      // console.log('dfltLayoutReducer action:', action)
       return action.items.map((item, index) => (
         <AccordionItem key={item.title} direction="vertical">
           <AccordionButton
-            isOpen={action.openedItems.includes(index)}
-            onClick={() => action.toggle(index)}
+            isOpen={action.expandedItems.includes(index)}
+            onClick={() => action.toggleItem(index)}
           >
             {item.title}{' '}
-            <span>{action.openedItems.includes(index) ? '👇' : '👈'}</span>
+            <span>{action.expandedItems.includes(index) ? '👇' : '👈'}</span>
           </AccordionButton>
-          <AccordionContents isOpen={action.openedItems.includes(index)}>
+          <AccordionContents isOpen={action.expandedItems.includes(index)}>
             {item.contents}
           </AccordionContents>
         </AccordionItem>
       ))
     default: {
       throw new Error(
-        'Unhandled type in Accordion defaultLayoutReducer: ' + action.type,
+        'Unhandled type in Accordion dfltLayoutReducer: ' + action.type,
       )
     }
   }
 }
 
 function useAccordion({
-  behaviorReducer = defaultBehaviorReducer,
-  layoutReducer = defaultLayoutReducer,
+  layoutReducer = dfltLayoutReducer,
   items = [],
+  initialExpanded = [],
 } = {}) {
-  const inputItems = React.useRef(items)
-  const memoizedBehaviorReducer = React.useCallback(behaviorReducer, [])
-  const initialOpenedItems = []
-  const [openedItems, mutateOpenedItems] = React.useReducer(
-    memoizedBehaviorReducer,
-    initialOpenedItems,
-  )
-  const toggleIndex = (index) => {
-    mutateOpenedItems({
-      type: behaviorActionTypes.toggle_index,
-      index: index,
+  const { expandedItems, toggleItem } = useExpandable(items, initialExpanded)
+  const memoizedToggleItem = useCallback(toggleItem, [])
+
+  const memoizedLayoutReducer = useCallback(layoutReducer, [])
+  const [components, dispatch] = useReducer(memoizedLayoutReducer, [])
+
+  useEffect(() => {
+    dispatch({
+      type: layoutActionTypes.map_items,
+      items: items,
+      toggleItem: memoizedToggleItem,
+      expandedItems: expandedItems,
     })
-  }
-
-  const memoizedLayoutReducer = React.useCallback(layoutReducer, [])
-  const [components, mutateComponents] = React.useReducer(
-    memoizedLayoutReducer,
-    [],
-  )
-
-  const getComponents = () => {
-    if (components.length === 0) {
-      mutateComponents({
-        type: layoutActionTypes.map_items,
-        items: inputItems.current,
-        toggle: toggleIndex,
-        openedItems: openedItems,
-      })
-    }
-    return components
-  }
-
-  return { getComponents }
+    return
+  }, [items, memoizedToggleItem, expandedItems])
+  return { components }
 }
 
-export {
-  useAccordion,
-  defaultBehaviorReducer,
-  preventCloseReducer,
-  singleReducer,
-  combineReducers,
-  behaviorActionTypes,
-  defaultLayoutReducer,
-  layoutActionTypes,
-}
+export { useAccordion }
