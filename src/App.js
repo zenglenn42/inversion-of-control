@@ -7,20 +7,20 @@ const accordionStyle = {
   marginLeft: 'auto',
   marginRight: 'auto',
   borderRadius: '0.125em',
-  padding: '1em',
+  padding: '1em'
   //border: 'solid 1px red',
 }
 const twoColumns = {
   display: 'flex',
-  justifyContent: 'space-evenly',
+  justifyContent: 'space-evenly'
 }
 const header = {
   margin: '0 auto',
-  textAlign: 'center',
+  textAlign: 'center'
 }
 const scrollY = {
   maxHeight: '50vh',
-  overflowY: 'scroll',
+  overflowY: 'scroll'
 }
 
 const items = [
@@ -32,7 +32,7 @@ const items = [
         lifespan of around 25 years. A 19th century horse named 'Old Billy' is
         said to have lived 62 years.
       </div>
-    ),
+    )
   },
   {
     title: '⋯',
@@ -46,7 +46,7 @@ const items = [
             African bush elephant, the African forest elephant, and the Asian
             elephant.
           </div>
-        ),
+        )
       },
       {
         title: '🦄',
@@ -56,7 +56,7 @@ const items = [
             try Lake Superior State University in Sault Ste. Marie, Michigan.
             Since 1971, the university has issued permits to unicorn questers.
           </div>
-        ),
+        )
       },
       {
         title: '⋯',
@@ -69,14 +69,14 @@ const items = [
                 horses have a lifespan of around 25 years. A 19th century horse
                 named 'Old Billy' is said to have lived 62 years.
               </div>
-            ),
+            )
           },
           {
-            title: 'something with no contents',
-          },
-        ],
-      },
-    ],
+            title: 'something with no contents'
+          }
+        ]
+      }
+    ]
   },
   {
     title: '🐘',
@@ -87,7 +87,7 @@ const items = [
         African bush elephant, the African forest elephant, and the Asian
         elephant.
       </div>
-    ),
+    )
   },
   {
     title: '🦄',
@@ -97,22 +97,25 @@ const items = [
         Lake Superior State University in Sault Ste. Marie, Michigan. Since
         1971, the university has issued permits to unicorn questers.
       </div>
-    ),
-  },
+    )
+  }
 ]
 
-function recurseList(list, depth = 0) {
-  let indent = ' '.repeat(depth * 4)
-  const flatList = list.map((item, index) => {
-    console.log(`depth: ${depth} list[${index}]: ${indent} ${item.title}`)
-    return item.items
-      ? recurseList(item.items, depth + 1)
-      : `[${depth}] = ${item.title} | `
-  })
-  return [...flatList]
+function nested2Flattened(nestedItems, depth = 0, acc = []) {
+  const flattenedItems = nestedItems.reduce((acc, item, index) => {
+    if (item.items) {
+      acc.push('sublist ...')
+      return nested2Flattened(item.items, depth + 1, acc)
+    } else {
+      acc.push(item.title)
+    }
+    return acc
+  }, acc)
+  return flattenedItems
 }
 
 function App() {
+  console.log(JSON.stringify(nested2Flattened(items)))
   return (
     <>
       <h3 style={header}>Kent C. Dodds' Component Pattern</h3>
@@ -135,7 +138,7 @@ function App() {
       </div>
       <div>
         <p>flattened item list</p>
-        {recurseList(items)}
+        {nested2Flattened(items)}
       </div>
     </>
   )
