@@ -2,6 +2,27 @@ import React from 'react'
 import { Accordion as AccordionWithHooks } from './components/hooks/Accordion'
 import { Accordion as AccordionWithClasses } from './components/classes/Accordion'
 
+const accordionStyle = {
+  maxWidth: '40vw',
+  marginLeft: 'auto',
+  marginRight: 'auto',
+  borderRadius: '0.125em',
+  padding: '1em',
+  //border: 'solid 1px red',
+}
+const twoColumns = {
+  display: 'flex',
+  justifyContent: 'space-evenly',
+}
+const header = {
+  margin: '0 auto',
+  textAlign: 'center',
+}
+const scrollY = {
+  maxHeight: '50vh',
+  overflowY: 'scroll',
+}
+
 const items = [
   {
     title: '🐴',
@@ -37,6 +58,24 @@ const items = [
           </div>
         ),
       },
+      {
+        title: '⋯',
+        items: [
+          {
+            title: '🐴',
+            contents: (
+              <div>
+                Horses can sleep both lying down and standing up. Domestic
+                horses have a lifespan of around 25 years. A 19th century horse
+                named 'Old Billy' is said to have lived 62 years.
+              </div>
+            ),
+          },
+          {
+            title: 'something with no contents',
+          },
+        ],
+      },
     ],
   },
   {
@@ -62,46 +101,41 @@ const items = [
   },
 ]
 
+function recurseList(list, depth = 0) {
+  let indent = ' '.repeat(depth * 4)
+  const flatList = list.map((item, index) => {
+    console.log(`depth: ${depth} list[${index}]: ${indent} ${item.title}`)
+    return item.items
+      ? recurseList(item.items, depth + 1)
+      : `[${depth}] = ${item.title} | `
+  })
+  return [...flatList]
+}
+
 function App() {
-  const accordionStyle = {
-    maxWidth: '40vw',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    borderRadius: '0.125em',
-    padding: '1em',
-    //border: 'solid 1px red',
-  }
-  const twoColumns = {
-    display: 'flex',
-    justifyContent: 'space-evenly',
-  }
-  const header = {
-    margin: '0 auto',
-    textAlign: 'center',
-  }
-  const scrollY = {
-    maxHeight: '50vh',
-    overflowY: 'scroll',
-  }
   return (
     <>
-      <h2 style={header}>Kent C. Dodds' Component Pattern</h2>
+      <h3 style={header}>Kent C. Dodds' Component Pattern</h3>
       <h4 style={header}>Inversion of Control with State Reducer</h4>
       <div style={twoColumns}>
         <div style={accordionStyle}>
-          <h3 style={header}>with Hooks</h3>
+          <h4 style={header}>with Hooks</h4>
           <hr />
           <div style={scrollY}>
             <AccordionWithHooks items={items} />
           </div>
         </div>
         <div style={accordionStyle}>
-          <h3 style={header}>with Classes</h3>
+          <h4 style={header}>with Classes</h4>
           <hr />
           <div style={scrollY}>
             <AccordionWithClasses items={items} />
           </div>
         </div>
+      </div>
+      <div>
+        <p>flattened item list</p>
+        {recurseList(items)}
       </div>
     </>
   )
