@@ -1,6 +1,6 @@
 import React from 'react'
-import {Accordion as AccordionWithHooks} from './components/hooks/Accordion'
-import {Accordion as AccordionWithClasses} from './components/hooks/Accordion'
+import { Accordion as AccordionWithHooks } from './components/hooks/Accordion'
+import { Accordion as AccordionWithClasses } from './components/classes/Accordion'
 
 const items = [
   {
