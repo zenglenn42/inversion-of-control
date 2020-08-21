@@ -16,20 +16,20 @@ const AccordionButton = styled('button')(
     backgroundColor: 'unset',
     ':focus': {
       outline: 'none',
-      backgroundColor: 'rgba(255, 255, 255, 0.4)',
-    },
+      backgroundColor: 'rgba(255, 255, 255, 0.4)'
+    }
   },
   ({ isOpen }) =>
     isOpen
       ? {
-          backgroundColor: 'rgba(255, 255, 255, 0.2)',
+          backgroundColor: 'rgba(255, 255, 255, 0.2)'
         }
-      : null,
+      : null
 )
 
 const PoseAccordionContents = posed.div({
   open: { maxHeight: 200 },
-  closed: { maxHeight: 0 },
+  closed: { maxHeight: 0 }
 })
 
 function AccordionContents({ isOpen, ...props }) {
@@ -47,11 +47,11 @@ const AccordionItem = styled('div')(
     display: 'grid',
     gridTemplate: 'auto auto',
     gridGap: 4,
-    gridAutoFlow: 'row',
+    gridAutoFlow: 'row'
   },
   (props) => ({
-    gridAutoFlow: props.direction === 'horizontal' ? 'column' : 'row',
-  }),
+    gridAutoFlow: props.direction === 'horizontal' ? 'column' : 'row'
+  })
 )
 
 const layoutActionTypes = { map_items: 'map_items' }
@@ -61,7 +61,7 @@ function dfltLayoutReducer(components, action) {
     case layoutActionTypes.map_items:
       // console.log('dfltLayoutReducer action:', action)
       return action.items.map((item, index) => (
-        <AccordionItem key={item.title} direction="vertical">
+        <AccordionItem key={`${item.depth}_${item.title}`} direction="vertical">
           <AccordionButton
             isOpen={action.expandedItems.includes(index)}
             onClick={() => action.toggleItem(index)}
@@ -76,7 +76,7 @@ function dfltLayoutReducer(components, action) {
       ))
     default: {
       throw new Error(
-        'Unhandled type in Accordion dfltLayoutReducer: ' + action.type,
+        'Unhandled type in Accordion dfltLayoutReducer: ' + action.type
       )
     }
   }
@@ -85,7 +85,7 @@ function dfltLayoutReducer(components, action) {
 function useAccordion({
   layoutReducer = dfltLayoutReducer,
   items = [],
-  initialExpanded = [],
+  initialExpanded = []
 } = {}) {
   const { expandedItems, toggleItem } = useExpandable(items, initialExpanded)
   const memoizedToggleItem = useCallback(toggleItem, [])
@@ -98,7 +98,7 @@ function useAccordion({
       type: layoutActionTypes.map_items,
       items: items,
       toggleItem: memoizedToggleItem,
-      expandedItems: expandedItems,
+      expandedItems: expandedItems
     })
     return
   }, [items, memoizedToggleItem, expandedItems])

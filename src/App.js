@@ -35,7 +35,7 @@ const items = [
     )
   },
   {
-    title: '⋯',
+    title: 'more ⋯',
     items: [
       {
         title: '🐘',
@@ -57,24 +57,6 @@ const items = [
             Since 1971, the university has issued permits to unicorn questers.
           </div>
         )
-      },
-      {
-        title: '⋯',
-        items: [
-          {
-            title: '🐴',
-            contents: (
-              <div>
-                Horses can sleep both lying down and standing up. Domestic
-                horses have a lifespan of around 25 years. A 19th century horse
-                named 'Old Billy' is said to have lived 62 years.
-              </div>
-            )
-          },
-          {
-            title: 'something with no contents'
-          }
-        ]
       }
     ]
   },
@@ -103,19 +85,28 @@ const items = [
 
 function nested2Flattened(nestedItems, depth = 0, acc = []) {
   const flattenedItems = nestedItems.reduce((acc, item, index) => {
-    if (item.items) {
-      acc.push('sublist ...')
+    const hasNestedItems = item.items
+    if (hasNestedItems) {
+      acc.push({
+        title: item.title,
+        contents: <p>drawer</p>,
+        depth: depth
+      })
       return nested2Flattened(item.items, depth + 1, acc)
     } else {
-      acc.push(item.title)
+      acc.push({
+        ...item,
+        depth: depth
+      })
     }
     return acc
   }, acc)
   return flattenedItems
 }
 
+const flattenedItems = nested2Flattened(items)
+
 function App() {
-  console.log(JSON.stringify(nested2Flattened(items)))
   return (
     <>
       <h3 style={header}>Kent C. Dodds' Component Pattern</h3>
@@ -125,7 +116,7 @@ function App() {
           <h4 style={header}>with Hooks</h4>
           <hr />
           <div style={scrollY}>
-            <AccordionWithHooks items={items} />
+            <AccordionWithHooks items={flattenedItems} />
           </div>
         </div>
         <div style={accordionStyle}>
@@ -135,10 +126,6 @@ function App() {
             <AccordionWithClasses items={items} />
           </div>
         </div>
-      </div>
-      <div>
-        <p>flattened item list</p>
-        {nested2Flattened(items)}
       </div>
     </>
   )
