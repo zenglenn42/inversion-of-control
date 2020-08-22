@@ -48,11 +48,13 @@ Importantly, you still craft reasonable defaults for layout and behavior to meet
 
 ![alt](docs/images/kcd-accordion.png)
 
+You _invert_ control by enabling the component consumer to extend behavior in their scope rather than wedging their novel use-case into your code.
+
 ### 2. Nested Accordion
 
 To illustrate Kent's point about extensibility, I implement my own _nested_ Accordion variant.
 
-In the process, I sketch out an Accordion that supports two more types of reducers (besides the 'expansion behavior' reducer):
+In the process, I sketch out an Accordion that supports two more types of reducers beyond his behavior reducer:
 
 - input data reducers
 
