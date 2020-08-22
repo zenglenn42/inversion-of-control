@@ -1,24 +1,72 @@
 ## Inversion of Control Software Pattern
 
-### 1. from Kent C. Dodds
+### _Fighting prop-bloat and maintenance blues in your React components_
+
+Imagine you've written a [transcendent](https://www.youtube.com/watch?v=uVQ8nNxcmrM) new React component with a luminescent set of props to support a reasonable collection of use-cases.
+
+![alt](docs/images/christian-paul-stobbe-IhM0m7AZh4Q-unsplash-1.jpg)
+_<a href="https://unsplash.com/@stobbewtf?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Photo Christian Paul Stobbe</a>_
+
+You soar to new personal heights like Jonathan Livingston Seagull with a desire to share your breakthrough.
+
+So you publish to the world, blog a bit, search for the perfect evocative unsplash image, make a signifying reference to Joseph Campbell and the [Hero's Journey](https://en.wikipedia.org/wiki/Hero%27s_journey), and maybe take a shower.
+
+If the gods of SEO and open source smile, you're rewarded with the blessing (and curse?) of widespread interest and adoption.
+
+The curse comes in the form of requests and (hopefully) PRs for extensions and use-cases you hadn't anticpated. Initially, you bask in the glow of acknowledged value ...
+
+![alt](docs/images/ryan-parker-U2t3g6BuXhg-unsplash.jpg)
+_<a href="https://unsplash.com/@dryanparker?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Photo by Ryan Parker</a>_
+
+... but soon realize your crisp code descends into a maintenance muddle. The prop count grows. You struggle to add test cases to handle the combinatorial complexity implied by so many options. It's hard keeping up with the demand for modifications while still maintaining quality and coherence to your original concept.
+
+Has your gift to the world become an [albatross](https://en.wiktionary.org/wiki/albatross_around_one%27s_neck) around your neck?
+
+![alt](https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Dore-I_watched_the_Water-Snakes-Detail.jpg/198px-Dore-I_watched_the_Water-Snakes-Detail.jpg)
+_<a href="https://commons.wikimedia.org/wiki/Template:PD-US">
+Engraving by Gustave Doré, 1876
+[ CC-PD-Mark ]</a>_
+
+### Solution: Bring Your Own Behavior Reducer
 
 ---
 
-This is a place to play with Kent's very cool software pattern that
-gives client's of your React components tremendous power and flexibility to extend your
-work visually and behaviorally while keeping the code relatively compact
-and maintainable.
+Sometimes the answer may be to pass control _back_ to the flock of eager adoptees with an implementation that _encourages_ extension without having to rewrite the underlying component at each turn.
 
-The work comes from his 'Simply React' keynotes in which he walks through the evolution of an Accordion component with class-based (2018) and hooks-based (2020)
-implementations.
+I've recently become a fan of [Kent C. Dodds](https://kentcdodds.com) after watching his two **'Simply React'** keynotes in [2018](https://youtu.be/AiJ8tRRH0f8) and [2020](https://youtu.be/5io81WLgXtg) where he discusses 'inversion of control' in the context of a highly extensible Accordion component.
 
-Behavior is extended through a diy state reducer that augments the bundled accordion reducer.
+The key points are:
+
+- expose layout logic for easy modification by clients
+- support extensible component behavior through chainable, developer-supplied state reducers
+
+Importantly, you still craft reasonable defaults for layout and behavior to meet your needs (and hopefully those of many others). However, if you allow one or more DIY behavior reducers to be passed in, then you may side-step the need to anticipate or laboriously support variant policies such as:
+
+- only allow 1 visible item at a time
+- require that at least 1 item be visible at all times
+- allow multiple visible items
 
 ![alt](docs/images/kcd-accordion.png)
 
 ### 2. Nested Accordion
 
-I'm extending Kent's Accordion model to include layout and input data reducers in support of a nested accordion:
+To illustrate Kent's point about extensibility, I implement my own _nested_ Accordion variant.
+
+In the process, I sketch out an Accordion that supports two more types of reducers (besides the 'expansion behavior' reducer):
+
+- input data reducers
+
+  - For a nested Accordion, the input data may include nested items.
+  - However, rendering is currently a map across a 1-dimensional array of items.
+  - Can we craft a _data reducer_ to linerize that input so renders still work?
+
+- layout reducers
+  - How might we decouple layout from being tied to a given component library such as Emotion or Material-UI?
+  - Can we address the unique requirements of a nested Accordion if we pass in our own layout reducer?
+
+Initial attempts at answering these questions look promising.
+
+Here's the UI for my hook's based implementation:
 
 ---
 
@@ -28,7 +76,7 @@ I'm extending Kent's Accordion model to include layout and input data reducers i
 
 App.js
 
-```
+```javascript
 const nestedItems = [
   {
     title: '🐴',
@@ -64,7 +112,7 @@ function App() {
 
 Accordion.js
 
-```
+```javascript
 import React from 'react'
 import { useAccordion } from './useAccordion'
 
@@ -80,7 +128,7 @@ export { Accordion }
 
 useAccordion.js
 
-```
+```javascript
 ...
 
 // Support indented layouts ...
@@ -150,6 +198,8 @@ function flattenItemsReducer(nestedItems, depth = 0, acc = [], parent) {
 }
 
 const dfltInputItemsReducer = flattenItemsReducer
+
+// Augment useAccordion to support layout and input data reduction...
 
 function useAccordion({
   layoutReducer = dfltLayoutReducer,
