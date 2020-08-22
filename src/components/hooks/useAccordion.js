@@ -125,7 +125,7 @@ function dfltLayoutReducer(components, action) {
       })
     default: {
       throw new Error(
-        'Unhandled type in Accordion dfltLayoutReducer: ' + action.type
+        'Unhandled type in useAccordion dfltLayoutReducer: ' + action.type
       )
     }
   }

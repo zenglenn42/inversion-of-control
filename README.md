@@ -24,7 +24,7 @@ I'm extending Kent's Accordion model to include layout and input data reducers i
 
 ![alt](docs/images/nested-accordion.png)
 
-#### Here is what the input data looks like:
+#### Here are the recursively defined input data:
 
 App.js
 
@@ -115,7 +115,7 @@ function dfltLayoutReducer(components, action) {
       })
     default: {
       throw new Error(
-        'Unhandled type in Accordion dfltLayoutReducer: ' + action.type
+        'Unhandled type in useAccordion dfltLayoutReducer: ' + action.type
       )
     }
   }
