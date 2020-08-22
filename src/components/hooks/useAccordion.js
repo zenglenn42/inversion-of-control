@@ -56,24 +56,55 @@ const AccordionItem = styled('div')(
 
 const layoutActionTypes = { map_items: 'map_items' }
 
+function createButton(index, isOpen, toggleFn, text, yesEmoji, noEmoji) {
+  return (
+    <AccordionButton isOpen={isOpen} onClick={() => toggleFn(index)}>
+      {text} <span>{isOpen ? yesEmoji : noEmoji}</span>
+    </AccordionButton>
+  )
+}
+
+function createContents(isOpen, contents) {
+  return <AccordionContents isOpen={isOpen}>{contents}</AccordionContents>
+}
+
+function isVisible(item, items, expandedItems) {
+  // Item has no parent so can't be occluded by that.
+  if (!item.parent) return true
+
+  // Item is visible if all it's ancestors are expanded.
+  return (
+    expandedItems.includes(item.parent) &&
+    isVisible(items[item.parent], items, expandedItems)
+  )
+}
+
 function dfltLayoutReducer(components, action) {
   switch (action.type) {
     case layoutActionTypes.map_items:
-      // console.log('dfltLayoutReducer action:', action)
-      return action.items.map((item, index) => (
-        <AccordionItem key={`${item.depth}_${item.title}`} direction="vertical">
-          <AccordionButton
-            isOpen={action.expandedItems.includes(index)}
-            onClick={() => action.toggleItem(index)}
-          >
-            {item.title}{' '}
-            <span>{action.expandedItems.includes(index) ? '👇' : '👈'}</span>
-          </AccordionButton>
-          <AccordionContents isOpen={action.expandedItems.includes(index)}>
-            {item.contents}
-          </AccordionContents>
-        </AccordionItem>
-      ))
+      return action.items.map((item, index) => {
+        if (isVisible(item, action.items, action.expandedItems)) {
+          return (
+            <AccordionItem
+              key={`${item.depth}_${item.title}`}
+              direction="vertical"
+            >
+              {createButton(
+                index,
+                action.expandedItems.includes(index),
+                action.toggleItem,
+                item.title,
+                '👇',
+                '👈'
+              )}
+              {createContents(
+                action.expandedItems.includes(index),
+                item.contents
+              )}
+            </AccordionItem>
+          )
+        }
+      })
     default: {
       throw new Error(
         'Unhandled type in Accordion dfltLayoutReducer: ' + action.type
