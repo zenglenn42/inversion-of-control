@@ -49,12 +49,12 @@ function useExpandable({ reducer = dfltReducer, initialState = [] } = {}) {
   const memoizedReducer = React.useCallback(reducer, [])
   const [expandedItems, dispatch] = React.useReducer(
     memoizedReducer,
-    initialState,
+    initialState
   )
   const toggleItem = (index) => {
     dispatch({
       type: actionTypes.toggle_index,
-      index: index,
+      index: index
     })
   }
   return { expandedItems, toggleItem }
