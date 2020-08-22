@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useReducer } from 'react'
+import React, { useCallback, useEffect, useReducer, useRef } from 'react'
 import posed from 'react-pose'
 import styled from '@emotion/styled'
 import { useExpandable } from './useExpandable'
@@ -11,6 +11,8 @@ const AccordionButton = styled('button')(
     flex: 1,
     paddingTop: 10,
     paddingBottom: 10,
+    paddingLeft: 0,
+    paddingRight: 0,
     fontSize: 20,
     border: 'none',
     backgroundColor: 'unset',
@@ -50,7 +52,8 @@ const AccordionItem = styled('div')(
     gridAutoFlow: 'row'
   },
   (props) => ({
-    gridAutoFlow: props.direction === 'horizontal' ? 'column' : 'row'
+    gridAutoFlow: props.direction === 'horizontal' ? 'column' : 'row',
+    paddingLeft: `${props.indent * 2}em`
   })
 )
 
@@ -59,13 +62,26 @@ const layoutActionTypes = { map_items: 'map_items' }
 function createButton(index, isOpen, toggleFn, text, yesEmoji, noEmoji) {
   return (
     <AccordionButton isOpen={isOpen} onClick={() => toggleFn(index)}>
-      {text} <span>{isOpen ? yesEmoji : noEmoji}</span>
+      <div
+        style={{
+          display: 'inline-block',
+          minWidth: '25px',
+          textAlign: 'center'
+        }}
+      >
+        {text}
+      </div>{' '}
+      <span>{isOpen ? yesEmoji : noEmoji}</span>
     </AccordionButton>
   )
 }
 
 function createContents(isOpen, contents) {
   return <AccordionContents isOpen={isOpen}>{contents}</AccordionContents>
+}
+
+function createEmptyItem(depth, index) {
+  return <div key={`${depth}_empty_${index}`} style={{ display: 'none' }}></div>
 }
 
 function isVisible(item, items, expandedItems) {
@@ -86,8 +102,9 @@ function dfltLayoutReducer(components, action) {
         if (isVisible(item, action.items, action.expandedItems)) {
           return (
             <AccordionItem
-              key={`${item.depth}_${item.title}`}
+              key={`${item.depth}_${item.title}_${index}`}
               direction="vertical"
+              indent={item.depth}
             >
               {createButton(
                 index,
@@ -104,6 +121,7 @@ function dfltLayoutReducer(components, action) {
             </AccordionItem>
           )
         }
+        return createEmptyItem(item.depth, index)
       })
     default: {
       throw new Error(
@@ -113,12 +131,45 @@ function dfltLayoutReducer(components, action) {
   }
 }
 
+// Taked nested item json and flatten it into a single-dimension array.
+// augmented with a depth field and knowledge of one's parent index
+// (for visibility calculation later on in layout reducer).
+function flattenItemsReducer(nestedItems, depth = 0, acc = [], parent) {
+  const flattenedItems = nestedItems.reduce((acc, item, index) => {
+    const hasNestedItems = item.items
+    if (hasNestedItems) {
+      acc.push({
+        title: item.title,
+        contents: undefined,
+        depth: depth,
+        parent: parent
+      })
+      const newParent = acc.length - 1
+      return flattenItemsReducer(item.items, depth + 1, acc, newParent)
+    } else {
+      acc.push({
+        ...item,
+        depth: depth,
+        parent: parent
+      })
+    }
+    return acc
+  }, acc)
+  return flattenedItems
+}
+
+const dfltInputItemsReducer = flattenItemsReducer
+
 function useAccordion({
   layoutReducer = dfltLayoutReducer,
+  inputItemsReducer = dfltInputItemsReducer,
   items = [],
   initialExpanded = []
 } = {}) {
-  const { expandedItems, toggleItem } = useExpandable(items, initialExpanded)
+  const normalizedItems = useRef(inputItemsReducer(items))
+  const { expandedItems, toggleItem } = useExpandable({
+    initialState: initialExpanded
+  })
   const memoizedToggleItem = useCallback(toggleItem, [])
 
   const memoizedLayoutReducer = useCallback(layoutReducer, [])
@@ -127,12 +178,12 @@ function useAccordion({
   useEffect(() => {
     dispatch({
       type: layoutActionTypes.map_items,
-      items: items,
+      items: normalizedItems.current,
       toggleItem: memoizedToggleItem,
       expandedItems: expandedItems
     })
     return
-  }, [items, memoizedToggleItem, expandedItems])
+  }, [normalizedItems, memoizedToggleItem, expandedItems])
   return { components }
 }
 

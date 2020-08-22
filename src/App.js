@@ -19,7 +19,7 @@ const header = {
   textAlign: 'center'
 }
 const scrollY = {
-  maxHeight: '50vh',
+  maxHeight: '80vh',
   overflowY: 'scroll'
 }
 
@@ -35,7 +35,41 @@ const items = [
     )
   },
   {
-    title: 'more ⋯',
+    title: '🐘',
+    contents: (
+      <div>
+        Elephants are mammals of the family Elephantidae and the largest
+        existing land animals. Three species are currently recognised: the
+        African bush elephant, the African forest elephant, and the Asian
+        elephant.
+      </div>
+    )
+  },
+  {
+    title: '🦄',
+    contents: (
+      <div>
+        If you’re looking to hunt a unicorn, but don’t know where to begin, try
+        Lake Superior State University in Sault Ste. Marie, Michigan. Since
+        1971, the university has issued permits to unicorn questers.
+      </div>
+    )
+  }
+]
+
+const nestedItems = [
+  {
+    title: '🐴',
+    contents: (
+      <div>
+        Horses can sleep both lying down and standing up. Domestic horses have a
+        lifespan of around 25 years. A 19th century horse named 'Old Billy' is
+        said to have lived 62 years.
+      </div>
+    )
+  },
+  {
+    title: '⋯',
     items: [
       {
         title: '🐘',
@@ -59,7 +93,7 @@ const items = [
         )
       },
       {
-        title: 'more ⋯',
+        title: '⋯',
         items: [
           {
             title: '🦄',
@@ -99,110 +133,7 @@ const items = [
   }
 ]
 
-const debug_items = [
-  {
-    title: '1 🐴',
-    contents: (
-      <div>
-        Horses can sleep both lying down and standing up. Domestic horses have a
-        lifespan of around 25 years. A 19th century horse named 'Old Billy' is
-        said to have lived 62 years.
-      </div>
-    )
-  },
-  {
-    title: '2 ⋯',
-    items: [
-      {
-        title: '3 🐘',
-        contents: (
-          <div>
-            Elephants are mammals of the family Elephantidae and the largest
-            existing land animals. Three species are currently recognised: the
-            African bush elephant, the African forest elephant, and the Asian
-            elephant.
-          </div>
-        )
-      },
-      {
-        title: '4 🦄',
-        contents: (
-          <div>
-            If you’re looking to hunt a unicorn, but don’t know where to begin,
-            try Lake Superior State University in Sault Ste. Marie, Michigan.
-            Since 1971, the university has issued permits to unicorn questers.
-          </div>
-        )
-      },
-      {
-        title: '5 ⋯',
-        items: [
-          {
-            title: '6 🦄',
-            contents: (
-              <div>
-                If you’re looking to hunt a unicorn, but don’t know where to
-                begin, try Lake Superior State University in Sault Ste. Marie,
-                Michigan. Since 1971, the university has issued permits to
-                unicorn questers.
-              </div>
-            )
-          }
-        ]
-      }
-    ]
-  },
-  {
-    title: '7 🐘',
-    contents: (
-      <div>
-        Elephants are mammals of the family Elephantidae and the largest
-        existing land animals. Three species are currently recognised: the
-        African bush elephant, the African forest elephant, and the Asian
-        elephant.
-      </div>
-    )
-  },
-  {
-    title: '8 🦄',
-    contents: (
-      <div>
-        If you’re looking to hunt a unicorn, but don’t know where to begin, try
-        Lake Superior State University in Sault Ste. Marie, Michigan. Since
-        1971, the university has issued permits to unicorn questers.
-      </div>
-    )
-  }
-]
-
-function nested2Flattened(nestedItems, depth = 0, acc = [], parent) {
-  const flattenedItems = nestedItems.reduce((acc, item, index) => {
-    const hasNestedItems = item.items
-    if (hasNestedItems) {
-      acc.push({
-        title: item.title,
-        contents: undefined,
-        depth: depth,
-        parent: parent
-      })
-      const newParent = acc.length - 1
-      return nested2Flattened(item.items, depth + 1, acc, newParent)
-    } else {
-      acc.push({
-        ...item,
-        depth: depth,
-        parent: parent
-      })
-    }
-    return acc
-  }, acc)
-  return flattenedItems
-}
-
-const flattenedItems = nested2Flattened(debug_items)
-
 function App() {
-  console.log(flattenedItems)
   return (
     <>
       <h3 style={header}>Kent C. Dodds' Component Pattern</h3>
@@ -212,7 +143,7 @@ function App() {
           <h4 style={header}>with Hooks</h4>
           <hr />
           <div style={scrollY}>
-            <AccordionWithHooks items={flattenedItems} />
+            <AccordionWithHooks items={nestedItems} />
           </div>
         </div>
         <div style={accordionStyle}>
