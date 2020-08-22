@@ -58,7 +58,7 @@ In the process, I sketch out an Accordion that supports two more types of reduce
 
   - For a nested Accordion, the input data may include nested items.
   - However, rendering is currently a map across a 1-dimensional array of items.
-  - Can we craft a _data reducer_ to linerize that input so renders still work?
+  - Can we craft a _data reducer_ to linearize that input so renders still work?
 
 - layout reducers
   - How might we decouple layout from being tied to a given component library such as Emotion or Material-UI?
