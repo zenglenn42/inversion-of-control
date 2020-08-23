@@ -7,7 +7,7 @@ Imagine you've written a new React component with a set of props to support a re
 ![alt](docs/images/christian-paul-stobbe-IhM0m7AZh4Q-unsplash-1.jpg)
 _<a href="https://unsplash.com/@stobbewtf?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Photo Christian Paul Stobbe</a>_
 
-If the gods of SEO and open source smile, you're rewarded with the blessing (and maybe curse?) of widespread interest and adoption.
+If the gods of SEO and open source smile, you're rewarded with the blessing (and maybe curse?) of growing interest and adoption.
 
 The curse comes in the form of requests and (hopefully) PRs for extensions and use-cases you hadn't anticpated. Initially, you bask in the glow of acknowledged value ...
 
