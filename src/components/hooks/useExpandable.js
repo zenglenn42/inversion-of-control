@@ -2,7 +2,7 @@ import React from 'react'
 
 const actionTypes = { toggle_index: 'toggle_index' }
 
-function dfltReducer(expandedItems, action) {
+function multiExpandedReducer(expandedItems = [], action) {
   switch (action.type) {
     case actionTypes.toggle_index: {
       const closing = expandedItems.includes(action.index)
@@ -12,12 +12,14 @@ function dfltReducer(expandedItems, action) {
       return nextExpandedItems
     }
     default: {
-      throw new Error('Unhandled type in Accordion dfltReducer: ' + action.type)
+      throw new Error(
+        'Unhandled type in Accordion multiExpandedReducer: ' + action.type
+      )
     }
   }
 }
 
-function combineReducers(...reducers) {
+function combineExpansionReducers(...reducers) {
   return (state, action) => {
     for (const reducer of reducers) {
       const result = reducer(state, action)
@@ -26,17 +28,16 @@ function combineReducers(...reducers) {
   }
 }
 
-function preventCloseReducer(expandedItems, action) {
+function preventCloseReducer(expandedItems = [], action) {
   if (action.type === actionTypes.toggle_index) {
-    const closing = expandedItems.includes(action.index)
-    const isLast = expandedItems.length < 2
-    if (closing && isLast) {
+    const preventClose = expandedItems.length === 1
+    if (preventClose) {
       return expandedItems
     }
   }
 }
 
-function singleReducer(expandedItems, action) {
+function singleExpandedReducer(expandedItems = [], action) {
   if (action.type === actionTypes.toggle_index) {
     const closing = expandedItems.includes(action.index)
     if (!closing) {
@@ -45,7 +46,12 @@ function singleReducer(expandedItems, action) {
   }
 }
 
-function useExpandable({ reducer = dfltReducer, initialState = [] } = {}) {
+const dfltExpandedReducer = multiExpandedReducer
+
+function useExpandable({
+  reducer = dfltExpandedReducer,
+  initialState = []
+} = {}) {
   const memoizedReducer = React.useCallback(reducer, [])
   const [expandedItems, dispatch] = React.useReducer(
     memoizedReducer,
@@ -60,4 +66,10 @@ function useExpandable({ reducer = dfltReducer, initialState = [] } = {}) {
   return { expandedItems, toggleItem }
 }
 
-export { useExpandable, combineReducers, preventCloseReducer, singleReducer }
+export {
+  useExpandable,
+  combineExpansionReducers,
+  preventCloseReducer,
+  singleExpandedReducer,
+  multiExpandedReducer
+}
