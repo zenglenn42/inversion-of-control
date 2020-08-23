@@ -139,7 +139,8 @@ function verticalBelowLayoutReducer(components, action) {
       })
     default: {
       throw new Error(
-        'Unhandled type in useAccordion dfltLayoutReducer: ' + action.type
+        'Unhandled type in useAccordion verticalBelowLayoutReducer: ' +
+          action.type
       )
     }
   }

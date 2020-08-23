@@ -66,13 +66,11 @@ In the process, I sketch out an Accordion that supports two more types of reduce
   - How might we decouple layout from being tied to a given component library such as Emotion or Material-UI?
   - Can we address the unique requirements of a nested Accordion if we pass in our own layout reducer?
 
-Initial attempts at answering these questions look promising.
-
-Here's the UI for my hook's based implementation:
+I'm still playing, but initial attempts at answering these questions look promising.
 
 ---
 
-![alt](docs/images/nested-accordion.png)
+![alt](docs/images/kcd-and-nested-accordions.png)
 
 #### Here are the recursively defined input data:
 
@@ -106,7 +104,7 @@ const nestedItems = [
 ]
 
 function App() {
-  return (<Accordion items={nestedItems} />)
+  <Accordion items={items} />
 }
 ```
 
@@ -118,8 +116,9 @@ Accordion.js
 import React from 'react'
 import { useAccordion } from './useAccordion'
 
-function Accordion({ items, ...props }) {
-  const { components } = useAccordion({ items })
+function Accordion(props) {
+  const { items, ...optional } = props
+  const { components } = useAccordion({ items, ...optional })
   return <div>{components}</div>
 }
 
@@ -135,7 +134,7 @@ useAccordion.js
 
 // Support indented layouts ...
 
-function dfltLayoutReducer(components, action) {
+function verticalBelowLayoutReducer(components, action) {
   switch (action.type) {
     case layoutActionTypes.map_items:
       return action.items.map((item, index) => {
@@ -165,7 +164,8 @@ function dfltLayoutReducer(components, action) {
       })
     default: {
       throw new Error(
-        'Unhandled type in useAccordion dfltLayoutReducer: ' + action.type
+        'Unhandled type in useAccordion verticalBelowLayoutReducer: ' +
+          action.type
       )
     }
   }
@@ -199,6 +199,7 @@ function flattenItemsReducer(nestedItems, depth = 0, acc = [], parent) {
   return flattenedItems
 }
 
+const dfltLayoutReducer = verticalBelowLayoutReducer
 const dfltInputItemsReducer = flattenItemsReducer
 
 // Augment useAccordion to support layout and input data reduction...
@@ -206,12 +207,14 @@ const dfltInputItemsReducer = flattenItemsReducer
 function useAccordion({
   layoutReducer = dfltLayoutReducer,
   inputItemsReducer = dfltInputItemsReducer,
+  expansionReducer = dfltExpansionReducer,
   items = [],
   initialExpanded = []
 } = {}) {
   const normalizedItems = useRef(inputItemsReducer(items))
   const { expandedItems, toggleItem } = useExpandable({
-    initialState: initialExpanded
+    initialState: initialExpanded,
+    reducer: expansionReducer
   })
   const memoizedToggleItem = useCallback(toggleItem, [])
 
@@ -223,7 +226,7 @@ function useAccordion({
       type: layoutActionTypes.map_items,
       items: normalizedItems.current,
       toggleItem: memoizedToggleItem,
-      expandedItems: expandedItems
+      expandedItems: expandedItems || []
     })
     return
   }, [normalizedItems, memoizedToggleItem, expandedItems])
