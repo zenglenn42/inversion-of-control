@@ -2,23 +2,19 @@
 
 ### _Fighting prop-bloat and maintenance blues in your React components_
 
-Imagine you've written a [transcendent](https://www.youtube.com/watch?v=uVQ8nNxcmrM) new React component with a luminescent set of props to support a reasonable collection of use-cases.
+Imagine you've written a new React component with a set of props to support a reasonable collection of use-cases.
 
 ![alt](docs/images/christian-paul-stobbe-IhM0m7AZh4Q-unsplash-1.jpg)
 _<a href="https://unsplash.com/@stobbewtf?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Photo Christian Paul Stobbe</a>_
 
-You soar to new personal heights like Jonathan Livingston Seagull with a desire to share your breakthrough.
-
-So you publish to the world, blog a bit, search for the perfect evocative unsplash image, make a signifying reference to Joseph Campbell and the [Hero's Journey](https://en.wikipedia.org/wiki/Hero%27s_journey), and maybe take a shower.
-
-If the gods of SEO and open source smile, you're rewarded with the blessing (and curse?) of widespread interest and adoption.
+If the gods of SEO and open source smile, you're rewarded with the blessing (and maybe curse?) of widespread interest and adoption.
 
 The curse comes in the form of requests and (hopefully) PRs for extensions and use-cases you hadn't anticpated. Initially, you bask in the glow of acknowledged value ...
 
 ![alt](docs/images/ryan-parker-U2t3g6BuXhg-unsplash.jpg)
 _<a href="https://unsplash.com/@dryanparker?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Photo by Ryan Parker</a>_
 
-... but soon realize your crisp code descends into a maintenance muddle. The prop count grows. You struggle to add test cases to handle the combinatorial complexity implied by so many options. It's hard keeping up with the demand for modifications while still maintaining quality and coherence to your original concept.
+... but you eventually notice your crisp code descending into a maintenance muddle. The prop count grows. You struggle to add test cases to handle the combinatorial complexity implied by so many options. It's hard keeping up with the demand for modifications while still maintaining quality and coherence to your original concept.
 
 Has your gift to the world become an [albatross](https://en.wiktionary.org/wiki/albatross_around_one%27s_neck) around your neck?
 
