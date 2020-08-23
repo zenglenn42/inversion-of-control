@@ -1,7 +1,10 @@
 import React, { useCallback, useEffect, useReducer, useRef } from 'react'
 import posed from 'react-pose'
 import styled from '@emotion/styled'
-import { useExpandable } from './useExpandable'
+import {
+  useExpandable,
+  multiExpandedReducer as dfltExpansionReducer
+} from './useExpandable'
 
 const AccordionButton = styled('button')(
   {
@@ -59,7 +62,14 @@ const AccordionItem = styled('div')(
 
 const layoutActionTypes = { map_items: 'map_items' }
 
-function createButton(index, isOpen, toggleFn, text, yesEmoji, noEmoji) {
+function createButton(
+  index,
+  isOpen = false,
+  toggleFn,
+  text,
+  expandedEmoji,
+  collapsedEmoji
+) {
   return (
     <AccordionButton isOpen={isOpen} onClick={() => toggleFn(index)}>
       <div
@@ -71,12 +81,12 @@ function createButton(index, isOpen, toggleFn, text, yesEmoji, noEmoji) {
       >
         {text}
       </div>{' '}
-      <span>{isOpen ? yesEmoji : noEmoji}</span>
+      <span>{isOpen ? expandedEmoji : collapsedEmoji}</span>
     </AccordionButton>
   )
 }
 
-function createContents(isOpen, contents) {
+function createContents(isOpen = false, contents) {
   return <AccordionContents isOpen={isOpen}>{contents}</AccordionContents>
 }
 
@@ -84,9 +94,13 @@ function createEmptyItem(depth, index) {
   return <div key={`${depth}_empty_${index}`} style={{ display: 'none' }}></div>
 }
 
-function isVisible(item, items, expandedItems) {
+function isVisible(item, items, expandedItems = []) {
+  console.log('isVisible expandedItems =', expandedItems)
   // Item has no parent so can't be occluded by that.
   if (!item.parent) return true
+
+  // Item has a parent but expandedItems is undefined.
+  if (item.parent && expandedItems === undefined) return false
 
   // Item is visible if all it's ancestors are expanded.
   return (
@@ -95,7 +109,7 @@ function isVisible(item, items, expandedItems) {
   )
 }
 
-function dfltLayoutReducer(components, action) {
+function verticalBelowLayoutReducer(components, action) {
   switch (action.type) {
     case layoutActionTypes.map_items:
       return action.items.map((item, index) => {
@@ -158,17 +172,20 @@ function flattenItemsReducer(nestedItems, depth = 0, acc = [], parent) {
   return flattenedItems
 }
 
+const dfltLayoutReducer = verticalBelowLayoutReducer
 const dfltInputItemsReducer = flattenItemsReducer
 
 function useAccordion({
   layoutReducer = dfltLayoutReducer,
   inputItemsReducer = dfltInputItemsReducer,
+  expansionReducer = dfltExpansionReducer,
   items = [],
   initialExpanded = []
 } = {}) {
   const normalizedItems = useRef(inputItemsReducer(items))
   const { expandedItems, toggleItem } = useExpandable({
-    initialState: initialExpanded
+    initialState: initialExpanded,
+    reducer: expansionReducer
   })
   const memoizedToggleItem = useCallback(toggleItem, [])
 
@@ -180,7 +197,7 @@ function useAccordion({
       type: layoutActionTypes.map_items,
       items: normalizedItems.current,
       toggleItem: memoizedToggleItem,
-      expandedItems: expandedItems
+      expandedItems: expandedItems || []
     })
     return
   }, [normalizedItems, memoizedToggleItem, expandedItems])
