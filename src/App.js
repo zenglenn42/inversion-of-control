@@ -1,6 +1,10 @@
 import React from 'react'
-import { Accordion as AccordionWithHooks } from './components/hooks/Accordion'
-import { Accordion as AccordionWithClasses } from './components/classes/Accordion'
+import { Accordion } from './components/hooks/Accordion'
+import {
+  combineExpansionReducers,
+  preventCloseReducer,
+  singleExpandedReducer
+} from './components/hooks/useExpandable'
 
 const accordionStyle = {
   maxWidth: '40vw',
@@ -69,7 +73,7 @@ const nestedItems = [
     )
   },
   {
-    title: '⋯',
+    title: '⋱',
     items: [
       {
         title: '🐘',
@@ -93,7 +97,7 @@ const nestedItems = [
         )
       },
       {
-        title: '⋯',
+        title: '⋱',
         items: [
           {
             title: '🦄',
@@ -136,21 +140,30 @@ const nestedItems = [
 function App() {
   return (
     <>
-      <h3 style={header}>Kent C. Dodds' Component Pattern</h3>
-      <h4 style={header}>Inversion of Control with State Reducer</h4>
+      <p>
+        <h3 style={header}>Kent C. Dodds' Component Pattern</h3>
+        <h4 style={header}>Inversion of Control with State Reducer</h4>
+      </p>
       <div style={twoColumns}>
         <div style={accordionStyle}>
-          <h4 style={header}>with Hooks</h4>
+          <h4 style={header}>KCD Accordion</h4>
           <hr />
           <div style={scrollY}>
-            <AccordionWithHooks items={nestedItems} />
+            <Accordion
+              items={items}
+              initialExpanded={[1]}
+              expansionReducer={combineExpansionReducers(
+                singleExpandedReducer,
+                preventCloseReducer
+              )}
+            />
           </div>
         </div>
         <div style={accordionStyle}>
-          <h4 style={header}>with Classes</h4>
+          <h4 style={header}>Nested Accordion</h4>
           <hr />
           <div style={scrollY}>
-            <AccordionWithClasses items={items} />
+            <Accordion items={nestedItems} initialExpanded={[1, 2, 6]} />
           </div>
         </div>
       </div>
