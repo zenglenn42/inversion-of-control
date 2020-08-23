@@ -2,7 +2,7 @@
 
 ### _Fighting prop-bloat and maintenance blues in your React components_
 
-Imagine you've written a new React component with a set of props to support a reasonable collection of use-cases.
+Imagine you've written a new React component with a set of props to support a reasonable collection of use-cases. You want to share your work with others, so you publish and blog a bit.
 
 ![alt](docs/images/christian-paul-stobbe-IhM0m7AZh4Q-unsplash-1.jpg)
 _<a href="https://unsplash.com/@stobbewtf?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Photo Christian Paul Stobbe</a>_
