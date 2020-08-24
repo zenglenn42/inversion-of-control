@@ -95,7 +95,6 @@ function createEmptyItem(depth, index) {
 }
 
 function isVisible(item, items, expandedItems = []) {
-  console.log('isVisible expandedItems =', expandedItems)
   // Item has no parent so can't be occluded by that.
   if (!item.parent) return true
 
@@ -146,9 +145,10 @@ function verticalBelowLayoutReducer(components, action) {
   }
 }
 
-// Taked nested item json and flatten it into a single-dimension array.
+// Take nested item json and flatten it into a single-dimension array.
 // augmented with a depth field and knowledge of one's parent index
 // (for visibility calculation later on in layout reducer).
+
 function flattenItemsReducer(nestedItems, depth = 0, acc = [], parent) {
   const flattenedItems = nestedItems.reduce((acc, item, index) => {
     const hasNestedItems = item.items
@@ -186,7 +186,8 @@ function useAccordion({
   const normalizedItems = useRef(inputItemsReducer(items))
   const { expandedItems, toggleItem } = useExpandable({
     initialState: initialExpanded,
-    reducer: expansionReducer
+    reducer: expansionReducer,
+    items: normalizedItems.current
   })
   const memoizedToggleItem = useCallback(toggleItem, [])
 

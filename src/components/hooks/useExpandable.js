@@ -2,11 +2,22 @@ import React from 'react'
 
 const actionTypes = { toggle_index: 'toggle_index' }
 
+function combineExpansionReducers(...reducers) {
+  // Run reducers in defined order, all getting the same input state.
+  // Stop at the first one to returns some expanded items.
+  return (state, action) => {
+    for (const reducer of reducers) {
+      const result = reducer(state, action)
+      if (result && result.length) return result
+    }
+  }
+}
+
 function multiExpandedReducer(expandedItems = [], action) {
   switch (action.type) {
     case actionTypes.toggle_index: {
-      const closing = expandedItems.includes(action.index)
-      const nextExpandedItems = closing
+      const closeIt = expandedItems.includes(action.index)
+      const nextExpandedItems = closeIt
         ? expandedItems.filter((i) => i !== action.index)
         : [...expandedItems, action.index]
       return nextExpandedItems
@@ -15,15 +26,6 @@ function multiExpandedReducer(expandedItems = [], action) {
       throw new Error(
         'Unhandled type in Accordion multiExpandedReducer: ' + action.type
       )
-    }
-  }
-}
-
-function combineExpansionReducers(...reducers) {
-  return (state, action) => {
-    for (const reducer of reducers) {
-      const result = reducer(state, action)
-      if (result) return result
     }
   }
 }
@@ -39,9 +41,9 @@ function preventCloseReducer(expandedItems = [], action) {
 
 function singleExpandedReducer(expandedItems = [], action) {
   if (action.type === actionTypes.toggle_index) {
-    const closing = expandedItems.includes(action.index)
-    if (!closing) {
-      return [action.index]
+    const openIt = !expandedItems.includes(action.index)
+    if (openIt) {
+      return [action.index] // return a single open item
     }
   }
 }
@@ -50,7 +52,8 @@ const dfltExpandedReducer = multiExpandedReducer
 
 function useExpandable({
   reducer = dfltExpandedReducer,
-  initialState = []
+  initialState = [],
+  items = []
 } = {}) {
   const memoizedReducer = React.useCallback(reducer, [])
   const [expandedItems, dispatch] = React.useReducer(
@@ -60,7 +63,8 @@ function useExpandable({
   const toggleItem = (index) => {
     dispatch({
       type: actionTypes.toggle_index,
-      index: index
+      index: index,
+      items: items
     })
   }
   return { expandedItems, toggleItem }
@@ -71,5 +75,6 @@ export {
   combineExpansionReducers,
   preventCloseReducer,
   singleExpandedReducer,
-  multiExpandedReducer
+  multiExpandedReducer,
+  actionTypes
 }
