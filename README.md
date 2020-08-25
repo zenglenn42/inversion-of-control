@@ -13,7 +13,7 @@ _<h6>Photo by <a href="https://unsplash.com/@rxcroes?utm_source=unsplash&amp;utm
 
 ---
 
-Investigate inversion of control principle [discussed](https://kentcdodds.com/blog/inversion-of-control) by Kent C. Dodds. Extend it to include:
+Investigate **inversion of control** principle [discussed](https://kentcdodds.com/blog/inversion-of-control) by Kent C. Dodds. Extend it to include:
 
 - input data reduction
 - layout reduction
