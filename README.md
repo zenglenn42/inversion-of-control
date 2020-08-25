@@ -75,7 +75,7 @@ Is there way to pass control _back_ to the flock of eager adoptees with an imple
 
 ---
 
-I've recently become a fan of [Kent C. Dodds](https://kentcdodds.com) after watching his two **'Simply React'** keynotes from [2018](https://youtu.be/AiJ8tRRH0f8) and [2020](https://youtu.be/5io81WLgXtg) where he discusses 'inversion of control' in the context of a highly extensible Accordion component.
+I've recently become a fan of Kent Dodds after watching his two **Simply React** keynotes from [2018](https://youtu.be/AiJ8tRRH0f8) and [2020](https://youtu.be/5io81WLgXtg) where he discusses **inversion of control** in the context of a highly extensible Accordion component.
 
 <h5>&nbsp;</h5>
 
@@ -545,7 +545,7 @@ Here's what I learned:
 
   - Input data for a nested Accordion is inherently nested itself.
   - However, the layout function is currently just a map across a 1-dimensional array of items.
-  - I made a _data reducer_ to linearize input items so the map would still work simply.
+  - I made a data reducer to linearize input items to keep the layout map simple.
 
 - layout reducers
 
