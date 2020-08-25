@@ -13,8 +13,6 @@ _<h6>Photo by <a href="https://unsplash.com/@rxcroes?utm_source=unsplash&amp;utm
 
 ---
 
-<h5>&nbsp;</h5>
-
 Extend Kent C Dodds' inversion of control behavior-reducer pattern to include:
 
 - input data reduction
@@ -27,8 +25,6 @@ to create a nested Accordion
 ## Imagine ...
 
 ---
-
-<h5>&nbsp;</h5>
 
 You've written a new _Accordion_ component with a set of props to support a reasonable collection of use-cases. You want to share your work with others, so you publish and blog a bit. You feel great.
 
@@ -78,8 +74,6 @@ Is there way to pass control _back_ to the flock of eager adoptees with an imple
 ### _Bring Your Own Behavior Reducer_
 
 ---
-
-<h5>&nbsp;</h5>
 
 I've recently become a fan of [Kent C. Dodds](https://kentcdodds.com) after watching his two **'Simply React'** keynotes from [2018](https://youtu.be/AiJ8tRRH0f8) and [2020](https://youtu.be/5io81WLgXtg) where he discusses 'inversion of control' in the context of a highly extensible Accordion component.
 
@@ -217,8 +211,6 @@ Could I create my own Accordion state reducer to enable _nested_ Accordions ... 
 ### _Creating a recursive Accordion_
 
 ---
-
-<h5>&nbsp;</h5>
 
 ![alt](docs/images/jossuha-theophile-ZhVKeFCb6NE-unsplash.jpg)
 _<h6>Photo by <a href="https://unsplash.com/@nunchakouy?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Jossuha Théophile</a>_
@@ -371,6 +363,8 @@ It also adds a `depth` property to the item schema so we can reason about _hiera
 
 Out of expedience, I break my own rule and wedge this into `useAccordion.js` for now. Heh, that didn't take long. I suspect _some_ of Kent's code will get refactored as I hear the siren call of an `inputItemsReducer` prop even as I'm mindful to avoid hasty abstractions. The nice thing about this reducer, I further rationalize, is it works with flat _and_ nested input data.
 
+Here's how it integrates into the useAccordion hook:
+
 <h5>&nbsp;</h5>
 
 ```javascript
@@ -381,7 +375,7 @@ import {
 } from './useExpandable'
 
 function useAccordion(items = []) {
-  // Flatten input items as necessary.
+  // Flatten input items as necessary. :-)
   const normalizedItems = useRef(flattenItemsReducer(items))
 
   // Gain access to stateful array of expandedItems (for layout)
@@ -542,8 +536,6 @@ function App() {
 ## Summary
 
 ---
-
-<h5>&nbsp;</h5>
 
 I've sketched out a nested Accordion that supports input-data and layout reducers (in addition to Kent's expansion state reducer).
 
