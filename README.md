@@ -9,10 +9,6 @@ _<h6>Photo by <a href="https://unsplash.com/@rxcroes?utm_source=unsplash&amp;utm
 
 <h5>&nbsp;</h5>
 
-## tl;dr
-
----
-
 Investigate **inversion of control** principle [discussed](https://kentcdodds.com/blog/inversion-of-control) by Kent C. Dodds. Extend it to include:
 
 - input data reduction
@@ -22,7 +18,22 @@ to create a nested Accordion
 
 <h5>&nbsp;</h5>
 
-## Imagine ...
+## [Contents](#contents)
+
+---
+
+- [The Problem](#imagine)
+- [A Solution](#a-solution)
+- [Case Study: Nested Accordion](#case-study-nested-accordion)
+  - [Input Data](#input-data)
+  - [Input Reducer](#input-reducer)
+  - [Layout Reducer](#layout-reducer)
+  - [singlePeer Expansion Reducer](#singlePeer-expansion-reducer)
+- [Summary](#summary)
+
+<h5>&nbsp;</h5>
+
+## [Imagine ...](#contents)
 
 ---
 
@@ -69,9 +80,9 @@ Is there way to pass control _back_ to the flock of eager adoptees with an imple
 
 <h5>&nbsp;</h5>
 
-## Solution: Inversion of Control
+## [A Solution](#contents)
 
-### _Bring Your Own Behavior Reducer_
+### _Inversion of Control_
 
 ---
 
@@ -206,7 +217,7 @@ Could I create my own Accordion state reducer to enable _nested_ Accordions ... 
 
 <h5>&nbsp;</h5>
 
-## Nested Accordion
+## [Case Study: Nested Accordion](#contents)
 
 ### _Creating a recursive Accordion_
 
@@ -282,6 +293,8 @@ function App() {
 
 <h5>&nbsp;</h5>
 
+### [Input Data](#contents)
+
 The first challenge are the input data. The current render process maps across a linear array of items:
 
 <h5>&nbsp;</h5>
@@ -317,6 +330,8 @@ const items = [
 ```
 
 <h5>&nbsp;</h5>
+
+### [Input Reducer](#contents)
 
 But we have a nested input schema. Either we need to make the render recursion-friendly or somehow flatten the input data before it gets mapped.
 
@@ -361,7 +376,8 @@ This linearizes our nested input data into a 1-dimensional array by injecting
 
 It also adds a `depth` property to the item schema so we can reason about _hierarchies of visibility_, layout indentation, and peer-centric behavior.
 
-Out of expedience, I break my own rule and wedge this into `useAccordion.js` for now. Heh, that didn't take long. I suspect _some_ of Kent's code will get refactored as I hear the siren call of an `inputItemsReducer` prop even as I'm mindful to avoid hasty abstractions. The nice thing about this reducer, I further rationalize, is it works with flat _and_ nested input data.
+Out of expedience, I break my own rule and wedge this into `useAccordion.js` for now. Heh, that didn't take long. I suspect _some_ of Kent's code will get refactored as I hear the siren call of an `inputItemsReducer` prop even.
+The nice thing about this reducer, I further rationalize, is it works with flat _and_ nested input data.
 
 Here's how it integrates into the useAccordion hook:
 
@@ -393,6 +409,8 @@ function useAccordion(items = []) {
 ```
 
 <h5>&nbsp;</h5>
+
+### [Layout Reducer](#contents)
 
 Next we consume the flattened data by passing it to a layout reducer:
 
@@ -478,6 +496,8 @@ function useAccordion(items) {
 
 <h5>&nbsp;</h5>
 
+### [singlePeer Expansion Reducer](#contents)
+
 Finally, I implement the recursive analog of the `singleReducer` that allows at most a single item to be expanded at any one time. I amend this to allow a single _peer_ item to be visible at a time:
 
 <h5>&nbsp;</h5>
@@ -533,7 +553,7 @@ function App() {
 
 <h4>&nbsp;</h4>
 
-## Summary
+## [Summary](#contents)
 
 ---
 
@@ -550,7 +570,8 @@ Here's what I learned:
 - layout reducers
 
   - The nested Accordion has unique visibility and indentation requirements not met by the original (flat) component.
-  - I replaced it with an enhanced layout _reducer_ which may be passed in as an Accordion prop.
+  - I replaced it with an enhanced layout reducer which may be passed in as an Accordion prop.
+  - I'm not sure I needed to make this a _reducer_, per-se, since it only responds to one 'map-items' action.
 
 - Does this pattern deliver on its promise?
 
@@ -570,4 +591,4 @@ Here's what I learned:
 
 Open question
 
-- Can we decouple the layout reducer from being tied to a given component library such as Emotion or Material-UI, if it's not a hasty abstraction?
+- Can we decouple the layout reducer from being tied to a given component library such as Emotion or Material-UI?
