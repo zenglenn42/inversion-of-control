@@ -293,6 +293,26 @@ function App() {
 
 <h5>&nbsp;</h5>
 
+I also want a very clean implementation for the Accordion component itself. It will shuttle item data into a useAccodion hook and get a renderable array of React components back. All click handling and expansion-state behavior will be managed somewhere below that:
+
+<h5>&nbsp;</h5>
+
+```javascript
+# Accordion.js
+
+import React from 'react'
+import { useAccordion } from './useAccordion'
+
+function Accordion(props) {
+  const { items, ...optional } = props
+  const { components } = useAccordion({ items, ...optional })
+  return <div>{components}</div>
+}
+
+```
+
+<h5>&nbsp;</h5>
+
 ### [Input Data](#contents)
 
 The first challenge are the input data. The current render process maps across a linear array of items:
@@ -374,7 +394,7 @@ function flattenItemsReducer(nestedItems, depth = 0, acc = [], parent) {
 This linearizes our nested input data into a 1-dimensional array by injecting
 `parent nodes` just above their children.
 
-It also adds a `depth` property to the item schema so we can reason about _hierarchies of visibility_, layout indentation, and peer-centric behavior.
+It also adds `depth` and `parent` properties to the item schema so we can implement [hierarchies of visibility](https://github.com/zenglenn42/inversion-of-control/blob/a2683ab2ff9700b988a784acdd4ea5a385c56553/src/components/hooks/useAccordion.js#L97), [layout indentation](https://github.com/zenglenn42/inversion-of-control/blob/a2683ab2ff9700b988a784acdd4ea5a385c56553/src/components/hooks/useAccordion.js#L59), and [peer-centric behavior](https://github.com/zenglenn42/inversion-of-control/blob/a2683ab2ff9700b988a784acdd4ea5a385c56553/src/App.js#L147).
 
 Out of expedience, I break my own rule and wedge this into `useAccordion.js` for now. Heh, that didn't take long. I suspect _some_ of Kent's code will get refactored as I hear the siren call of an `inputItemsReducer` prop even.
 The nice thing about this reducer, I further rationalize, is it works with flat _and_ nested input data.
@@ -385,6 +405,7 @@ Here's how it integrates into the useAccordion hook:
 
 ```javascript
 # useAccordion.js
+
 import {
   useExpandable,
   multiExpandedReducer as dfltExpansionReducer
@@ -564,28 +585,28 @@ Here's what I learned:
 - input data reducers
 
   - Input data for a nested Accordion is inherently nested itself.
-  - However, the layout function is currently just a map across a 1-dimensional array of items.
-  - I made a data reducer to linearize input items to keep the layout map simple.
+  - However, the layout function is currently just a [map](https://github.com/zenglenn42/inversion-of-control/blob/a2683ab2ff9700b988a784acdd4ea5a385c56553/src/components/hooks/useAccordion.js#L114) across a 1-dimensional array of items.
+  - I made a [data reducer](https://github.com/zenglenn42/inversion-of-control/blob/a2683ab2ff9700b988a784acdd4ea5a385c56553/src/components/hooks/useAccordion.js#L148) to linearize input items to keep the layout map simple.
 
 - layout reducers
 
   - The nested Accordion has unique visibility and indentation requirements not met by the original (flat) component.
-  - I replaced it with an enhanced layout reducer which may be passed in as an Accordion prop.
-  - I'm not sure I needed to make this a _reducer_, per-se, since it only responds to one 'map-items' action.
+  - I replaced it with an enhanced [layout reducer](https://github.com/zenglenn42/inversion-of-control/blob/a2683ab2ff9700b988a784acdd4ea5a385c56553/src/components/hooks/useAccordion.js#L195) which may be passed in as an Accordion prop.
+  - I'm not sure I needed to make this a _reducer_, per-se, since it only responds to one **map-items** action. I could probably strip away the dispatcher to just invoke a render prop.
 
 - Does this pattern deliver on its promise?
 
   - I did end up with some refactoring:
 
-    - I split the code into two hooks, useAccordion and useExpandable.
+    - I split the code into two hooks, [useAccordion](https://github.com/zenglenn42/inversion-of-control/blob/a2683ab2ff9700b988a784acdd4ea5a385c56553/src/components/hooks/useAccordion.js#L179) and [useExpandable](https://github.com/zenglenn42/inversion-of-control/blob/a2683ab2ff9700b988a784acdd4ea5a385c56553/src/components/hooks/useExpandable.js#L53). The useAccordion hook takes in input items and returns renderable components. It wraps useExpandable for management of expansion state and click handling. This allows me to clean up the Accordion component, itself, into something that can remain relatively invariant.
 
-    - I injected the input items array into useExpandable for state reducers that depend upon knowledge of peer relationships among nodes in a hierarchy.
+    - I [injected](https://github.com/zenglenn42/inversion-of-control/blob/a2683ab2ff9700b988a784acdd4ea5a385c56553/src/components/hooks/useExpandable.js#L67) the input items array into useExpandable for state reducers that depend upon [knowledge of peer relationships](https://github.com/zenglenn42/inversion-of-control/blob/a2683ab2ff9700b988a784acdd4ea5a385c56553/src/App.js#L165) among nodes in a hierarchy.
 
-    - I pushed layout into its own reducer because it was cluttering the top-most driver but may still be overridden with a prop, similar to the behavior reducer.
+    - I pushed layout into its own [reducer](https://github.com/zenglenn42/inversion-of-control/blob/a2683ab2ff9700b988a784acdd4ea5a385c56553/src/components/hooks/useAccordion.js#L194) because it was cluttering the top-most driver but may still be overridden with a prop, similar to the behavior reducer.
 
-  - I hit constraints trying to implement preventClose for nested Accordions since combineReducers is not a true pipeline but a sequence of all-or-nothing invocations of a reducer set.
+  - I hit constraints trying to implement preventClose for nested Accordions since [combineReducers](https://github.com/zenglenn42/inversion-of-control/blob/a2683ab2ff9700b988a784acdd4ea5a385c56553/src/components/hooks/useExpandable.js#L5) is not a true pipeline but a sequence of all-or-nothing invocations of a reducer set.
 
-  - I unearthed two more reducer patterns which could enhance inversion of control.
+  - I unearthed two more reducer patterns which may enhance inversion of control.
 
   - I like this pattern a lot but also realize there's still room in the world for _dumb_ props (like `max_viewable_items` and `min_viewable_items`) that may obviate the need for passing in full-fledged reducers. But I take Kent's larger point about the slippery slope to prop purgatory. :D
 
