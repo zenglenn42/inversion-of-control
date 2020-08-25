@@ -582,13 +582,13 @@ I've sketched out a nested Accordion that supports input-data and layout reducer
 
 Here's what I learned:
 
-- input data reducers
+- Input data reducers
 
   - Input data for a nested Accordion is [inherently nested](https://github.com/zenglenn42/inversion-of-control/blob/f0dd950ca8d2b5f76942c39b620ebb420289ec05/src/App.js#L78) itself.
   - However, the layout function is currently just a [map](https://github.com/zenglenn42/inversion-of-control/blob/a2683ab2ff9700b988a784acdd4ea5a385c56553/src/components/hooks/useAccordion.js#L114) across a 1-dimensional array of items.
   - I made a [data reducer](https://github.com/zenglenn42/inversion-of-control/blob/a2683ab2ff9700b988a784acdd4ea5a385c56553/src/components/hooks/useAccordion.js#L148) to linearize input items to keep the layout map simple.
 
-- layout reducers
+- Layout reducers
 
   - The nested Accordion has unique visibility and indentation requirements not met by the original (flat) component.
   - I replaced it with an enhanced [layout reducer](https://github.com/zenglenn42/inversion-of-control/blob/a2683ab2ff9700b988a784acdd4ea5a385c56553/src/components/hooks/useAccordion.js#L195) which may be passed in as an Accordion prop.
