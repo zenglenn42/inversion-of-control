@@ -246,6 +246,7 @@ with recursively defined input data:
 
 ```javascript
 # App.js
+
 import React from 'react'
 import { Accordion } from './Accordion'
 
@@ -283,6 +284,7 @@ and a usage pattern that looks very similar to what we've seen already:
 <h5>&nbsp;</h5>
 
 ```javascript
+
 # App.js
 
 function App() {
@@ -302,6 +304,7 @@ I also want a very clean implementation for the Accordion component itself. It w
 <h5>&nbsp;</h5>
 
 ```javascript
+
 # Accordion.js
 
 import React from 'react'
@@ -408,6 +411,7 @@ Here's how it integrates into the useAccordion hook:
 <h5>&nbsp;</h5>
 
 ```javascript
+
 # useAccordion.js
 
 import {
