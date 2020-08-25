@@ -5,14 +5,14 @@
   "homepage": "https://nested-accordion.herokuapp.com",
   "bugs": "https://github.com/zenglenn42/inversion-of-control/issues",
   "private": true,
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/zenglenn42/inversion-of-control.git"
-    },  
-    "engines": {
-        "node": "12.x",
-        "yarn": "^1.22.4"
-    },  
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zenglenn42/inversion-of-control.git"
+  },
+  "engines": {
+    "node": "12.x",
+    "yarn": "^1.22.4"
+  },
   "dependencies": {
     "@emotion/core": "^10.0.34",
     "@emotion/styled": "^10.0.27",
@@ -23,7 +23,8 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-pose": "^4.0.10",
-    "react-scripts": "3.4.3"
+    "react-scripts": "3.4.3",
+    "rollup": "^2.26.5"
   },
   "scripts": {
     "start": "react-scripts start",
