@@ -1,7 +1,18 @@
 {
-  "name": "simply-react-accordian",
+  "name": "inversion-of-control",
   "version": "0.1.0",
+  "disableHostCheck": true,
+  "homepage": "https://nested-accordion.herokuapp.com",
+  "bugs": "https://github.com/zenglenn42/inversion-of-control/issues",
   "private": true,
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/zenglenn42/inversion-of-control.git"
+    },  
+    "engines": {
+        "node": "12.x",
+        "yarn": "^1.22.4"
+    },  
   "dependencies": {
     "@emotion/core": "^10.0.34",
     "@emotion/styled": "^10.0.27",
@@ -15,8 +26,8 @@
     "react-scripts": "3.4.3"
   },
   "scripts": {
-    "start:offline": "react-scripts start --prefer-offline --offline",
     "start": "react-scripts start",
+    "start:offline": "react-scripts start --prefer-offline --offline",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
