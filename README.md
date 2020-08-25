@@ -9,7 +9,7 @@ _<h6>Photo by <a href="https://unsplash.com/@rxcroes?utm_source=unsplash&amp;utm
 
 <h5>&nbsp;</h5>
 
-I'm investigating **inversion of control**, a software design principle I recently [discovered](https://kentcdodds.com/blog/inversion-of-control) from Kent Dodds. 
+I'm investigating **inversion of control**, a software design principle I recently [discovered](https://kentcdodds.com/blog/inversion-of-control) from Kent Dodds.
 
 I riff on an example of Kent's to add recursive behavior to his Accordion component through three reducers:
 
@@ -39,7 +39,13 @@ I riff on an example of Kent's to add recursive behavior to his Accordion compon
 
 ---
 
-You've written a new _Accordion_ component with a set of props to support a reasonable collection of use-cases. You want to share your work with others, so you publish and blog a bit. You feel great.
+You've written a new _Accordion_ component with a set of props to support a reasonable collection of use-cases.
+
+![alt](docs/images/kcd-accordion-2.png) _<h6>By <a href="https://kentcdodds.com">Kent Dodds</a>_
+
+<h5>&nbsp;</h5>
+
+You want to share your work with others, so you publish and blog a bit. You feel great.
 
 <h5>&nbsp;</h5>
 
@@ -92,16 +98,12 @@ I've recently become a fan of Kent Dodds after watching his two **Simply React**
 
 <h5>&nbsp;</h5>
 
-![alt](docs/images/kcd-accordion.png)
-
-<h5>&nbsp;</h5>
-
 The key points are:
 
 - expose layout logic for easy modification by clients
 - support extensible component behavior through chainable, developer-supplied state reducers
 
-Importantly, you still craft reasonable defaults for layout and behavior to meet your needs (and hopefully those of many others). However, if you allow one or more DIY behavior reducers to be passed in, then you may side-step the need to anticipate or laboriously support variant policies such as:
+You still craft reasonable defaults for layout and behavior to meet your needs (and hopefully those of many others). However, if you allow one or more DIY behavior reducers to be passed in, then you may side-step the need to anticipate or laboriously support variant policies such as:
 
 - only allow 1 visible item at a time
 - require at least 1 item be visible at all times
@@ -620,12 +622,10 @@ Here's what I learned:
 
 ---
 
+I like this pattern. It enables developers to adopt and extend your work without bottlenecking through you for certain categories of feature requests. It allows you to keep the underlying code relatively small, reducing maintenance costs.
 
-I like this pattern.  It enables developers to adopt and extend your work without bottlenecking through you for certain categories of feature requests.  It allows you to keep the underlying code relatively small, reducing maintenance costs. 
+It won't entirely dispense with the pull toward prop proliferation. Sometimes the right prop can simplify the use of a component. With the Accordion, I found myself wishing for `min_viewable_items` and `max_viewable_items`.
 
-It won't entirely dispense with the pull toward prop proliferation. Sometimes the right prop can simplify the use of a component.  With the Accordion, I found myself wishing for `min_viewable_items` and `max_viewable_items`.
+But it's not always clear what the right props and features _are_.
 
-But it's not always clear what the right props and features _are_.  
-
-Rather than create a community of codependent developers, consider giving them access, where reasonable, to the state machine within your code.  You'll still get requests for updates, but some of those requests may be more fully vetted through an underlying design that encourages independent extension.
-
+Rather than create a community of codependent developers, consider giving them access, where reasonable, to the state machine within your code. You'll still get requests for updates, but some of those requests may be more fully vetted through an underlying design that encourages independent extension.
