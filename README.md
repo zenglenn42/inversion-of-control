@@ -2,12 +2,12 @@
 
 ### _Fighting prop-bloat and maintenance blues in your React components_
 
-<h2>&nbsp;</h2>
+<h5>&nbsp;</h5>
 
 ![alt](docs/images/raoul-croes-paINEyfzcuc-unsplash.jpg)
 _<h6>Photo by <a href="https://unsplash.com/@rxcroes?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Raoul Croes</a>_
 
-<h3>&nbsp;</h3>
+<h5>&nbsp;</h5>
 
 ## tl;dr
 
@@ -22,7 +22,7 @@ Extend Kent C Dodds' inversion of control behavior-reducer pattern to include:
 
 to create a nested Accordion
 
-<h3>&nbsp;</h3>
+<h5>&nbsp;</h5>
 
 ## Imagine ...
 
@@ -32,35 +32,35 @@ to create a nested Accordion
 
 You've written a new _Accordion_ component with a set of props to support a reasonable collection of use-cases. You want to share your work with others, so you publish and blog a bit. You feel great.
 
-<h2>&nbsp;</h2>
+<h5>&nbsp;</h5>
 
 ![alt](docs/images/christian-paul-stobbe-IhM0m7AZh4Q-unsplash-1.jpg) _<h6>Photo by <a href="https://unsplash.com/@stobbewtf?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Christian Paul Stobbe&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>_
 
-<h2>&nbsp;</h2>
+<h5>&nbsp;</h5>
 
 In time, the gods of SEO and open source smile and you're rewarded with the blessings of growing interest and adoption. You bask in the glow of acknowledged value and happily respond to the natural influx of feature requests.
 
-<h2>&nbsp;</h2>
+<h5>&nbsp;</h5>
 
 ![alt](docs/images/ryan-parker-U2t3g6BuXhg-unsplash.jpg) _<h6>Photo by <a href="https://unsplash.com/@dryanparker?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Ryan Parker</a>_
 
-<h2>&nbsp;</h2>
+<h5>&nbsp;</h5>
 
 With popularity, comes a steady drum beat of new questions, use-cases, and bug reports. Some in the community offer PRs, thankfully, but these are not free as they require time and effort to consider and shape.
 
 Your prop count grows. You diligently add test cases for the scenarios you at least understand but feel less definitive about others, especially the ones you'll never need yourself, frankly.
 
-<h2>&nbsp;</h2>
+<h5>&nbsp;</h5>
 
 ![alt](docs/images/tolga-ahmetler-c7fg2iM5sew-unsplash.jpg) _<h6>Photo by <a href="https://unsplash.com/@t_ahmetler?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Tolga Ahmetler</a>_
 
-<h2>&nbsp;</h2>
+<h5>&nbsp;</h5>
 
 As code complexity grows, it's hard keeping up with the demand for modifications while still maintaining quality. The crisp coherence of your original component morphs into a maintenance muddle.
 
 No good deed goes unpunished. Has your gift to the world become a curse, an albatross around your neck?
 
-<h2>&nbsp;</h2>
+<h5>&nbsp;</h5>
 
 ![alt](https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Dore-I_watched_the_Water-Snakes-Detail.jpg/198px-Dore-I_watched_the_Water-Snakes-Detail.jpg)
 _<h6>By <a href="https://en.wiktionary.org/wiki/albatross_around_one%27s_neck">
@@ -71,7 +71,7 @@ Gustave Doré, 1876</a>
 
 Is there way to pass control _back_ to the flock of eager adoptees with an implementation that _encourages_ extension without having to rewrite the underlying component at each turn?
 
-<h2>&nbsp;</h2>
+<h5>&nbsp;</h5>
 
 ## Solution: Inversion of Control
 
@@ -79,11 +79,11 @@ Is there way to pass control _back_ to the flock of eager adoptees with an imple
 
 ---
 
-<h2>&nbsp;</h2>
+<h5>&nbsp;</h5>
 
 I've recently become a fan of [Kent C. Dodds](https://kentcdodds.com) after watching his two **'Simply React'** keynotes from [2018](https://youtu.be/AiJ8tRRH0f8) and [2020](https://youtu.be/5io81WLgXtg) where he discusses 'inversion of control' in the context of a highly extensible Accordion component.
 
-<h2>&nbsp;</h2>
+<h5>&nbsp;</h5>
 
 ![alt](docs/images/kcd-accordion.png)
 
@@ -210,7 +210,7 @@ I've been messing with so called menu drawers that open to the side of the main 
 
 Could I create my own Accordion state reducer to enable _nested_ Accordions ... as a step toward a drawer list component?
 
-<h2>&nbsp;</h2>
+<h5>&nbsp;</h5>
 
 ## Nested Accordion
 
@@ -218,7 +218,7 @@ Could I create my own Accordion state reducer to enable _nested_ Accordions ... 
 
 ---
 
-<h2>&nbsp;</h2>
+<h5>&nbsp;</h5>
 
 ![alt](docs/images/jossuha-theophile-ZhVKeFCb6NE-unsplash.jpg)
 _<h6>Photo by <a href="https://unsplash.com/@nunchakouy?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Jossuha Théophile</a>_
@@ -328,7 +328,7 @@ const items = [
 
 But we have a nested input schema. Either we need to make the render recursion-friendly or somehow flatten the input data before it gets mapped.
 
-I opt for the latter to minimize changes to the underlying component. That's kinda the point of this exercise.
+I opt for the latter to minimize changes to the underlying component since that's the point of this pattern.
 
 I come up with this:
 
@@ -369,12 +369,16 @@ This linearizes our nested input data into a 1-dimensional array by injecting
 
 It also adds a `depth` property to the item schema so we can reason about _hierarchies of visibility_, layout indentation, and peer-centric behavior.
 
-Out of expedience, I wedge this into `useAccordion.js` for now. I suspect _some_ of Kent's code will get refactored as I hear the siren call of an `inputItemsReducer` prop even as I'm mindful to avoid hasty abstractions. The nice thing about this reducer, I further rationalize, is it works with flat and nested input data.
+Out of expedience, I break my own rule and wedge this into `useAccordion.js` for now. Heh, that didn't take long. I suspect _some_ of Kent's code will get refactored as I hear the siren call of an `inputItemsReducer` prop even as I'm mindful to avoid hasty abstractions. The nice thing about this reducer, I further rationalize, is it works with flat _and_ nested input data.
 
 <h5>&nbsp;</h5>
 
 ```javascript
 # useAccordion.js
+import {
+  useExpandable,
+  multiExpandedReducer as dfltExpansionReducer
+} from './useExpandable'
 
 function useAccordion(items = []) {
   // Flatten input items as necessary.
@@ -384,7 +388,7 @@ function useAccordion(items = []) {
   // managed by Kent's extensible state reducers.
   const { expandedItems, toggleItem } = useExpandable({
     initialState: [],
-    reducer: expansionReducer,
+    reducer: dfltExpansionReducer,
     items: normalizedItems.current
   })
 
@@ -562,7 +566,7 @@ Here's what I learned:
 
     - I split the code into two hooks, useAccordion and useExpandable.
 
-    - I injected items into useExpandable for behaviors that depend upon knowledge of peer relationships among nodes in a hierarchy
+    - I injected items into useExpandable for behaviors that depend upon knowledge of peer relationships among nodes in a hierarchy.
 
     - I pushed layout into its own reducer because it was cluttering the top-most driver and can still be overridden with a prop, similar to the behavior reducer.
 
