@@ -591,7 +591,7 @@ Here's what I learned:
 - Layout reducers
 
   - The nested Accordion has unique visibility and indentation requirements not met by the original (flat) component.
-  - I replaced it with an enhanced [layout reducer](https://github.com/zenglenn42/inversion-of-control/blob/a2683ab2ff9700b988a784acdd4ea5a385c56553/src/components/hooks/useAccordion.js#L195) which may be passed in as an Accordion prop.
+  - I replaced it with an enhanced [layout reducer](https://github.com/zenglenn42/inversion-of-control/blob/a2683ab2ff9700b988a784acdd4ea5a385c56553/src/components/hooks/useAccordion.js#L195) which may be passed in as an Accordion [prop](https://github.com/zenglenn42/inversion-of-control/blob/a2683ab2ff9700b988a784acdd4ea5a385c56553/src/components/hooks/useAccordion.js#L180).
   - I'm not sure I needed to make this a _reducer_, per-se, since it only responds to one **[map-items](https://github.com/zenglenn42/inversion-of-control/blob/7fa84b2f270aa9b446a23bd3317faa95b9781188/src/components/hooks/useAccordion.js#L113)** action. I could probably strip away the dispatcher to just invoke a render prop.
 
 - Does this pattern deliver on its promise?
