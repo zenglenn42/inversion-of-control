@@ -94,7 +94,7 @@ Is there way to pass control _back_ to the flock of eager adoptees with an imple
 
 ---
 
-I've recently become a fan of Kent Dodds after watching his two **Simply React** keynotes from [2018](https://youtu.be/AiJ8tRRH0f8) and [2020](https://youtu.be/5io81WLgXtg) where he discusses **inversion of control** in the context of a highly extensible Accordion component.
+I've recently become a fan of Kent Dodds after watching his two **Simply React** keynotes from [2018](https://youtu.be/AiJ8tRRH0f8) and [2020](https://youtu.be/5io81WLgXtg) where he discusses **inversion of control** in the context of a highly extensible Accordion component pictured above.
 
 <h5>&nbsp;</h5>
 
