@@ -54,7 +54,7 @@ In time, the gods of SEO and open source smile and you're rewarded with the bles
 
 <h5>&nbsp;</h5>
 
-With popularity, comes a steady drum beat of new questions, use-cases, and bug reports. Some in the community offer PRs, thankfully, but these are not free as they require time and effort to consider and shape.
+With popularity, comes a steady drum beat of new questions, use-cases, and bug reports. Some in the community contribute pull requests, thankfully, but these are not free as they require time and effort to consider and shape.
 
 Your prop count grows. You diligently add test cases for the scenarios you at least understand but feel less definitive about others, especially the ones you'll never need yourself, frankly.
 
@@ -609,8 +609,16 @@ Here's what I learned:
 
   - I unearthed two more reducer patterns which may enhance inversion of control.
 
-  - I like this pattern a lot but also realize there's still room in the world for _dumb_ props (like `max_viewable_items` and `min_viewable_items`) that may obviate the need for passing in full-fledged reducers. But I take Kent's larger point about the slippery slope to prop purgatory. :D
+  - Open question ...
 
-Open question
+    - Can we decouple the layout reducer from being tied to a given component library such as Emotion or Material-UI?
 
-- Can we decouple the layout reducer from being tied to a given component library such as Emotion or Material-UI?
+
+I like this pattern.  It enables developer's to adopt and extend your work without bottlenecking through you for certain categories of feature requests.  It allows you to keep the underlying code relatively small, reducing maintenance costs. 
+
+It won't entirely dispense with the pull toward prop proliferation. Sometimes the right prop can simplify the use of a component.  With the Accordion, I found myself wishing for `min_viewable_items` and `max_viewable_items`.
+
+But it's not always clear what the right props and features _are_.  
+
+Rather than create a community of codependent developers, consider giving them access, where reasonable, to the state machine within your code.  You'll still get requests for updates, but some of those requests may be more fully vetted through an underlying design that encourages independent extension.
+
