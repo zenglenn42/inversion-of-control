@@ -232,11 +232,11 @@ _<h6>Photo by <a href="https://unsplash.com/@nunchakouy?utm_source=unsplash&amp;
 
 <h5>&nbsp;</h5>
 
-I want something that looks like this:
+I want something that looks like [this](https://nested-accordion.herokuapp.com/):
 
 <h5>&nbsp;</h5>
 
-![alt](docs/images/kcd-and-nested-accordions.png)
+[![IMAGE ALT TEXT](docs/images/kcd-and-nested-accordions.png)](https://nested-accordion.herokuapp.com "nested accordion")
 
 <h5>&nbsp;</h5>
 
