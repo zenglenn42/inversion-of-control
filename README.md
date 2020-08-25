@@ -31,6 +31,7 @@ I riff on an example of Kent's to add recursive behavior to his Accordion compon
   - [Layout Reducer](#layout-reducer)
   - [singlePeer Expansion Reducer](#singlePeer-expansion-reducer)
 - [Summary](#summary)
+- [Conclusion](#conclusion)
 
 <h5>&nbsp;</h5>
 
@@ -612,6 +613,12 @@ Here's what I learned:
   - Open question ...
 
     - Can we decouple the layout reducer from being tied to a given component library such as Emotion or Material-UI?
+
+<h4>&nbsp;</h4>
+
+## [Conclusion](#contents)
+
+---
 
 
 I like this pattern.  It enables developers to adopt and extend your work without bottlenecking through you for certain categories of feature requests.  It allows you to keep the underlying code relatively small, reducing maintenance costs. 
