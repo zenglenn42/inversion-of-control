@@ -9,12 +9,13 @@ _<h6>Photo by <a href="https://unsplash.com/@rxcroes?utm_source=unsplash&amp;utm
 
 <h5>&nbsp;</h5>
 
-Investigate **inversion of control** principle [discussed](https://kentcdodds.com/blog/inversion-of-control) by Kent C. Dodds. Extend it to include:
+I'm investigating **inversion of control**, a software design principle I recently [discovered](https://kentcdodds.com/blog/inversion-of-control) from Kent Dodds. 
 
-- input data reduction
-- layout reduction
+I riff on an example of Kent's to add recursive behavior to his Accordion component through three reducers:
 
-to create a nested Accordion
+- input data reducer
+- layout reducer
+- behavior reducer
 
 <h5>&nbsp;</h5>
 
