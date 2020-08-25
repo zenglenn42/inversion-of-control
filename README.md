@@ -614,7 +614,7 @@ Here's what I learned:
     - Can we decouple the layout reducer from being tied to a given component library such as Emotion or Material-UI?
 
 
-I like this pattern.  It enables developer's to adopt and extend your work without bottlenecking through you for certain categories of feature requests.  It allows you to keep the underlying code relatively small, reducing maintenance costs. 
+I like this pattern.  It enables developers to adopt and extend your work without bottlenecking through you for certain categories of feature requests.  It allows you to keep the underlying code relatively small, reducing maintenance costs. 
 
 It won't entirely dispense with the pull toward prop proliferation. Sometimes the right prop can simplify the use of a component.  With the Accordion, I found myself wishing for `min_viewable_items` and `max_viewable_items`.
 
