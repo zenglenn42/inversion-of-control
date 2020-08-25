@@ -13,7 +13,7 @@ _<h6>Photo by <a href="https://unsplash.com/@rxcroes?utm_source=unsplash&amp;utm
 
 ---
 
-Extend Kent C Dodds' inversion of control behavior-reducer pattern to include:
+Investigate principle discussed by [Kent C. Dodds](https://kentcdodds.com/) called [inversion of control](https://kentcdodds.com/blog/inversion-of-control). Extend it to include:
 
 - input data reduction
 - layout reduction
@@ -554,13 +554,13 @@ Here's what I learned:
 
 - Does this pattern deliver on its promise?
 
-  - I did end up with some significant refactoring:
+  - I did end up with some refactoring:
 
     - I split the code into two hooks, useAccordion and useExpandable.
 
-    - I injected items into useExpandable for behaviors that depend upon knowledge of peer relationships among nodes in a hierarchy.
+    - I injected the input items array into useExpandable for state reducers that depend upon knowledge of peer relationships among nodes in a hierarchy.
 
-    - I pushed layout into its own reducer because it was cluttering the top-most driver and can still be overridden with a prop, similar to the behavior reducer.
+    - I pushed layout into its own reducer because it was cluttering the top-most driver but may still be overridden with a prop, similar to the behavior reducer.
 
   - I hit constraints trying to implement preventClose for nested Accordions since combineReducers is not a true pipeline but a sequence of all-or-nothing invocations of a reducer set.
 
@@ -570,4 +570,4 @@ Here's what I learned:
 
 Open question
 
-- Can we decouple layout from being tied to a given component library such as Emotion or Material-UI, if it's not a hasty abstraction.
+- Can we decouple the layout reducer from being tied to a given component library such as Emotion or Material-UI, if it's not a hasty abstraction?
