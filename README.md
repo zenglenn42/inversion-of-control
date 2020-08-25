@@ -1,4 +1,4 @@
-## Inversion of Control Software Pattern
+## Inversion of Control Software Pattern [(demo)](https://nested-accordion.herokuapp.com/)
 
 ### _Fighting prop-bloat and maintenance blues in your React components_
 
