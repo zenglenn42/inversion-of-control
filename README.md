@@ -396,7 +396,7 @@ This linearizes our nested input data into a 1-dimensional array by injecting
 
 It also adds `depth` and `parent` properties to the item schema so we can implement [hierarchies of visibility](https://github.com/zenglenn42/inversion-of-control/blob/a2683ab2ff9700b988a784acdd4ea5a385c56553/src/components/hooks/useAccordion.js#L97), [layout indentation](https://github.com/zenglenn42/inversion-of-control/blob/a2683ab2ff9700b988a784acdd4ea5a385c56553/src/components/hooks/useAccordion.js#L59), and [peer-centric behavior](https://github.com/zenglenn42/inversion-of-control/blob/a2683ab2ff9700b988a784acdd4ea5a385c56553/src/App.js#L147).
 
-Out of expedience, I break my own rule and wedge this into `useAccordion.js` for now. Heh, that didn't take long. I suspect _some_ of Kent's code will get refactored as I hear the siren call of an `inputItemsReducer` prop even.
+Out of expedience, I break my own rule and wedge this into `useAccordion.js` for now. Heh, that didn't take long. I suspect _some_ of Kent's code will get refactored as I hear the siren call of an **[inputItemsReducer](https://github.com/zenglenn42/inversion-of-control/blob/e6e0ecbef71c12ed68a67a9b16607d928865a58c/src/components/hooks/useAccordion.js#L181)** prop.
 The nice thing about this reducer, I further rationalize, is it works with flat _and_ nested input data.
 
 Here's how it integrates into the useAccordion hook:
