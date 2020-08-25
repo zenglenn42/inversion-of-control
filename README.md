@@ -13,7 +13,7 @@ _<h6>Photo by <a href="https://unsplash.com/@rxcroes?utm_source=unsplash&amp;utm
 
 ---
 
-Investigate principle discussed by [Kent C. Dodds](https://kentcdodds.com/) called [inversion of control](https://kentcdodds.com/blog/inversion-of-control). Extend it to include:
+Investigate inversion of control principle [discussed](https://kentcdodds.com/blog/inversion-of-control) by Kent C. Dodds. Extend it to include:
 
 - input data reduction
 - layout reduction
@@ -200,7 +200,7 @@ Hmm ... that gives me an idea.
 
 <h5>&nbsp;</h5>
 
-I've been messing with so called menu drawers that open to the side of the main content and allow a user to navigate a hierarchy of selectable options. The options themselves often expand to reveal sub-options. The expansion behavior of the accordion reminds me of that.
+I've been messing with menu drawers that open to the side of the main content and allow a user to navigate a hierarchy of selectable options. The options themselves often expand to reveal sub-options. The expansion behavior of the accordion reminds me of that.
 
 Could I create my own Accordion state reducer to enable _nested_ Accordions ... as a step toward a drawer list component?
 
