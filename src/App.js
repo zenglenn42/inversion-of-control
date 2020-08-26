@@ -8,21 +8,45 @@ import {
 } from './components/hooks/useExpandable'
 
 const accordionStyle = {
-  maxWidth: '40vw',
+  maxWidth: '33vw',
+  height: '60vh',
+  maxHeight: '70vh',
   marginLeft: 'auto',
   marginRight: 'auto',
   borderRadius: '0.125em',
-  padding: '1em'
-  //border: 'solid 1px red',
+  padding: '1em',
+  border: '2em solid transparent',
+  background:
+    'linear-gradient(white, white) padding-box, url(/images/fixed-border.jpg) border-box  0 / cover',
+  overflow: 'auto scroll'
 }
+
+const recursiveStyle = {
+  maxWidth: '33vw',
+  height: '70vh',
+  maxHeight: '60vh',
+  marginLeft: 'auto',
+  marginRight: 'auto',
+  borderRadius: '0.125em',
+  padding: '1em',
+  border: '2em solid transparent',
+  background:
+    'linear-gradient(white, white) padding-box, url(/images/recursive-border.jpg) border-box  0 / cover',
+  overflow: 'auto scroll'
+}
+
 const twoColumns = {
   display: 'flex',
-  justifyContent: 'space-evenly'
+  justifyContent: 'space-evenly',
+  flex: 1
 }
+
 const header = {
   margin: '0 auto',
+  marginBottom: '0.5em',
   textAlign: 'center'
 }
+
 const scrollY = {
   maxHeight: '80vh',
   overflowY: 'scroll'
@@ -170,14 +194,22 @@ function singlePeerExpandedReducer(expandedItems = [], action) {
 
 function App() {
   return (
-    <>
-      <div>
-        <h3 style={header}>Kent C. Dodds' Component Pattern</h3>
-        <h4 style={header}>Inversion of Control with State Reducer</h4>
+    <div
+      style={{
+        minWidth: '80%',
+        minHeight: '80%',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-evenly'
+      }}
+    >
+      <div style={{ padding: '2em', flex: 1 }}>
+        <h3 style={header}>Inversion of Control</h3>
+        <h4 style={header}>Case Study</h4>
       </div>
       <div style={twoColumns}>
         <div style={accordionStyle}>
-          <h4 style={header}>KCD Accordion</h4>
+          <h4 style={header}>Kent Dodds' Accordion</h4>
           <hr />
           <div style={scrollY}>
             <Accordion
@@ -190,7 +222,7 @@ function App() {
             />
           </div>
         </div>
-        <div style={accordionStyle}>
+        <div style={recursiveStyle}>
           <h4 style={header}>Nested Accordion</h4>
           <hr />
           <div style={scrollY}>
@@ -202,7 +234,7 @@ function App() {
           </div>
         </div>
       </div>
-    </>
+    </div>
   )
 }
 
