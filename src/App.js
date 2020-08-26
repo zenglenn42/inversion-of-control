@@ -6,51 +6,16 @@ import {
   singleExpandedReducer,
   actionTypes as expandableActionTypes
 } from './components/hooks/useExpandable'
-
-const accordionStyle = {
-  maxWidth: '33vw',
-  height: '60vh',
-  maxHeight: '70vh',
-  marginLeft: 'auto',
-  marginRight: 'auto',
-  borderRadius: '0.125em',
-  padding: '1em',
-  border: '2em solid transparent',
-  background:
-    'linear-gradient(white, white) padding-box, url(/images/fixed-border.jpg) border-box  0 / cover',
-  overflow: 'auto scroll'
-}
-
-const recursiveStyle = {
-  maxWidth: '33vw',
-  height: '70vh',
-  maxHeight: '60vh',
-  marginLeft: 'auto',
-  marginRight: 'auto',
-  borderRadius: '0.125em',
-  padding: '1em',
-  border: '2em solid transparent',
-  background:
-    'linear-gradient(white, white) padding-box, url(/images/recursive-border.jpg) border-box  0 / cover',
-  overflow: 'auto scroll'
-}
-
-const twoColumns = {
-  display: 'flex',
-  justifyContent: 'space-evenly',
-  flex: 1
-}
-
-const header = {
-  margin: '0 auto',
-  marginBottom: '0.5em',
-  textAlign: 'center'
-}
-
-const scrollY = {
-  maxHeight: '80vh',
-  overflowY: 'scroll'
-}
+import {
+  container,
+  gutter,
+  titleBox,
+  title,
+  contentBox,
+  content,
+  subcontentRight,
+  subcontentLeft
+} from './style.js'
 
 const items = [
   {
@@ -194,47 +159,53 @@ function singlePeerExpandedReducer(expandedItems = [], action) {
 
 function App() {
   return (
-    <div
-      style={{
-        minWidth: '80%',
-        minHeight: '80%',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-evenly'
-      }}
-    >
-      <div style={{ padding: '2em', flex: 1 }}>
-        <h3 style={header}>Inversion of Control</h3>
-        <h4 style={header}>Case Study</h4>
-      </div>
-      <div style={twoColumns}>
-        <div style={accordionStyle}>
-          <h4 style={header}>Kent Dodds' Accordion</h4>
-          <hr />
-          <div style={scrollY}>
-            <Accordion
-              items={items}
-              initialExpanded={[0]}
-              expansionReducer={combineExpansionReducers(
-                singleExpandedReducer,
-                preventCloseReducer
-              )}
-            />
+    <>
+      <div style={container}>
+        <div style={gutter}>gutter</div>
+        <div style={titleBox}>
+          <div style={title}>
+            <h2>Inversion of Control Software Pattern</h2>
+          </div>
+          <div style={title}>
+            <h3>Case Study Demo</h3>
           </div>
         </div>
-        <div style={recursiveStyle}>
-          <h4 style={header}>Nested Accordion</h4>
-          <hr />
-          <div style={scrollY}>
-            <Accordion
-              items={nestedItems}
-              initialExpanded={[0]}
-              expansionReducer={singlePeerExpandedReducer}
-            />
+        <div style={gutter}>gutter</div>
+        <div style={contentBox}>
+          <div style={content}>
+            <div style={title}>
+              <h4>Kent Dodds' Accordion</h4>
+            </div>
+            <div style={gutter}>gutter</div>
+            <div style={subcontentLeft}>
+              <Accordion
+                items={items}
+                initialExpanded={[0]}
+                expansionReducer={combineExpansionReducers(
+                  singleExpandedReducer,
+                  preventCloseReducer
+                )}
+              />
+            </div>
+          </div>
+          <div style={gutter}>gutter</div>
+          <div style={content}>
+            <div style={title}>
+              <h4>Nested Accordion</h4>
+            </div>
+            <div style={gutter}>gutter</div>
+            <div style={subcontentRight}>
+              <Accordion
+                items={nestedItems}
+                initialExpanded={[0]}
+                expansionReducer={singlePeerExpandedReducer}
+              />
+            </div>
           </div>
         </div>
+        <div style={gutter}>gutter</div>
       </div>
-    </div>
+    </>
   )
 }
 
