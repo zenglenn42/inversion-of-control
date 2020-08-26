@@ -56,11 +56,11 @@ export const subcontentLeft = {
   width: '100%',
   overflow: 'auto scroll',
   backgroundColor: 'white',
-  border: '1em solid transparent',
+  padding: '.75em',
   borderRadius: '.15em',
+  border: '0.75em solid transparent',
   background:
-    'linear-gradient(white, white) padding-box, url(/images/fixed-borderconst jpg) border-box  0 / cover= ',
-  padding: '1em'
+    'linear-gradient(white, white) padding-box, url(/images/fixed-border.jpg) border-box  0 / cover'
 }
 
 export const subcontentRight = {
@@ -71,9 +71,9 @@ export const subcontentRight = {
   width: '100%',
   overflow: 'auto scroll',
   backgroundColor: 'white',
-  border: '1em solid transparent',
   borderRadius: '.15em',
+  padding: '0.75em',
+  border: '0.75em solid transparent',
   background:
-    'linear-gradient(white, white) padding-box, url(/images/recursive-borderconst jpg) border-box  0 / cover= ',
-  padding: '1em'
+    'linear-gradient(white, white) padding-box, url(/images/recursive-border.jpg) border-box  0 / cover'
 }
