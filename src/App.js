@@ -1,4 +1,6 @@
 import React from 'react'
+import { FaGithubAlt as Github } from 'react-icons/fa'
+import { BsFillBriefcaseFill as Portfolio } from 'react-icons/bs'
 import { Accordion } from './components/hooks/Accordion'
 import {
   combineExpansionReducers,
@@ -14,7 +16,11 @@ import {
   contentBox,
   content,
   subcontentRight,
-  subcontentLeft
+  subcontentLeft,
+  footer,
+  icon,
+  textMargin,
+  grow
 } from './style.js'
 
 const items = [
@@ -161,20 +167,18 @@ function App() {
   return (
     <>
       <div style={container}>
-        <div style={gutter}>gutter</div>
         <div style={titleBox}>
           <div style={title}>
-            <h2>Inversion of Control Software Pattern</h2>
+            <h2 style={textMargin}>Inversion of Control Software Pattern</h2>
           </div>
           <div style={title}>
-            <h3>Case Study Demo</h3>
+            <h3 style={textMargin}>Case Study Demo</h3>
           </div>
         </div>
-        <div style={gutter}>gutter</div>
         <div style={contentBox}>
           <div style={content}>
             <div style={title}>
-              <h4>Kent Dodds' Accordion</h4>
+              <h4 style={textMargin}>Kent Dodds' Accordion</h4>
             </div>
             <div style={gutter}>gutter</div>
             <div style={subcontentLeft}>
@@ -191,7 +195,7 @@ function App() {
           <div style={gutter}>gutter</div>
           <div style={content}>
             <div style={title}>
-              <h4>Nested Accordion</h4>
+              <h4 style={textMargin}>Nested Accordion</h4>
             </div>
             <div style={gutter}>gutter</div>
             <div style={subcontentRight}>
@@ -203,7 +207,29 @@ function App() {
             </div>
           </div>
         </div>
-        <div style={gutter}>gutter</div>
+        <div style={grow} />
+        <div style={footer}>
+          <span>Incremental Industries &copy; 2020</span>
+          <span style={{ flex: 1 }}></span>
+          <a
+            style={icon}
+            href="https://zenglenn42.github.io/portfolio"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="portfolio"
+          >
+            <Portfolio />
+          </a>
+          <a
+            style={icon}
+            href="https://github.com/zenglenn42/inversion-of-control/blob/master/README.md"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="github"
+          >
+            <Github />
+          </a>
+        </div>
       </div>
     </>
   )

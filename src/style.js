@@ -5,7 +5,7 @@ export const container = {
   minHeight: '100vh',
   padding: '0 5%',
   alignItems: 'center',
-  justifyContent: 'center',
+  justifyContent: 'space-between',
   margin: '0 auto',
   backgroundImage: 'linear-gradient(-54deg, blue, #00005a)'
 }
@@ -23,21 +23,23 @@ export const titleBox = {
   minHeight: '2em',
   alignItems: 'center',
   justifyContent: 'center',
-  flex: 1
+  flex: '0 0 auto'
 }
 
 export const title = {
   /* border: '1px solid black', */
-  color: 'white'
+  color: 'white',
+  textAlign: 'center'
 }
 
 export const contentBox = {
   /* border: '1px solid blue', */
   display: 'flex',
   minWidth: '95%',
+  maxHeight: '80vh',
   flexDirection: 'row',
   justifyContent: 'space-evenly',
-  flex: 5
+  flexGrow: 6
 }
 
 export const content = {
@@ -51,8 +53,8 @@ export const content = {
 export const subcontentLeft = {
   display: 'flex',
   justifyContent: 'center',
-  minHeight: '60%',
-  maxHeight: '60%',
+  minHeight: '80%',
+  maxHeight: '80%',
   width: '100%',
   overflow: 'auto scroll',
   backgroundColor: 'white',
@@ -64,12 +66,42 @@ export const subcontentLeft = {
 export const subcontentRight = {
   display: 'flex',
   justifyContent: 'center',
-  minHeight: '60%',
-  maxHeight: '60%',
+  minHeight: '80%',
+  maxHeight: '80%',
   width: '100%',
   overflow: 'auto scroll',
   backgroundColor: 'white',
   padding: '1em',
   borderRadius: '.15em',
   border: '0.4em solid #424242'
+}
+
+export const footer = {
+  display: 'flex',
+  justifyContent: 'space-between',
+  flex: '0 0 auto',
+  width: '100%',
+  fontWeight: 'bold',
+  fontSize: '80%',
+  color: '#a0a0a0',
+  backgroundColor: 'transparent',
+  paddingBottom: '.75em'
+}
+
+export const icon = {
+  color: 'inherit',
+  scale: '2',
+  padding: '0 1em',
+  marginLeft: '2em',
+  textDecoration: 'none'
+}
+
+export const grow = {
+  flex: '1 1 auto'
+}
+
+export const textMargin = {
+  marginTop: '2em',
+  marginBottom: '0',
+  textAlign: 'center'
 }
