@@ -110,7 +110,7 @@ You still craft reasonable defaults for layout and behavior to meet your needs (
 
 Wouldn't it be nice if you didn't have to code all those variants yourself as the author of the Accordion component?
 
-The code below illustrates how a consumer of your component may select the behavior they want based upon an `expansionReducer` prop that defines how state should change when a user clicks on an accordion item. If different behavior is desired, the developer may write their own reducer without going through the component maintainer.
+The code below illustrates how a consumer of your component may select the behavior they want based upon an `expansionReducer` prop that defines how state should change when a user clicks on an accordion item. If different behavior is desired, the developer may write their _own_ reducer without going through the component maintainer.
 
 <h5>&nbsp;</h5>
 
