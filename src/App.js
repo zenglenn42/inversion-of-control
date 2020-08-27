@@ -19,7 +19,8 @@ import {
   accordion,
   footer,
   iconButton,
-  grow
+  grow,
+  grow2x
 } from './style.js'
 import { items, nestedItems } from './inputdata'
 
@@ -61,6 +62,7 @@ function App() {
           <p style={headerTitle}>Inversion of Control Software Pattern</p>
           <p style={headerSubTitle}>Case Study Demo</p>
         </header>
+        <div style={grow} />
         <main style={main}>
           <article style={article}>
             <header style={articleTitle}>Kent Dodds' Accordion</header>
@@ -86,7 +88,7 @@ function App() {
             </div>
           </article>
         </main>
-        <div style={grow} />
+        <div style={grow2x} />
         <footer style={footer}>
           <span>Incremental Industries &copy; 2020</span>
           <span style={{ flex: 1 }}></span>

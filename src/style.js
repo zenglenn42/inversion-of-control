@@ -8,7 +8,8 @@ export const appFrame = {
   maxHeight: '100vh',
   backgroundImage: 'linear-gradient(-54deg, blue, #00004a)',
   color: 'white',
-  padding: '0 1em'
+  padding: '0 1em',
+  overflowX: 'hidden'
 }
 
 export const header = {
@@ -48,12 +49,11 @@ export const article = {
   flexDirection: 'column',
   justifyContent: 'flex-start',
   alignItems: 'flex-start',
-  width: '40%',
   minWidth: '17rem',
-  maxWidth: '30rem',
+  maxWidth: '27rem',
   borderRadius: '.15em',
   color: 'inherit',
-  margin: '1em',
+  margin: '1em 2em',
   border: '0.4em solid #424242'
 }
 
@@ -92,6 +92,12 @@ export const grow = {
   //border: '1px solid white',
   width: '100%',
   flex: '1 1 auto'
+}
+
+export const grow2x = {
+  //border: '1px solid white',
+  width: '100%',
+  flex: '2 1 auto'
 }
 
 export const iconButton = {
