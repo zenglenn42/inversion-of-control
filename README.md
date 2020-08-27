@@ -120,7 +120,7 @@ import { Accordion } from './Accordion'
 import {
   combineExpansionReducers,
   preventCloseReducer,
-  singleReducer,
+  singleExpandedReducer,
 } from './useExpandable'
 
 const items = [
@@ -140,8 +140,8 @@ function App() {
     <Accordion
       items={items}
       expansionReducer={combineExpansionReducers(
-        singleReducer,        // :-)  Only allow 1 item to be selected.
-        preventCloseReducer   // :-)  At least 1 item should visible.
+        singleExpandedReducer, // :-)  Only allow 1 item to be selected.
+        preventCloseReducer    // :-)  At least 1 item should visible.
       )}
     />
   )
@@ -156,7 +156,23 @@ function App() {
 
 The optional `expansionReducer` prop is key.
 
-An expansion reducer manages a stateful array of indices which controls the visibility of Accordion items.
+An expansion reducer manages a stateful array of indices which controls the visibility of Accordion items. Here's a reducer the allows only one accordion item to be visible at a time:
+
+```javascript
+
+# useExpanded.js
+
+function singleExpandedReducer(expandedItems = [], action) {
+  if (action.type === actionTypes.toggle_index) {
+    const openIt = !expandedItems.includes(action.index)
+    if (openIt) {
+      return [action.index] // Replace expandedItems with a new array
+                            // that includes a single open item.
+    }
+  }
+}
+
+```
 
 During render, entries in the `expandedItems` array are injected into lower-level components as `isOpen` props:
 
@@ -530,7 +546,7 @@ function useAccordion(items) {
 
 ### [singlePeer Expansion Reducer](#contents)
 
-Finally, I implement the recursive analog of the `singleReducer` that allows at most a single item to be expanded at any one time. I amend this to allow a single _peer_ item to be visible at a time:
+Finally, I implement the recursive analog of the `singleExpandedReducer` that allows at most a single item to be expanded at any one time. I amend this to allow a single _peer_ item to be visible at a time:
 
 <h5>&nbsp;</h5>
 
