@@ -2,12 +2,8 @@
 
 ### _Fighting prop-bloat and maintenance blues in your React components_
 
-<h5>&nbsp;</h5>
-
 ![alt](docs/images/raoul-croes-paINEyfzcuc-unsplash.jpg)
 _<h6>Photo by <a href="https://unsplash.com/@rxcroes?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Raoul Croes</a>_
-
-<h5>&nbsp;</h5>
 
 I'm investigating **inversion of control**, a software design principle I recently [discovered](https://kentcdodds.com/blog/inversion-of-control) from Kent Dodds.
 
@@ -17,11 +13,7 @@ Here, I riff on an example of Kent's to add recursive behavior to his Accordion 
 - layout reducer
 - behavior reducer
 
-<h5>&nbsp;</h5>
-
 ## [Contents](#contents)
-
----
 
 - [The Problem](#imagine)
 - [A Solution](#a-solution)
@@ -34,66 +26,40 @@ Here, I riff on an example of Kent's to add recursive behavior to his Accordion 
 - [Summary](#summary)
 - [Conclusion](#conclusion)
 
-<h5>&nbsp;</h5>
-
 ## [Imagine ...](#contents)
-
----
 
 You've written a new _Accordion_ component with a set of props to support a reasonable collection of use-cases.
 
 ![alt](docs/images/kcd-accordion-2.png) _<h6>By <a href="https://kentcdodds.com">Kent Dodds</a>_
 
-<h5>&nbsp;</h5>
-
 You want to share your work with others, so you publish and blog a bit. You feel great.
-
-<h5>&nbsp;</h5>
 
 ![alt](docs/images/christian-paul-stobbe-IhM0m7AZh4Q-unsplash-1.jpg) _<h6>Photo by <a href="https://unsplash.com/@stobbewtf?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Christian Paul Stobbe&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>_
 
-<h5>&nbsp;</h5>
-
 In time, the gods of SEO and open source smile and you're rewarded with the blessings of growing interest and adoption. You bask in the glow of acknowledged value and happily respond to the natural influx of feature requests.
 
-<h5>&nbsp;</h5>
-
 ![alt](docs/images/ryan-parker-U2t3g6BuXhg-unsplash.jpg) _<h6>Photo by <a href="https://unsplash.com/@dryanparker?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Ryan Parker</a>_
-
-<h5>&nbsp;</h5>
 
 With popularity, comes a steady drum beat of new questions, use-cases, and bug reports. Some in the community contribute pull requests, thankfully, but these are not free as they require time and effort to consider and shape.
 
 Your prop count grows. You diligently add test cases for the scenarios you at least understand but feel less definitive about others, especially the ones you'll never need yourself, frankly.
 
-<h5>&nbsp;</h5>
-
 ![alt](docs/images/tolga-ahmetler-c7fg2iM5sew-unsplash.jpg) _<h6>Photo by <a href="https://unsplash.com/@t_ahmetler?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Tolga Ahmetler</a>_
-
-<h5>&nbsp;</h5>
 
 As code complexity grows, it's hard keeping up with the demand for modifications while still maintaining quality. The crisp coherence of your original component morphs into a maintenance muddle.
 
 Has your gift to the world become a curse, an albatross around your neck?
-
-<h5>&nbsp;</h5>
 
 ![alt](https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Dore-I_watched_the_Water-Snakes-Detail.jpg/198px-Dore-I_watched_the_Water-Snakes-Detail.jpg)
 _<h6>By <a href="https://en.wiktionary.org/wiki/albatross_around_one%27s_neck">
 Gustave Doré, 1876</a>
 [ <a href="https://commons.wikimedia.org/wiki/Template:PD-US">CC-PD-Mark</a> ]_
 
-<h5>&nbsp;</h5>
-
 Is there a way to pass control _back_ to the flock of eager adoptees with an implementation that _encourages_ extension without _you_ having to rewrite the underlying component at each turn?
-
-<h5>&nbsp;</h5>
 
 ## [A Solution](#contents)
 
 ### _Inversion of Control_
-
----
 
 I've recently become a fan of Kent Dodds after watching his two **Simply React** keynotes from [2018](https://youtu.be/AiJ8tRRH0f8) and [2020](https://youtu.be/5io81WLgXtg) where he discusses **inversion of control** in the context of a highly extensible Accordion component pictured above.
 
@@ -111,8 +77,6 @@ You still craft reasonable defaults for layout and behavior to meet your needs (
 Wouldn't it be nice if you didn't have to code all those variants yourself as the author of the Accordion component?
 
 The code below illustrates how a consumer of your component may select the behavior they want based upon an `expansionReducer` prop that defines how state should change when a user clicks on an accordion item. If different behavior is desired, the developer may write their _own_ reducer without going through the component maintainer.
-
-<h5>&nbsp;</h5>
 
 ```javascript
 import React from 'react'
@@ -148,11 +112,7 @@ function App() {
 }
 ```
 
-<h5>&nbsp;</h5>
-
 ### So how does this all work?
-
-<h5>&nbsp;</h5>
 
 The optional `expansionReducer` prop is key.
 
@@ -176,7 +136,6 @@ function singleExpandedReducer(expandedItems = [], action) {
 
 During render, entries in the `expandedItems` array are injected into lower-level components as `isOpen` props:
 
-
 ```javascript
 # useAccordion.js
 
@@ -193,7 +152,6 @@ During render, entries in the `expandedItems` array are injected into lower-leve
 ```
 
 which control expandable divs ...
-
 
 ```javascript
 # useAccordion.js
@@ -216,15 +174,11 @@ function AccordionContents({ isOpen, ...props }) {
 }
 ```
 
-<h5>&nbsp;</h5>
-
 By default, a user may click to open multiple items.
 
 Developers may _override_ that behavior by redefining which reducers will fire in response to item clicks.
 
 Control is _inverted_ by enabling the component consumer to extend behavior in their scope rather than blocking on the PR / merge cycle to get their novel use-case into the underlying component.
-
-<h5>&nbsp;</h5>
 
 Hmm ... that gives me an idea.
 
@@ -232,22 +186,14 @@ I've been playing with menu drawers that open to the side of the main content an
 
 Could I create my own Accordion state reducer to enable _nested_ Accordions ... as a step toward a drawer list component?
 
-<h5>&nbsp;</h5>
-
 ## [Case Study: Nested Accordion](#contents)
 
 ### _Creating a recursive Accordion_
 
----
-
 ![alt](docs/images/jossuha-theophile-ZhVKeFCb6NE-unsplash.jpg)
 _<h6>Photo by <a href="https://unsplash.com/@nunchakouy?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Jossuha Théophile</a>_
 
-<h5>&nbsp;</h5>
-
 I want something that looks like [this](https://nested-accordion.herokuapp.com/):
-
-<h5>&nbsp;</h5>
 
 [![IMAGE ALT TEXT](docs/images/kcd-and-nested-accordions.png)](https://nested-accordion.herokuapp.com 'nested accordion')
 
@@ -304,8 +250,6 @@ function App() {
 
 I also want a very clean implementation for the Accordion component itself. It will shuttle item data into a useAccodion hook and get a renderable array of React components back. All click handling and expansion-state behavior will be managed somewhere below that:
 
-<h5>&nbsp;</h5>
-
 ```javascript
 
 # Accordion.js
@@ -321,13 +265,9 @@ function Accordion(props) {
 
 ```
 
-<h5>&nbsp;</h5>
-
 ### [Input Data](#contents)
 
 The first challenge are the input data. The current render process maps across a linear array of items:
-
-<h5>&nbsp;</h5>
 
 ```javascript
 const items = [
@@ -359,8 +299,6 @@ const items = [
 )
 ```
 
-<h5>&nbsp;</h5>
-
 ### [Input Reducer](#contents)
 
 But we have a nested input schema. Either we need to make the render recursion-friendly or somehow flatten the input data before it gets mapped.
@@ -368,8 +306,6 @@ But we have a nested input schema. Either we need to make the render recursion-f
 I opt for the latter to minimize changes to the underlying component since that's the point of this pattern.
 
 I come up with this:
-
-<h5>&nbsp;</h5>
 
 ```javascript
 function flattenItemsReducer(nestedItems, depth = 0, acc = [], parent) {
@@ -399,8 +335,6 @@ function flattenItemsReducer(nestedItems, depth = 0, acc = [], parent) {
 }
 ```
 
-<h5>&nbsp;</h5>
-
 This linearizes our nested input data into a 1-dimensional array by injecting
 `parent nodes` just above their children.
 
@@ -410,8 +344,6 @@ Out of expedience, I break my own rule and wedge this into `useAccordion.js` for
 The nice thing about this reducer, I further rationalize, is it works with flat _and_ nested input data.
 
 Here's how it integrates into the useAccordion hook:
-
-<h5>&nbsp;</h5>
 
 ```javascript
 
@@ -440,13 +372,9 @@ function useAccordion(items = []) {
 }
 ```
 
-<h5>&nbsp;</h5>
-
 ### [Layout Reducer](#contents)
 
 Next we consume the flattened data by passing it to a layout reducer:
-
-<h5>&nbsp;</h5>
 
 ```javascript
 
@@ -526,13 +454,9 @@ function useAccordion(items) {
 
 ```
 
-<h5>&nbsp;</h5>
-
 ### [singlePeer Expansion Reducer](#contents)
 
 Finally, I implement the recursive analog of the `singleExpandedReducer` that allows at most a single item to be expanded at any one time. I amend this to allow a single _peer_ item to be visible at a time:
-
-<h5>&nbsp;</h5>
 
 ```javascript
 
@@ -583,11 +507,7 @@ function App() {
 
 ```
 
-<h4>&nbsp;</h4>
-
 ## [Summary](#contents)
-
----
 
 I've sketched out a nested Accordion that supports input-data and layout reducers (in addition to Kent's expansion state reducer).
 
@@ -623,11 +543,7 @@ Here's what I learned:
 
     - Can we decouple the layout reducer from being tied to a given component library such as Emotion or Material-UI?
 
-<h4>&nbsp;</h4>
-
 ## [Conclusion](#contents)
-
----
 
 I like this pattern. It enables developers to adopt and extend your work without bottlenecking through you for certain categories of feature requests. It allows you to keep the underlying code relatively small, reducing maintenance costs.
 
