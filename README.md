@@ -110,7 +110,7 @@ You still craft reasonable defaults for layout and behavior to meet your needs (
 - require at least 1 item be visible at all times
 - allow multiple visible items
 
-But wouldn't it be nice if you didn't have to code all those variants yourself and the author of the Accordion?
+But wouldn't it be nice if you didn't have to code all those variants yourself as the author of the Accordion?
 
 <h5>&nbsp;</h5>
 Here's what the code might look like for enforcing the first two bullets:
