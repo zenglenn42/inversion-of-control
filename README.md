@@ -110,10 +110,10 @@ You still craft reasonable defaults for layout and behavior to meet your needs (
 - require at least 1 item be visible at all times
 - allow multiple visible items
 
-But wouldn't it be nice if you didn't have to code all those variants yourself as the author of the Accordion?
+Wouldn't it be nice if you didn't have to code all those variants yourself as the author of the Accordion component?
 
-<h5>&nbsp;</h5>
-Here's what the code might look like for enforcing the first two bullets:
+The code below illustrates how a consumer of your component may select the behavior they want based upon an `expansionReducer` prop that defines how state should change when a user clicks on an accordion item. If different behavior is desired, the developer may write their own reducer without going through you.
+
 <h5>&nbsp;</h5>
 
 ```javascript
@@ -142,8 +142,8 @@ function App() {
     <Accordion
       items={items}
       expansionReducer={combineExpansionReducers(
-        singleReducer,        // :-)
-        preventCloseReducer   // :-)
+        singleReducer,        // :-)  Only allow 1 item to be selected.
+        preventCloseReducer   // :-)  At least 1 item should visible.
       )}
     />
   )
@@ -152,9 +152,11 @@ function App() {
 
 <h5>&nbsp;</h5>
 
-The optional `expansionReducer` prop is key.
+### So how does this all work?
 
 <h5>&nbsp;</h5>
+
+The optional `expansionReducer` prop is key.
 
 An expansion reducer manages a stateful array of indices which controls the visibility of Accordion items.
 
