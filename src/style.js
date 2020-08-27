@@ -29,7 +29,8 @@ export const titleBox = {
 export const title = {
   /* border: '1px solid black', */
   color: 'white',
-  textAlign: 'center'
+  textAlign: 'center',
+  minHeight: '2em'
 }
 
 export const contentBox = {
@@ -39,6 +40,7 @@ export const contentBox = {
   maxHeight: '80vh',
   flexDirection: 'row',
   justifyContent: 'space-evenly',
+  flexWrap: 'wrap',
   flexGrow: 6
 }
 
