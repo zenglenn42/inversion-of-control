@@ -74,7 +74,7 @@ Your prop count grows. You diligently add test cases for the scenarios you at le
 
 As code complexity grows, it's hard keeping up with the demand for modifications while still maintaining quality. The crisp coherence of your original component morphs into a maintenance muddle.
 
-No good deed goes unpunished. Has your gift to the world become a curse, an albatross around your neck?
+Has your gift to the world become a curse, an albatross around your neck?
 
 <h5>&nbsp;</h5>
 
