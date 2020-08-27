@@ -38,21 +38,15 @@ You want to share your work with others, so you publish and blog a bit. You feel
 
 ![alt](docs/images/christian-paul-stobbe-IhM0m7AZh4Q-unsplash-1.jpg) _<h6>Photo by <a href="https://unsplash.com/@stobbewtf?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Christian Paul Stobbe</a>_
 
-<h5>&nbsp;</h5>
-
 In time, the gods of SEO and open source smile and you're rewarded with the blessings of growing interest and adoption. You bask in the glow of acknowledged value and happily respond to the natural influx of feature requests.
 
 ![alt](docs/images/ryan-parker-U2t3g6BuXhg-unsplash.jpg) _<h6>Photo by <a href="https://unsplash.com/@dryanparker?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Ryan Parker</a>_
-
-<h5>&nbsp;</h5>
 
 With popularity, comes a steady drum beat of new questions, use-cases, and bug reports. Some in the community contribute pull requests, thankfully, but these are not free as they require time and effort to consider and shape.
 
 Your prop count grows. You diligently add test cases for the scenarios you at least understand but feel less definitive about others, especially the ones you'll never need yourself, frankly.
 
 ![alt](docs/images/tolga-ahmetler-c7fg2iM5sew-unsplash.jpg) _<h6>Photo by <a href="https://unsplash.com/@t_ahmetler?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Tolga Ahmetler</a>_
-
-<h5>&nbsp;</h5>
 
 As code complexity grows, it's hard keeping up with the demand for modifications while still maintaining quality. The crisp coherence of your original component morphs into a maintenance muddle.
 
@@ -62,8 +56,6 @@ Has your gift to the world become a curse, an albatross around your neck?
 _<h6>By <a href="https://en.wiktionary.org/wiki/albatross_around_one%27s_neck">
 Gustave Doré, 1876</a>
 [ <a href="https://commons.wikimedia.org/wiki/Template:PD-US">CC-PD-Mark</a> ]_
-
-<h5>&nbsp;</h5>
 
 Is there a way to pass control _back_ to the flock of eager adoptees with an implementation that _encourages_ extension without _you_ having to rewrite the underlying component at each turn?
 
