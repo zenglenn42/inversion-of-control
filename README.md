@@ -85,7 +85,7 @@ Gustave Doré, 1876</a>
 
 <h5>&nbsp;</h5>
 
-Is there way to pass control _back_ to the flock of eager adoptees with an implementation that _encourages_ extension without _you_ having to rewrite the underlying component at each turn?
+Is there a way to pass control _back_ to the flock of eager adoptees with an implementation that _encourages_ extension without _you_ having to rewrite the underlying component at each turn?
 
 <h5>&nbsp;</h5>
 
