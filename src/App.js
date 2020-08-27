@@ -1,6 +1,6 @@
 import React from 'react'
-import { FaGithubAlt as Github } from 'react-icons/fa'
-import { BsFillBriefcaseFill as Portfolio } from 'react-icons/bs'
+import { FaGithubAlt as GithubIcon } from 'react-icons/fa'
+import { BsFillBriefcaseFill as PortfolioIcon } from 'react-icons/bs'
 import { Accordion } from './components/hooks/Accordion'
 import {
   combineExpansionReducers,
@@ -9,129 +9,19 @@ import {
   actionTypes as expandableActionTypes
 } from './components/hooks/useExpandable'
 import {
-  container,
-  gutter,
-  titleBox,
-  title,
-  contentBox,
-  content,
-  subcontentRight,
-  subcontentLeft,
+  appFrame,
+  header,
+  headerTitle,
+  headerSubTitle,
+  main,
+  article,
+  articleTitle,
+  accordion,
   footer,
-  icon,
-  textMargin,
+  iconButton,
   grow
 } from './style.js'
-
-const items = [
-  {
-    title: '🐴',
-    contents: (
-      <div>
-        Horses can sleep both lying down and standing up. Domestic horses have a
-        lifespan of around 25 years. A 19th century horse named 'Old Billy' is
-        said to have lived 62 years.
-      </div>
-    )
-  },
-  {
-    title: '🐘',
-    contents: (
-      <div>
-        Elephants are mammals of the family Elephantidae and the largest
-        existing land animals. Three species are currently recognised: the
-        African bush elephant, the African forest elephant, and the Asian
-        elephant.
-      </div>
-    )
-  },
-  {
-    title: '🦄',
-    contents: (
-      <div>
-        If you’re looking to hunt a unicorn, but don’t know where to begin, try
-        Lake Superior State University in Sault Ste. Marie, Michigan. Since
-        1971, the university has issued permits to unicorn questers.
-      </div>
-    )
-  }
-]
-
-const nestedItems = [
-  {
-    title: '🐴',
-    contents: (
-      <div>
-        Horses can sleep both lying down and standing up. Domestic horses have a
-        lifespan of around 25 years. A 19th century horse named 'Old Billy' is
-        said to have lived 62 years.
-      </div>
-    )
-  },
-  {
-    title: '⋱',
-    items: [
-      {
-        title: '🐘',
-        contents: (
-          <div>
-            Elephants are mammals of the family Elephantidae and the largest
-            existing land animals. Three species are currently recognised: the
-            African bush elephant, the African forest elephant, and the Asian
-            elephant.
-          </div>
-        )
-      },
-      {
-        title: '🦄',
-        contents: (
-          <div>
-            If you’re looking to hunt a unicorn, but don’t know where to begin,
-            try Lake Superior State University in Sault Ste. Marie, Michigan.
-            Since 1971, the university has issued permits to unicorn questers.
-          </div>
-        )
-      },
-      {
-        title: '⋱',
-        items: [
-          {
-            title: '🦄',
-            contents: (
-              <div>
-                If you’re looking to hunt a unicorn, but don’t know where to
-                begin, try Lake Superior State University in Sault Ste. Marie,
-                Michigan. Since 1971, the university has issued permits to
-                unicorn questers.
-              </div>
-            )
-          }
-        ]
-      }
-    ]
-  },
-  {
-    title: '🐘',
-    contents: (
-      <div>
-        Elephants are mammals of the family Elephantidae and the largest
-        existing land animals. Three species are currently recognised: the
-        African bush elephant, the African forest elephant, and the Asian
-        elephant.
-      </div>
-    )
-  },
-  {
-    title: '🦄',
-    contents: (
-      <div>
-        If you’re looking to hunt a unicorn, but don’t know where to begin, try
-        Lake Superior State University in Sault Ste. Marie, Michigan. Since
-        1971, the university has issued permits to unicorn questers.
-      </div>
-    )
-  }
-]
+import { items, nestedItems } from './inputdata'
 
 // Allow only one peer item at a given nested depth to be visible.
 
@@ -166,22 +56,15 @@ function singlePeerExpandedReducer(expandedItems = [], action) {
 function App() {
   return (
     <>
-      <div style={container}>
-        <div style={titleBox}>
-          <div style={title}>
-            <h2 style={textMargin}>Inversion of Control Software Pattern</h2>
-          </div>
-          <div style={title}>
-            <h3 style={textMargin}>Case Study Demo</h3>
-          </div>
-        </div>
-        <div style={contentBox}>
-          <div style={content}>
-            <div style={title}>
-              <h4 style={textMargin}>Kent Dodds' Accordion</h4>
-            </div>
-            <div style={gutter}>gutter</div>
-            <div style={subcontentLeft}>
+      <div style={appFrame}>
+        <header style={header}>
+          <p style={headerTitle}>Inversion of Control Software Pattern</p>
+          <p style={headerSubTitle}>Case Study Demo</p>
+        </header>
+        <main style={main}>
+          <article style={article}>
+            <header style={articleTitle}>Kent Dodds' Accordion</header>
+            <div style={accordion}>
               <Accordion
                 items={items}
                 initialExpanded={[0]}
@@ -191,45 +74,41 @@ function App() {
                 )}
               />
             </div>
-          </div>
-          <div style={gutter}>gutter</div>
-          <div style={content}>
-            <div style={title}>
-              <h4 style={textMargin}>Nested Accordion</h4>
-            </div>
-            <div style={gutter}>gutter</div>
-            <div style={subcontentRight}>
+          </article>
+          <article style={article}>
+            <header style={articleTitle}>Nested Accordion</header>
+            <div style={accordion}>
               <Accordion
                 items={nestedItems}
                 initialExpanded={[0]}
                 expansionReducer={singlePeerExpandedReducer}
               />
             </div>
-          </div>
-        </div>
+          </article>
+        </main>
         <div style={grow} />
-        <div style={footer}>
+        <footer style={footer}>
           <span>Incremental Industries &copy; 2020</span>
           <span style={{ flex: 1 }}></span>
           <a
-            style={icon}
+            style={iconButton}
             href="https://zenglenn42.github.io/portfolio"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="portfolio"
           >
-            <Portfolio />
+            <PortfolioIcon />
           </a>
           <a
-            style={icon}
+            style={iconButton}
             href="https://github.com/zenglenn42/inversion-of-control/blob/master/README.md"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="github"
           >
-            <Github />
+            <GithubIcon />
           </a>
-        </div>
+        </footer>
       </div>
     </>
   )

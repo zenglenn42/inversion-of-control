@@ -1,109 +1,103 @@
-export const container = {
+export const appFrame = {
   /* border: '1px solid red', */
   display: 'flex',
   flexDirection: 'column',
-  minHeight: '100vh',
-  padding: '0 5%',
-  alignItems: 'center',
   justifyContent: 'space-between',
-  margin: '0 auto',
-  backgroundImage: 'linear-gradient(-54deg, blue, #00005a)'
+  alignItems: 'center',
+  minHeight: '100vh',
+  maxHeight: '100vh',
+  backgroundImage: 'linear-gradient(-54deg, blue, #00004a)',
+  color: 'white',
+  padding: '0 1em'
 }
 
-export const gutter = {
-  /* border: '1px solid purple', */
-  visibility: 'hidden',
-  flex: 0
-}
-
-export const titleBox = {
-  /* border: '1px solid green', */
+export const header = {
+  //border: '1px solid green',
   display: 'flex',
   flexDirection: 'column',
-  minHeight: '2em',
   alignItems: 'center',
   justifyContent: 'center',
-  flex: '0 0 auto'
+  flex: '0 0 auto',
+  color: 'inherit'
 }
 
-export const title = {
-  /* border: '1px solid black', */
-  color: 'white',
-  textAlign: 'center',
-  minHeight: '2em'
+export const headerTitle = {
+  fontSize: '125%',
+  fontWeight: 'bold',
+  textAlign: 'center'
+}
+export const headerSubTitle = {
+  marginTop: 0,
+  fontWeight: 'bold',
+  fontSize: '85%'
 }
 
-export const contentBox = {
-  /* border: '1px solid blue', */
+export const main = {
+  //border: '1px solid white',
   display: 'flex',
-  minWidth: '95%',
-  maxHeight: '80vh',
   flexDirection: 'row',
   justifyContent: 'space-evenly',
   flexWrap: 'wrap',
-  flexGrow: 6
+  alignContent: 'flex-start',
+  overflow: 'auto scroll',
+  color: 'inherit'
 }
 
-export const content = {
-  /* border: '1px solid black' */
+export const article = {
   display: 'flex',
   flexDirection: 'column',
-  alignItems: 'center',
-  width: '40%'
-}
-
-export const subcontentLeft = {
-  display: 'flex',
-  justifyContent: 'center',
-  minHeight: '80%',
-  maxHeight: '80%',
-  width: '100%',
-  overflow: 'auto scroll',
-  backgroundColor: 'white',
-  padding: '1em',
+  justifyContent: 'flex-start',
+  alignItems: 'flex-start',
+  width: '40%',
+  minWidth: '17rem',
+  maxWidth: '30rem',
   borderRadius: '.15em',
+  color: 'inherit',
+  margin: '1em',
   border: '0.4em solid #424242'
 }
 
-export const subcontentRight = {
+export const articleTitle = {
+  padding: '0.75em',
+  fontWeight: 'bold'
+}
+
+export const accordion = {
   display: 'flex',
   justifyContent: 'center',
-  minHeight: '80%',
-  maxHeight: '80%',
-  width: '100%',
+  minHeight: '50vh',
+  maxHeight: '50vh',
   overflow: 'auto scroll',
   backgroundColor: 'white',
   padding: '1em',
-  borderRadius: '.15em',
-  border: '0.4em solid #424242'
+  color: 'black',
+  flexGrow: 0
 }
 
 export const footer = {
   display: 'flex',
   justifyContent: 'space-between',
+  alignItems: 'center',
   flex: '0 0 auto',
   width: '100%',
   fontWeight: 'bold',
   fontSize: '80%',
-  color: '#a0a0a0',
+  color: '#c0c0a0',
   backgroundColor: 'transparent',
+  paddingTop: '1.5em',
   paddingBottom: '.75em'
 }
 
-export const icon = {
+export const grow = {
+  //border: '1px solid white',
+  width: '100%',
+  flex: '1 1 auto'
+}
+
+export const iconButton = {
   color: 'inherit',
   scale: '2',
   padding: '0 1em',
   marginLeft: '2em',
   textDecoration: 'none'
-}
-
-export const grow = {
-  flex: '1 1 auto'
-}
-
-export const textMargin = {
-  marginTop: '2em',
-  marginBottom: '0',
-  textAlign: 'center'
 }
