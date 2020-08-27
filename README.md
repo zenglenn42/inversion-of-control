@@ -224,9 +224,9 @@ function AccordionContents({ isOpen, ...props }) {
 
 By default, a user may click to open multiple items.
 
-As a developer, however, you may _override_ that behavior by redefining which reducers will fire in response to item clicks via the `expansionReducer` prop (as shown in the code above.) You may even roll your own behavior reducer if you don't like the ones exported by the useExpandable module.
+Developers may _override_ that behavior by redefining which reducers will fire in response to item clicks.
 
-Control is _inverted_ by enabling the component consumer to extend behavior in their scope rather than wedging their novel use-case into the underlying component.
+Control is _inverted_ by enabling the component consumer to extend behavior in their scope rather than blocking on the PR / merge cycle to get their novel use-case into the underlying component.
 
 <h5>&nbsp;</h5>
 
@@ -234,7 +234,7 @@ Hmm ... that gives me an idea.
 
 <h5>&nbsp;</h5>
 
-I've been messing with menu drawers that open to the side of the main content and allow a user to navigate a hierarchy of selectable options. The options themselves often expand to reveal sub-options. The expansion behavior of the accordion reminds me of that.
+I've been playing with menu drawers that open to the side of the main content and allow a user to navigate a hierarchy of selectable options. The options themselves often expand to reveal sub-options. The expansion behavior of the accordion reminds me of that.
 
 Could I create my own Accordion state reducer to enable _nested_ Accordions ... as a step toward a drawer list component?
 
