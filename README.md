@@ -5,8 +5,6 @@
 ![alt](docs/images/raoul-croes-paINEyfzcuc-unsplash.jpg)
 _<h6>Photo by <a href="https://unsplash.com/@rxcroes?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Raoul Croes</a></h6>_
 
-<h5>&nbsp;</h5>
-
 I'm investigating **inversion of control**, a software design principle I recently [discovered](https://kentcdodds.com/blog/inversion-of-control) from Kent Dodds.
 
 Here, I riff on an example of Kent's to add recursive behavior to his Accordion component through three reducers:
@@ -32,21 +30,21 @@ Here, I riff on an example of Kent's to add recursive behavior to his Accordion 
 
 You've written a new _Accordion_ component with a set of props to support a reasonable collection of use-cases.
 
-![alt](docs/images/kcd-accordion-2.png) _<h6>By <a href="https://kentcdodds.com">Kent Dodds</a>_
+![alt](docs/images/kcd-accordion-2.png) _<h6>By <a href="https://kentcdodds.com">Kent Dodds</a></h6>_
 
 You want to share your work with others, so you publish and blog a bit. You feel great.
 
-![alt](docs/images/christian-paul-stobbe-IhM0m7AZh4Q-unsplash-1.jpg) _<h6>Photo by <a href="https://unsplash.com/@stobbewtf?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Christian Paul Stobbe</a>_
+![alt](docs/images/christian-paul-stobbe-IhM0m7AZh4Q-unsplash-1.jpg) _<h6>Photo by <a href="https://unsplash.com/@stobbewtf?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Christian Paul Stobbe</a></h6>_
 
 In time, the gods of SEO and open source smile and you're rewarded with the blessings of growing interest and adoption. You bask in the glow of acknowledged value and happily respond to the natural influx of feature requests.
 
-![alt](docs/images/ryan-parker-U2t3g6BuXhg-unsplash.jpg) _<h6>Photo by <a href="https://unsplash.com/@dryanparker?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Ryan Parker</a>_
+![alt](docs/images/ryan-parker-U2t3g6BuXhg-unsplash.jpg) _<h6>Photo by <a href="https://unsplash.com/@dryanparker?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Ryan Parker</a></h6>_
 
 With popularity, comes a steady drum beat of new questions, use-cases, and bug reports. Some in the community contribute pull requests, thankfully, but these are not free as they require time and effort to consider and shape.
 
 Your prop count grows. You diligently add test cases for the scenarios you at least understand but feel less definitive about others, especially the ones you'll never need yourself, frankly.
 
-![alt](docs/images/tolga-ahmetler-c7fg2iM5sew-unsplash.jpg) _<h6>Photo by <a href="https://unsplash.com/@t_ahmetler?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Tolga Ahmetler</a>_
+![alt](docs/images/tolga-ahmetler-c7fg2iM5sew-unsplash.jpg) _<h6>Photo by <a href="https://unsplash.com/@t_ahmetler?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Tolga Ahmetler</a></h6>_
 
 As code complexity grows, it's hard keeping up with the demand for modifications while still maintaining quality. The crisp coherence of your original component morphs into a maintenance muddle.
 
@@ -55,7 +53,7 @@ Has your gift to the world become a curse, an albatross around your neck?
 ![alt](https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Dore-I_watched_the_Water-Snakes-Detail.jpg/198px-Dore-I_watched_the_Water-Snakes-Detail.jpg)
 _<h6>By <a href="https://en.wiktionary.org/wiki/albatross_around_one%27s_neck">
 Gustave Doré, 1876</a>
-[ <a href="https://commons.wikimedia.org/wiki/Template:PD-US">CC-PD-Mark</a> ]_
+[ <a href="https://commons.wikimedia.org/wiki/Template:PD-US">CC-PD-Mark</a> ]</h6>_
 
 Is there a way to pass control _back_ to the flock of eager adoptees with an implementation that _encourages_ extension without _you_ having to rewrite the underlying component at each turn?
 
@@ -193,9 +191,7 @@ Could I create my own Accordion state reducer to enable _nested_ Accordions ... 
 ### _Creating a recursive Accordion_
 
 ![alt](docs/images/jossuha-theophile-ZhVKeFCb6NE-unsplash.jpg)
-_<h6>Photo by <a href="https://unsplash.com/@nunchakouy?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Jossuha Théophile</a>_
-
-<h5>&nbsp;</h5>
+_<h6>Photo by <a href="https://unsplash.com/@nunchakouy?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Jossuha Théophile</a></h6>_
 
 I want something that looks like [this](https://nested-accordion.herokuapp.com/):
 
@@ -204,6 +200,7 @@ I want something that looks like [this](https://nested-accordion.herokuapp.com/)
 with recursively defined input data:
 
 ```javascript
+
 # App.js
 
 import React from 'react'
