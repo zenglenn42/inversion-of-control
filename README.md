@@ -3,7 +3,7 @@
 ### _Fighting prop-bloat and maintenance blues in your React components_
 
 ![alt](docs/images/raoul-croes-paINEyfzcuc-unsplash.jpg)
-_<h6>Photo by <a href="https://unsplash.com/@rxcroes?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Raoul Croes</a>_
+_<h6>Photo by <a href="https://unsplash.com/@rxcroes?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Raoul Croes</a></h6>_
 
 <h5>&nbsp;</h5>
 
