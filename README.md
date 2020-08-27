@@ -180,7 +180,7 @@ Developers may _override_ that behavior by redefining which reducers will fire i
 
 Control is _inverted_ by enabling the component consumer to extend behavior in their scope rather than blocking on the PR / merge cycle to get their novel use-case into the underlying component.
 
-Hmm ... that gives me an idea.
+**Hmm ... that gives me an idea.**
 
 I've been playing with menu drawers that open to the side of the main content and allow a user to navigate a hierarchy of selectable options. The options themselves often expand to reveal sub-options. The expansion behavior of the accordion reminds me of that.
 
