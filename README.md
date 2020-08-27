@@ -85,7 +85,7 @@ Gustave Doré, 1876</a>
 
 <h5>&nbsp;</h5>
 
-Is there way to pass control _back_ to the flock of eager adoptees with an implementation that _encourages_ extension without having to rewrite the underlying component at each turn?
+Is there way to pass control _back_ to the flock of eager adoptees with an implementation that _encourages_ extension without _you_ having to rewrite the underlying component at each turn?
 
 <h5>&nbsp;</h5>
 
@@ -104,11 +104,13 @@ The key points are:
 - expose layout logic for easy modification by clients
 - support extensible component behavior through chainable, developer-supplied state reducers
 
-You still craft reasonable defaults for layout and behavior to meet your needs (and hopefully those of many others). However, if you allow one or more DIY behavior reducers to be passed in, then you may side-step the need to anticipate or laboriously support variant policies such as:
+You still craft reasonable defaults for layout and behavior to meet your needs (and hopefully those of many others). However, if you allow one or more DIY behavior reducers to be passed in, then you may side-step the need to anticipate or laboriously support variant policies. For the Accordion, behavior variants might be:
 
 - only allow 1 visible item at a time
 - require at least 1 item be visible at all times
 - allow multiple visible items
+
+But wouldn't it be nice if you didn't have to code all those variants yourself and the author of the Accordion?
 
 <h5>&nbsp;</h5>
 Here's what the code might look like for enforcing the first two bullets:
