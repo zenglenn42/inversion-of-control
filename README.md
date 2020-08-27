@@ -11,7 +11,7 @@ _<h6>Photo by <a href="https://unsplash.com/@rxcroes?utm_source=unsplash&amp;utm
 
 I'm investigating **inversion of control**, a software design principle I recently [discovered](https://kentcdodds.com/blog/inversion-of-control) from Kent Dodds.
 
-I riff on an example of Kent's to add recursive behavior to his Accordion component through three reducers:
+Here, I riff on an example of Kent's to add recursive behavior to his Accordion component through three reducers:
 
 - input data reducer
 - layout reducer
@@ -237,7 +237,7 @@ I want something that looks like [this](https://nested-accordion.herokuapp.com/)
 
 <h5>&nbsp;</h5>
 
-[![IMAGE ALT TEXT](docs/images/kcd-and-nested-accordions.png)](https://nested-accordion.herokuapp.com "nested accordion")
+[![IMAGE ALT TEXT](docs/images/kcd-and-nested-accordions.png)](https://nested-accordion.herokuapp.com 'nested accordion')
 
 <h5>&nbsp;</h5>
 
