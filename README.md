@@ -176,7 +176,6 @@ function singleExpandedReducer(expandedItems = [], action) {
 
 During render, entries in the `expandedItems` array are injected into lower-level components as `isOpen` props:
 
-<h5>&nbsp;</h5>
 
 ```javascript
 # useAccordion.js
@@ -193,11 +192,8 @@ During render, entries in the `expandedItems` array are injected into lower-leve
 
 ```
 
-<h5>&nbsp;</h5>
-
 which control expandable divs ...
 
-<h5>&nbsp;</h5>
 
 ```javascript
 # useAccordion.js
@@ -232,8 +228,6 @@ Control is _inverted_ by enabling the component consumer to extend behavior in t
 
 Hmm ... that gives me an idea.
 
-<h5>&nbsp;</h5>
-
 I've been playing with menu drawers that open to the side of the main content and allow a user to navigate a hierarchy of selectable options. The options themselves often expand to reveal sub-options. The expansion behavior of the accordion reminds me of that.
 
 Could I create my own Accordion state reducer to enable _nested_ Accordions ... as a step toward a drawer list component?
@@ -257,11 +251,7 @@ I want something that looks like [this](https://nested-accordion.herokuapp.com/)
 
 [![IMAGE ALT TEXT](docs/images/kcd-and-nested-accordions.png)](https://nested-accordion.herokuapp.com 'nested accordion')
 
-<h5>&nbsp;</h5>
-
 with recursively defined input data:
-
-<h5>&nbsp;</h5>
 
 ```javascript
 # App.js
@@ -296,11 +286,7 @@ const nestedItems = [
 ]
 ```
 
-<h5>&nbsp;</h5>
-
 and a usage pattern that looks very similar to what we've seen already:
-
-<h5>&nbsp;</h5>
 
 ```javascript
 
@@ -315,8 +301,6 @@ function App() {
   )
 }
 ```
-
-<h5>&nbsp;</h5>
 
 I also want a very clean implementation for the Accordion component itself. It will shuttle item data into a useAccodion hook and get a renderable array of React components back. All click handling and expansion-state behavior will be managed somewhere below that:
 
