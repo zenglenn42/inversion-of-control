@@ -60,7 +60,7 @@ const AccordionItem = styled('div')(
   })
 )
 
-const layoutActionTypes = { map_items: 'map_items' }
+export const layoutActionTypes = { map_items: 'map_items' }
 
 function createButton(
   index,
@@ -90,51 +90,30 @@ function createContents(isOpen = false, contents) {
   return <AccordionContents isOpen={isOpen}>{contents}</AccordionContents>
 }
 
-function createEmptyItem(depth, index) {
-  return <div key={`${depth}_empty_${index}`} style={{ display: 'none' }}></div>
-}
-
-function isVisible(item, items, expandedItems = []) {
-  // Item has no parent so can't be occluded by that.
-  if (!item.parent) return true
-
-  // Item has a parent but expandedItems is undefined.
-  if (item.parent && expandedItems === undefined) return false
-
-  // Item is visible if all it's ancestors are expanded.
-  return (
-    expandedItems.includes(item.parent) &&
-    isVisible(items[item.parent], items, expandedItems)
-  )
-}
-
 function verticalBelowLayoutReducer(components, action) {
   switch (action.type) {
     case layoutActionTypes.map_items:
       return action.items.map((item, index) => {
-        if (isVisible(item, action.items, action.expandedItems)) {
-          return (
-            <AccordionItem
-              key={`${item.depth}_${item.title}_${index}`}
-              direction="vertical"
-              indent={item.depth}
-            >
-              {createButton(
-                index,
-                action.expandedItems.includes(index),
-                action.toggleItem,
-                item.title,
-                '👇',
-                '👈'
-              )}
-              {createContents(
-                action.expandedItems.includes(index),
-                item.contents
-              )}
-            </AccordionItem>
-          )
-        }
-        return createEmptyItem(item.depth, index)
+        return (
+          <AccordionItem
+            key={`${item.depth}_${item.title}_${index}`}
+            direction="vertical"
+            indent={item.depth}
+          >
+            {createButton(
+              index,
+              action.expandedItems.includes(index),
+              action.toggleItem,
+              item.title,
+              '👇',
+              '👈'
+            )}
+            {createContents(
+              action.expandedItems.includes(index),
+              item.contents
+            )}
+          </AccordionItem>
+        )
       })
     default: {
       throw new Error(
@@ -145,40 +124,14 @@ function verticalBelowLayoutReducer(components, action) {
   }
 }
 
-// Take nested item json and flatten it into a single-dimension array.
-// augmented with a depth field and knowledge of one's parent index
-// (for visibility calculation later on in layout reducer).
-
-function flattenItemsReducer(nestedItems, depth = 0, acc = [], parent) {
-  const flattenedItems = nestedItems.reduce((acc, item, index) => {
-    const hasNestedItems = item.items
-    if (hasNestedItems) {
-      acc.push({
-        title: item.title,
-        contents: undefined,
-        depth: depth,
-        parent: parent
-      })
-      const newParent = acc.length - 1
-      return flattenItemsReducer(item.items, depth + 1, acc, newParent)
-    } else {
-      acc.push({
-        ...item,
-        depth: depth,
-        parent: parent
-      })
-    }
-    return acc
-  }, acc)
-  return flattenedItems
+const dfltInputItemsReducer = (items) => {
+  return items
 }
-
 const dfltLayoutReducer = verticalBelowLayoutReducer
-const dfltInputItemsReducer = flattenItemsReducer
 
 function useAccordion({
-  layoutReducer = dfltLayoutReducer,
   inputItemsReducer = dfltInputItemsReducer,
+  layoutReducer = dfltLayoutReducer,
   expansionReducer = dfltExpansionReducer,
   items = [],
   initialExpanded = []

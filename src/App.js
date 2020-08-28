@@ -5,9 +5,14 @@ import { Accordion } from './components/hooks/Accordion'
 import {
   combineExpansionReducers,
   preventCloseReducer,
-  singleExpandedReducer,
-  actionTypes as expandableActionTypes
+  singleExpandedReducer
 } from './components/hooks/useExpandable'
+import { items, nestedItems } from './inputdata'
+import {
+  nestedItemsReducer,
+  nestedLayoutReducer,
+  singlePeerExpandedReducer
+} from './nestedAccordion'
 import {
   appFrame,
   header,
@@ -22,37 +27,6 @@ import {
   grow,
   grow2x
 } from './style.js'
-import { items, nestedItems } from './inputdata'
-
-// Allow only one peer item at a given nested depth to be visible.
-
-function singlePeerExpandedReducer(expandedItems = [], action) {
-  function isaParent(item) {
-    return item.contents === undefined
-  }
-  function removePeersOf(index, array, items) {
-    const depth = items[index].depth
-    return array.filter(
-      (i) =>
-        items[i].depth !== depth ||
-        // don't remove peers that are parents of sub-accordions
-        (items[i].depth === depth &&
-          (isaParent(items[i]) || isaParent(items[index])))
-    )
-  }
-  if (action.type === expandableActionTypes.toggle_index) {
-    return expandedItems.includes(action.index)
-      ? // closeIt
-        expandedItems.length > 1
-        ? expandedItems.filter((i) => i !== action.index)
-        : undefined // allow combineReducers to chain reducers
-      : // openIt
-        [
-          ...removePeersOf(action.index, expandedItems, action.items),
-          action.index
-        ]
-  }
-}
 
 function App() {
   return (
@@ -83,6 +57,8 @@ function App() {
               <Accordion
                 items={nestedItems}
                 initialExpanded={[0]}
+                inputItemsReducer={nestedItemsReducer}
+                layoutReducer={nestedLayoutReducer}
                 expansionReducer={singlePeerExpandedReducer}
               />
             </div>

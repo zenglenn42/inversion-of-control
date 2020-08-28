@@ -1,0 +1,214 @@
+import React from 'react'
+import posed from 'react-pose'
+import styled from '@emotion/styled'
+import { layoutActionTypes } from './components/hooks/useAccordion'
+import { actionTypes as expandableActionTypes } from './components/hooks/useExpandable'
+
+// The following adds nested behavior to a basic Accordion component using
+// inversion-of-control principle.
+
+// ----------------------------------------------------------------------------
+// Input reduction
+// ----------------------------------------------------------------------------
+
+// Take nested item json and flatten it into a single-dimension array.
+// augmented with a depth field and knowledge of one's parent index
+// (for visibility calculation later on in layout reducer).
+
+function nestedItemsReducer(nestedItems, depth = 0, acc = [], parent) {
+  const flattenedItems = nestedItems.reduce((acc, item, index) => {
+    const hasNestedItems = item.items
+    if (hasNestedItems) {
+      acc.push({
+        title: item.title,
+        contents: undefined,
+        depth: depth,
+        parent: parent
+      })
+      const newParent = acc.length - 1
+      return nestedItemsReducer(item.items, depth + 1, acc, newParent)
+    } else {
+      acc.push({
+        ...item,
+        depth: depth,
+        parent: parent
+      })
+    }
+    return acc
+  }, acc)
+  return flattenedItems
+}
+
+// ----------------------------------------------------------------------------
+// Layout
+// ----------------------------------------------------------------------------
+
+const PoseAccordionContents = posed.div({
+  open: { maxHeight: 200 },
+  closed: { maxHeight: 0 }
+})
+
+function AccordionContents({ isOpen, ...props }) {
+  return (
+    <PoseAccordionContents
+      pose={isOpen ? 'open' : 'closed'}
+      style={{ overflowY: 'hidden', textAlign: 'justify' }}
+      {...props}
+    />
+  )
+}
+
+const AccordionItem = styled('div')(
+  {
+    display: 'grid',
+    gridTemplate: 'auto auto',
+    gridGap: 4,
+    gridAutoFlow: 'row'
+  },
+  (props) => ({
+    gridAutoFlow: props.direction === 'horizontal' ? 'column' : 'row',
+    paddingLeft: `${props.indent * 2}em`
+  })
+)
+
+function createContents(isOpen = false, contents) {
+  return <AccordionContents isOpen={isOpen}>{contents}</AccordionContents>
+}
+
+const AccordionButton = styled('button')(
+  {
+    textAlign: 'left',
+    minWidth: 80,
+    cursor: 'pointer',
+    flex: 1,
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingLeft: 0,
+    paddingRight: 0,
+    fontSize: 20,
+    border: 'none',
+    backgroundColor: 'unset',
+    ':focus': {
+      outline: 'none',
+      backgroundColor: 'rgba(255, 255, 255, 0.4)'
+    }
+  },
+  ({ isOpen }) =>
+    isOpen
+      ? {
+          backgroundColor: 'rgba(255, 255, 255, 0.2)'
+        }
+      : null
+)
+
+function createButton(
+  index,
+  isOpen = false,
+  toggleFn,
+  text,
+  expandedEmoji,
+  collapsedEmoji
+) {
+  return (
+    <AccordionButton isOpen={isOpen} onClick={() => toggleFn(index)}>
+      <div
+        style={{
+          display: 'inline-block',
+          minWidth: '25px',
+          textAlign: 'center'
+        }}
+      >
+        {text}
+      </div>{' '}
+      <span>{isOpen ? expandedEmoji : collapsedEmoji}</span>
+    </AccordionButton>
+  )
+}
+
+function createEmptyItem(depth, index) {
+  return <div key={`${depth}_empty_${index}`} style={{ display: 'none' }}></div>
+}
+
+function isVisible(item, items, expandedItems = []) {
+  // Item has no parent so can't be occluded by that.
+  if (!item.parent) return true
+
+  // Item has a parent but expandedItems is undefined.
+  if (item.parent && expandedItems === undefined) return false
+
+  // Item is visible if all it's ancestors are expanded.
+  return (
+    expandedItems.includes(item.parent) &&
+    isVisible(items[item.parent], items, expandedItems)
+  )
+}
+
+function nestedLayoutReducer(components, action) {
+  switch (action.type) {
+    case layoutActionTypes.map_items:
+      return action.items.map((item, index) => {
+        if (isVisible(item, action.items, action.expandedItems)) {
+          return (
+            <AccordionItem
+              key={`${item.depth}_${item.title}_${index}`}
+              direction="vertical"
+              indent={item.depth}
+            >
+              {createButton(
+                index,
+                action.expandedItems.includes(index),
+                action.toggleItem,
+                item.title,
+                '👇',
+                '👈'
+              )}
+              {createContents(
+                action.expandedItems.includes(index),
+                item.contents
+              )}
+            </AccordionItem>
+          )
+        }
+        return createEmptyItem(item.depth, index)
+      })
+    default: {
+      throw new Error('Unhandled type in nestedLayoutReducer: ' + action.type)
+    }
+  }
+}
+
+// ----------------------------------------------------------------------------
+// Expansion behavior
+// ----------------------------------------------------------------------------
+
+// Allow only one peer item at a given nested depth to be visible.
+
+function singlePeerExpandedReducer(expandedItems = [], action) {
+  function isaParent(item) {
+    return item.contents === undefined
+  }
+  function removePeersOf(index, array, items) {
+    const depth = items[index].depth
+    return array.filter(
+      (i) =>
+        items[i].depth !== depth ||
+        // don't remove peers that are parents of sub-accordions
+        (items[i].depth === depth &&
+          (isaParent(items[i]) || isaParent(items[index])))
+    )
+  }
+  if (action.type === expandableActionTypes.toggle_index) {
+    return expandedItems.includes(action.index)
+      ? // closeIt
+        expandedItems.length > 1
+        ? expandedItems.filter((i) => i !== action.index)
+        : undefined // allow combineReducers to chain reducers
+      : // openIt
+        [
+          ...removePeersOf(action.index, expandedItems, action.items),
+          action.index
+        ]
+  }
+}
+
+export { nestedItemsReducer, nestedLayoutReducer, singlePeerExpandedReducer }
