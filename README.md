@@ -30,7 +30,7 @@ Here, I riff on an example of Kent's to add recursive behavior to his Accordion 
 
 You've written a new _Accordion_ component with a set of props to support a reasonable collection of use-cases.
 
-![alt](docs/images/kcd-accordion-2.png) _<h6>By <a href="https://kentcdodds.com">Kent Dodds</a></h6>_
+![alt](docs/images/kcd-accordion-2.png) _<h6>Accordion by <a href="https://kentcdodds.com">Kent Dodds</a></h6>_
 
 You want to share your work with others, so you publish and blog a bit. You feel great.
 
