@@ -1,8 +1,8 @@
 import React from 'react'
 import posed from 'react-pose'
 import styled from '@emotion/styled'
-import { layoutActionTypes } from './Accordion/useAccordion'
-import { actionTypes as expandableActionTypes } from './Accordion/useExpandable'
+import { layoutActionTypes } from '../Accordion/useAccordion'
+import { actionTypes as expandableActionTypes } from '../Accordion/useExpandable'
 
 // The following adds nested behavior to a basic Accordion component using
 // inversion-of-control principle.
@@ -15,28 +15,34 @@ import { actionTypes as expandableActionTypes } from './Accordion/useExpandable'
 // augmented with a depth field and knowledge of one's parent index
 // (for visibility calculation later on in layout reducer).
 
-function nestedItemsReducer(nestedItems, depth = 0, acc = [], parent) {
-  const flattenedItems = nestedItems.reduce((acc, item, index) => {
-    const hasNestedItems = item.items
-    if (hasNestedItems) {
-      acc.push({
-        title: item.title,
-        contents: undefined,
-        depth: depth,
-        parent: parent
-      })
-      const newParent = acc.length - 1
-      return nestedItemsReducer(item.items, depth + 1, acc, newParent)
-    } else {
-      acc.push({
-        ...item,
-        depth: depth,
-        parent: parent
-      })
-    }
-    return acc
-  }, acc)
-  return flattenedItems
+function nestedItemsClosure(overrides = {}) {
+  const itemOverrides = overrides
+  return function nestedItemsReducer(nestedItems, depth = 0, acc = [], parent) {
+    const flattenedItems = nestedItems.reduce((acc, item, index) => {
+      const hasNestedItems = item.items
+      const tagOverrides = itemOverrides.tag ? itemOverrides.tag[item.tag] : {}
+      if (hasNestedItems) {
+        acc.push({
+          title: item.title,
+          ...tagOverrides,
+          contents: undefined,
+          depth: depth,
+          parent: parent
+        })
+        const newParent = acc.length - 1
+        return nestedItemsReducer(item.items, depth + 1, acc, newParent)
+      } else {
+        acc.push({
+          ...item,
+          ...tagOverrides,
+          depth: depth,
+          parent: parent
+        })
+      }
+      return acc
+    }, acc)
+    return flattenedItems
+  }
 }
 
 // ----------------------------------------------------------------------------
@@ -211,4 +217,4 @@ function singlePeerExpandedReducer(expandedItems = [], action) {
   }
 }
 
-export { nestedItemsReducer, nestedLayoutReducer, singlePeerExpandedReducer }
+export { nestedItemsClosure, nestedLayoutReducer, singlePeerExpandedReducer }

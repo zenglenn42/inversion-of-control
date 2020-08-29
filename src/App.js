@@ -7,12 +7,12 @@ import {
   preventCloseReducer,
   singleExpandedReducer
 } from './components/Accordion/useExpandable'
-import { items, nestedItems } from './inputdata'
+import { items, nestedItems, nestedItemOverrides } from './api/inputdata'
 import {
-  nestedItemsReducer,
+  nestedItemsClosure,
   nestedLayoutReducer,
   singlePeerExpandedReducer
-} from './components/NestedAccordion'
+} from './components/NestedAccordion/NestedAccordion'
 import {
   appFrame,
   header,
@@ -57,7 +57,7 @@ function App() {
               <Accordion
                 items={nestedItems}
                 initialExpanded={[0]}
-                inputItemsReducer={nestedItemsReducer}
+                inputItemsReducer={nestedItemsClosure(nestedItemOverrides)}
                 layoutReducer={nestedLayoutReducer}
                 expansionReducer={singlePeerExpandedReducer}
               />
