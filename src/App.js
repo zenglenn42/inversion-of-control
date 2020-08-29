@@ -1,18 +1,18 @@
 import React from 'react'
 import { FaGithubAlt as GithubIcon } from 'react-icons/fa'
 import { BsFillBriefcaseFill as PortfolioIcon } from 'react-icons/bs'
-import { Accordion } from './components/hooks/Accordion'
+import { Accordion } from './components/Accordion/Accordion'
 import {
   combineExpansionReducers,
   preventCloseReducer,
   singleExpandedReducer
-} from './components/hooks/useExpandable'
+} from './components/Accordion/useExpandable'
 import { items, nestedItems } from './inputdata'
 import {
   nestedItemsReducer,
   nestedLayoutReducer,
   singlePeerExpandedReducer
-} from './nestedAccordion'
+} from './components/NestedAccordion'
 import {
   appFrame,
   header,

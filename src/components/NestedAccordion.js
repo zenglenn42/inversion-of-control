@@ -1,8 +1,8 @@
 import React from 'react'
 import posed from 'react-pose'
 import styled from '@emotion/styled'
-import { layoutActionTypes } from './components/hooks/useAccordion'
-import { actionTypes as expandableActionTypes } from './components/hooks/useExpandable'
+import { layoutActionTypes } from './Accordion/useAccordion'
+import { actionTypes as expandableActionTypes } from './Accordion/useExpandable'
 
 // The following adds nested behavior to a basic Accordion component using
 // inversion-of-control principle.
