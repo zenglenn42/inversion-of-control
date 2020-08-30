@@ -13,6 +13,8 @@ Here, I riff on an example of Kent's to add recursive behavior to his Accordion 
 - layout reducer
 - behavior reducer
 
+![alt](docs/images/splash.png)
+
 ## [Contents](#contents)
 
 - [The Problem](#imagine)

@@ -4,23 +4,6 @@ import { ReactComponent as ElephantIcon } from './Elephant.svg'
 import { ReactComponent as UnicornIcon } from './Unicorn.svg'
 import { ReactComponent as MoreIcon } from './MoreDots.svg'
 
-export const nestedItemOverrides = {
-  tag: {
-    horse: {
-      title: <HorseIcon width="100%" height="2em" />
-    },
-    elephant: {
-      title: <ElephantIcon width="100%" height="2em" />
-    },
-    unicorn: {
-      title: <UnicornIcon width="100%" height="2em" />
-    },
-    parent: {
-      title: <MoreIcon width="100%" height="2em" />
-    }
-  }
-}
-
 const horseItem = {
   tag: 'horse',
   title: '🐴',
@@ -77,3 +60,35 @@ export const nestedItems = [
     ]
   }
 ]
+
+export const nestedItemOverrides = {
+  tag: {
+    horse: {
+      title: (
+        <>
+          <HorseIcon width="100%" height="2em" />
+          <span style={{ marginLeft: '1em' }}>Equus</span>
+        </>
+      )
+    },
+    elephant: {
+      title: (
+        <>
+          <ElephantIcon width="100%" height="2em" />
+          <span style={{ marginLeft: '1em' }}>Elephantus</span>
+        </>
+      )
+    },
+    unicorn: {
+      title: (
+        <>
+          <UnicornIcon width="100%" height="2em" />
+          <span style={{ marginLeft: '1em' }}>Unicornis</span>
+        </>
+      )
+    },
+    parent: {
+      title: <MoreIcon width="100%" height="2em" />
+    }
+  }
+}

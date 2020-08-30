@@ -3,6 +3,8 @@ import posed from 'react-pose'
 import styled from '@emotion/styled'
 import { layoutActionTypes } from '../Accordion/useAccordion'
 import { actionTypes as expandableActionTypes } from '../Accordion/useExpandable'
+import { ReactComponent as DropdownIcon } from '../../api/Dropdown2.svg'
+import { ReactComponent as ArrowupIcon } from '../../api/ArrowUp.svg'
 
 // The following adds nested behavior to a basic Accordion component using
 // inversion-of-control principle.
@@ -58,7 +60,11 @@ function AccordionContents({ isOpen, ...props }) {
   return (
     <PoseAccordionContents
       pose={isOpen ? 'open' : 'closed'}
-      style={{ overflowY: 'hidden', textAlign: 'justify' }}
+      style={{
+        overflowY: 'hidden',
+        textAlign: 'justify',
+        marginBottom: '1em'
+      }}
       {...props}
     />
   )
@@ -87,10 +93,11 @@ const AccordionButton = styled('button')(
     minWidth: 80,
     cursor: 'pointer',
     flex: 1,
-    paddingTop: 10,
-    paddingBottom: 10,
-    paddingLeft: 0,
-    paddingRight: 0,
+    // paddingTop: 10,
+    // paddingBottom: 10,
+    // paddingLeft: 0,
+    // paddingRight: 0,
+    padding: 0,
     fontSize: 20,
     border: 'none',
     backgroundColor: 'unset',
@@ -119,14 +126,25 @@ function createButton(
     <AccordionButton isOpen={isOpen} onClick={() => toggleFn(index)}>
       <div
         style={{
-          display: 'inline-block',
-          minWidth: '25px',
-          textAlign: 'center'
+          display: 'inline-flex',
+          width: '100%',
+          padding: '0.125em 0',
+          borderRadius: '0.125em',
+          border: '1px solid rgba(0, 0, 128, 0.1)'
         }}
       >
-        {text}
+        <span
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center'
+          }}
+        >
+          {text}
+        </span>
+        <div style={{ flex: '1' }} />
+        <span>{isOpen ? expandedEmoji : collapsedEmoji}</span>
       </div>{' '}
-      <span>{isOpen ? expandedEmoji : collapsedEmoji}</span>
     </AccordionButton>
   )
 }
@@ -165,8 +183,10 @@ function nestedLayoutReducer(components, action) {
                 action.expandedItems.includes(index),
                 action.toggleItem,
                 item.title,
-                '👇',
-                '👈'
+                <ArrowupIcon width="100%" height="2em" />,
+                <DropdownIcon width="100%" height="2em" />
+                // '👇',
+                // '👈'
               )}
               {createContents(
                 action.expandedItems.includes(index),
