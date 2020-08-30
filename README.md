@@ -554,4 +554,6 @@ It won't entirely dispense with the pull toward prop proliferation. Sometimes th
 
 But it's not always clear what the right props and features _are_.
 
-Rather than create a community of codependent developers, consider giving them access, where reasonable, to the state machine within your code. You'll still get requests for updates, but some of those requests may be more fully vetted through an underlying design that encourages independent extension.
+For a recursive Accordion, for example, what would `min_viewable_items` _mean_ precisely? Is it the minimum number of items expanded across the entire Accordion (including sub-accordions)? Is it the minimum number of items open at a given depth? If the latter, should we also count items that are expanded parent nodes of sub-accordions?
+
+With inversion of control, the client developer may implement the behavior they _need_, hopefully as a simple extension to code bundled with the component.
