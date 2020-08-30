@@ -3,9 +3,10 @@ import { ReactComponent as HorseIcon } from './Horse.svg'
 import { ReactComponent as ElephantIcon } from './Elephant.svg'
 import { ReactComponent as UnicornIcon } from './Unicorn.svg'
 import { ReactComponent as MoreIcon } from './MoreDots.svg'
+// import { ReactComponent as DiagramIcon } from './Diagram.svg'
 
-const horseItem = {
-  tag: 'horse',
+const equusItem = {
+  tag: 'equus',
   title: '🐴',
   contents: (
     <div>
@@ -16,8 +17,8 @@ const horseItem = {
   )
 }
 
-const elephantItem = {
-  tag: 'elephant',
+const elephantusItem = {
+  tag: 'elephantus',
   title: '🐘',
   contents: (
     <div>
@@ -28,8 +29,8 @@ const elephantItem = {
   )
 }
 
-const unicornItem = {
-  tag: 'unicorn',
+const unicornisItem = {
+  tag: 'unicornis',
   title: '🦄',
   contents: (
     <div>
@@ -40,22 +41,24 @@ const unicornItem = {
   )
 }
 
-export const items = [horseItem, elephantItem, unicornItem]
+export const items = [equusItem, elephantusItem, unicornisItem]
 
 export const nestedItems = [
-  horseItem,
-  elephantItem,
-  unicornItem,
+  equusItem,
+  elephantusItem,
+  unicornisItem,
   {
     tag: 'parent',
-    title: '⋱',
+    icon: '⋱',
+    title: '',
     items: [
-      elephantItem,
-      unicornItem,
+      elephantusItem,
+      unicornisItem,
       {
         tag: 'parent',
-        title: '⋱',
-        items: [unicornItem]
+        icon: '⋱',
+        title: '',
+        items: [unicornisItem]
       }
     ]
   }
@@ -63,32 +66,20 @@ export const nestedItems = [
 
 export const nestedItemOverrides = {
   tag: {
-    horse: {
-      title: (
-        <>
-          <HorseIcon width="100%" height="2em" />
-          <span style={{ marginLeft: '1em' }}>Equus</span>
-        </>
-      )
+    equus: {
+      icon: <HorseIcon width="100%" height="2em" />,
+      title: 'Equus'
     },
-    elephant: {
-      title: (
-        <>
-          <ElephantIcon width="100%" height="2em" />
-          <span style={{ marginLeft: '1em' }}>Elephantus</span>
-        </>
-      )
+    elephantus: {
+      icon: <ElephantIcon width="100%" height="2em" />,
+      title: 'Elephantus'
     },
-    unicorn: {
-      title: (
-        <>
-          <UnicornIcon width="100%" height="2em" />
-          <span style={{ marginLeft: '1em' }}>Unicornis</span>
-        </>
-      )
+    unicornis: {
+      icon: <UnicornIcon width="100%" height="2em" />,
+      title: 'Unicornis'
     },
     parent: {
-      title: <MoreIcon width="100%" height="2em" />
+      icon: <MoreIcon width="100%" height="2em" />
     }
   }
 }

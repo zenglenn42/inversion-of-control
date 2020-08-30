@@ -118,6 +118,7 @@ function createButton(
   index,
   isOpen = false,
   toggleFn,
+  icon,
   text,
   expandedEmoji,
   collapsedEmoji
@@ -140,7 +141,8 @@ function createButton(
             alignItems: 'center'
           }}
         >
-          {text}
+          {icon}
+          <span style={{ marginLeft: '1em' }}>{text}</span>
         </span>
         <div style={{ flex: '1' }} />
         <span>{isOpen ? expandedEmoji : collapsedEmoji}</span>
@@ -182,6 +184,7 @@ function nestedLayoutReducer(components, action) {
                 index,
                 action.expandedItems.includes(index),
                 action.toggleItem,
+                item.icon,
                 item.title,
                 <ArrowupIcon width="100%" height="2em" />,
                 <DropdownIcon width="100%" height="2em" />
