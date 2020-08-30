@@ -24,7 +24,7 @@ Here, I riff on an example of Kent's to add recursive behavior to his Accordion 
   - [Input Reducer](#input-reducer)
   - [Layout Reducer](#layout-reducer)
   - [singlePeer Expansion Reducer](#singlePeer-expansion-reducer)
-  - ## [**Demo**](https://nested-accordion.herokuapp.com/) ☚
+  - ### [**Demo**](https://nested-accordion.herokuapp.com/) ☚
 - [Summary](#summary)
 - [Conclusion](#conclusion)
 
