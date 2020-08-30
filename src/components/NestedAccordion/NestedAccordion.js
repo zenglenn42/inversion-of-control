@@ -25,6 +25,7 @@ function nestedItemsClosure(overrides = {}) {
       const tagOverrides = itemOverrides.tag ? itemOverrides.tag[item.tag] : {}
       if (hasNestedItems) {
         acc.push({
+          icon: item.icon,
           title: item.title,
           ...tagOverrides,
           contents: undefined,
@@ -63,7 +64,7 @@ function AccordionContents({ isOpen, ...props }) {
       style={{
         overflowY: 'hidden',
         textAlign: 'justify',
-        marginBottom: '1em'
+        marginBottom: '0.5em'
       }}
       {...props}
     />
@@ -74,7 +75,7 @@ const AccordionItem = styled('div')(
   {
     display: 'grid',
     gridTemplate: 'auto auto',
-    gridGap: 4,
+    gridGap: 2,
     gridAutoFlow: 'row'
   },
   (props) => ({
@@ -123,6 +124,7 @@ function createButton(
   expandedEmoji,
   collapsedEmoji
 ) {
+  console.log('createButton: icon = ', icon)
   return (
     <AccordionButton isOpen={isOpen} onClick={() => toggleFn(index)}>
       <div
@@ -141,8 +143,8 @@ function createButton(
             alignItems: 'center'
           }}
         >
-          {icon}
-          <span style={{ marginLeft: '1em' }}>{text}</span>
+          {icon ? <span style={{ marginRight: '1em' }}>{icon}</span> : <></>}
+          <span>{text}</span>
         </span>
         <div style={{ flex: '1' }} />
         <span>{isOpen ? expandedEmoji : collapsedEmoji}</span>
