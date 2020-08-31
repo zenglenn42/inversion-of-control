@@ -3,8 +3,8 @@ import posed from 'react-pose'
 import styled from '@emotion/styled'
 import { layoutActionTypes } from '../Accordion/useAccordion'
 import { actionTypes as expandableActionTypes } from '../Accordion/useExpandable'
-import { ReactComponent as DropdownIcon } from '../../api/Dropdown2.svg'
-import { ReactComponent as ArrowupIcon } from '../../api/ArrowUp.svg'
+import { ReactComponent as DropdownIcon } from '../../api/svg/Dropdown2.svg'
+import { ReactComponent as ArrowupIcon } from '../../api/svg/ArrowUp.svg'
 
 // The following adds nested behavior to a basic Accordion component using
 // inversion-of-control principle.

@@ -1,11 +1,11 @@
 import React from 'react'
-import { ReactComponent as HorseIcon } from './Horse.svg'
-import { ReactComponent as ZebraIcon } from './Zebra.svg'
-import { ReactComponent as DonkeyIcon } from './Donkey.svg'
-import { ReactComponent as ElephantIcon } from './Elephant.svg'
-import { ReactComponent as UnicornIcon } from './Unicorn.svg'
-import { ReactComponent as MoreIcon } from './MoreDots.svg'
-import { ReactComponent as DiagramIcon } from './Diagram.svg'
+import { ReactComponent as HorseIcon } from './svg/Horse.svg'
+import { ReactComponent as ZebraIcon } from './svg/Zebra.svg'
+import { ReactComponent as DonkeyIcon } from './svg/Donkey.svg'
+import { ReactComponent as ElephantIcon } from './svg/Elephant.svg'
+import { ReactComponent as UnicornIcon } from './svg/Unicorn.svg'
+import { ReactComponent as MoreIcon } from './svg/MoreDots.svg'
+import { ReactComponent as DiagramIcon } from './svg/Diagram.svg'
 
 const equusItem = {
   tag: 'equus',
