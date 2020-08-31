@@ -118,7 +118,7 @@ function App() {
 
 The optional `expansionReducer` prop is key.
 
-An expansion reducer manages a stateful array of indices which controls the visibility of Accordion items. Here's a reducer the allows only one accordion item to be visible at a time:
+An expansion reducer manages a stateful array of indices which controls the visibility of Accordion items. Here's a reducer that allows only one accordion item to be visible at a time:
 
 ```javascript
 
@@ -251,7 +251,7 @@ function App() {
 }
 ```
 
-I also want a very clean implementation for the Accordion component itself. It will shuttle item data into a useAccodion hook and get a renderable array of React components back. All click handling and expansion-state behavior will be managed somewhere below that:
+I also want a very spare implementation for the Accordion component itself. It shuttles item data into a useAccodion hook and get a renderable array of React components back. All click handling and expansion-state behavior will be managed somewhere below that (in a useExpandable hook):
 
 ```javascript
 
