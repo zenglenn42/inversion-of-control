@@ -3,7 +3,7 @@ import posed from 'react-pose'
 import styled from '@emotion/styled'
 import {
   useExpandable,
-  multiExpandedReducer as dfltExpansionReducer
+  permissiveReducer as dfltExpansionReducer
 } from './useExpandable'
 
 const AccordionButton = styled('button')(
@@ -134,11 +134,16 @@ function useAccordion({
   layoutReducer = dfltLayoutReducer,
   expansionReducer = dfltExpansionReducer,
   items = [],
-  initialExpanded = []
+  initialExpandedItems = [],
+  initialFocalIndex = undefined
 } = {}) {
   const normalizedItems = useRef(inputItemsReducer(items))
-  const { expandedItems, toggleItemFn } = useExpandable({
-    initialState: initialExpanded,
+  const initialState = {
+    expandedItems: initialExpandedItems,
+    focalIndex: initialFocalIndex
+  }
+  const { expandedItems, focalIndex, toggleItemFn } = useExpandable({
+    initialState,
     reducer: expansionReducer,
     items: normalizedItems.current
   })
@@ -152,10 +157,11 @@ function useAccordion({
       type: layoutActionTypes.map_items,
       toggleItemFn: memoizedToggleItem,
       expandedItems: expandedItems || [],
+      focalIndex: focalIndex,
       allItems: normalizedItems.current
     })
     return
-  }, [normalizedItems, memoizedToggleItem, expandedItems])
+  }, [normalizedItems, memoizedToggleItem, expandedItems, focalIndex])
   return { components }
 }
 

@@ -117,6 +117,7 @@ const AccordionButton = styled('button')(
 
 function createButton(
   index,
+  focalIndex,
   isOpen = false,
   toggleFn,
   icon,
@@ -124,7 +125,6 @@ function createButton(
   expandedEmoji,
   collapsedEmoji
 ) {
-  console.log('createButton: icon = ', icon)
   return (
     <AccordionButton isOpen={isOpen} onClick={() => toggleFn(index)}>
       <div
@@ -133,7 +133,8 @@ function createButton(
           width: '100%',
           padding: '0.125em 0',
           borderRadius: '0.125em',
-          border: '1px solid rgba(0, 0, 128, 0.1)'
+          border: '1px solid rgba(0, 0, 128, 0.1)',
+          backgroundColor: index === focalIndex ? 'gray' : 'inherit'
         }}
       >
         <span
@@ -185,6 +186,7 @@ function nestedLayoutReducer(components, action) {
             >
               {createButton(
                 index,
+                action.focalIndex,
                 action.expandedItems.includes(index),
                 action.toggleItemFn,
                 item.icon,
@@ -215,36 +217,73 @@ function nestedLayoutReducer(components, action) {
 
 // Allow only one peer item at a given nested depth to be visible.
 
-function singlePeerExpandedReducer(expandedItems = [], action) {
+function singlePeerExpandedReducer(state, action) {
+  const { expandedItems = [], focalIndex } = state
+
   function isaParent(item) {
     return item.contents === undefined
   }
+
+  function parentOf(itemIndex, allItems) {
+    if (itemIndex <= 0) return undefined
+
+    const itemDepth = allItems[itemIndex].depth
+    let pIndex = itemIndex - 1
+    while (pIndex >= 0) {
+      const pDepth = allItems[pIndex].depth
+      if (isaParent(allItems[pIndex]) && pDepth === itemDepth - 1) {
+        return pIndex
+      }
+      pIndex = pIndex - 1
+    }
+    return undefined
+  }
+
   function removeExpandedPeersOf(itemIndex, expandedItems, allItems) {
+    if (isaParent(allItems[itemIndex])) return expandedItems
+
     const depth = allItems[itemIndex].depth
-    return expandedItems.filter(
-      (i) =>
-        allItems[i].depth !== depth ||
-        // don't remove peers that are parents of sub-accordions
-        (allItems[i].depth === depth &&
-          (isaParent(allItems[i]) || isaParent(allItems[itemIndex])))
-    )
+    const parent = parentOf(itemIndex, allItems)
+
+    return expandedItems.filter((i) => {
+      const iDepth = allItems[i].depth
+      // things at different levels are not peers by definition, so keep
+      if (iDepth !== depth) return true
+
+      // if item is a parent, then keep
+      if (isaParent(allItems[i])) return true
+
+      // if item has same parent, then it is a peer by definition, so remove
+      const iParent = parentOf(i, allItems)
+      if (iParent === parent) return false
+
+      return true
+    })
   }
 
   if (action.type === expandableActionTypes.toggle_index) {
-    return expandedItems.includes(action.index)
-      ? // closeIt
-        expandedItems.length > 1
-        ? expandedItems.filter((i) => i !== action.index)
-        : undefined // allow combineReducers to chain reducers
-      : // openIt
-        [
-          ...removeExpandedPeersOf(
-            action.index,
-            expandedItems,
-            action.allItems
-          ),
-          action.index
-        ]
+    let nextExpandedItems = []
+    let nextFocalIndex = focalIndex
+    const closeIt = expandedItems.includes(action.index)
+    if (closeIt) {
+      if (!isaParent(action.allItems[action.index])) {
+        // leaf node, so update focal index
+        nextFocalIndex = focalIndex === action.index ? undefined : focalIndex
+      }
+      if (expandedItems.length > 1) {
+        nextExpandedItems = expandedItems.filter((i) => i !== action.index)
+      }
+    } else {
+      // openIt
+      nextFocalIndex = isaParent(action.allItems[action.index])
+        ? focalIndex
+        : action.index
+      nextExpandedItems = [
+        ...removeExpandedPeersOf(action.index, expandedItems, action.allItems),
+        action.index
+      ]
+    }
+    return { expandedItems: nextExpandedItems, focalIndex: nextFocalIndex }
   }
 }
 

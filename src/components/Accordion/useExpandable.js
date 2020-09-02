@@ -2,65 +2,97 @@ import React from 'react'
 
 const actionTypes = { toggle_index: 'toggle_index' }
 
+function nonTrivialResults(state) {
+  return state && state.expandedItems.length
+}
+
 function combineExpansionReducers(...reducers) {
-  // Run reducers in defined order, all getting the same input state.
-  // Stop at the first one to returns some expanded items.
   return (state, action) => {
+    // Iterate over a set of reducers, typically
+    // from most constrictive to least, but only allow one
+    // of them to determine the returned state.
+
     for (const reducer of reducers) {
-      const result = reducer(state, action)
-      if (result && result.length) return result
+      const results = reducer(state, action)
+
+      // Defer to the first one to return a non-empty array of
+      // expandable items.
+
+      if (nonTrivialResults(results)) return results
     }
+
+    // Otherwise, default to most permissive reducer.
+    return permissiveReducer(state, action)
   }
 }
 
-function multiExpandedReducer(expandedItems = [], action) {
+// Allow any number of expanded or collapsed items.
+
+function permissiveReducer(state, action) {
+  const { expandedItems = [], focalIndex } = state
   switch (action.type) {
     case actionTypes.toggle_index: {
+      let nextExpandedItems = []
+      let nextFocalIndex = focalIndex
       const closeIt = expandedItems.includes(action.index)
-      const nextExpandedItems = closeIt
-        ? expandedItems.filter((i) => i !== action.index)
-        : [...expandedItems, action.index]
-      return nextExpandedItems
+      if (closeIt) {
+        nextExpandedItems = expandedItems.filter((i) => i !== action.index)
+        nextFocalIndex = focalIndex === action.index ? undefined : focalIndex
+      } else {
+        nextExpandedItems = [...expandedItems, action.index]
+        nextFocalIndex = action.index // make this the new focal index
+      }
+      return { expandedItems: nextExpandedItems, focalIndex: nextFocalIndex } // return a single open item
     }
     default: {
       throw new Error(
-        'Unhandled type in Accordion multiExpandedReducer: ' + action.type
+        'Unhandled type in Accordion permissiveReducer: ' + action.type
       )
     }
   }
 }
 
-function preventCloseReducer(expandedItems = [], action) {
+function preventCloseReducer(state, action) {
+  const { expandedItems = [] } = state
   if (action.type === actionTypes.toggle_index) {
+    const closeIt = expandedItems.includes(action.index)
     const preventClose = expandedItems.length === 1
-    if (preventClose) {
-      return expandedItems
+    if (closeIt && preventClose) {
+      return state
     }
   }
 }
 
-function singleExpandedReducer(expandedItems = [], action) {
+function singleExpandedReducer(state, action) {
+  const { expandedItems = [] } = state
   if (action.type === actionTypes.toggle_index) {
+    let nextExpandedItems = []
+    let nextFocalIndex = undefined
     const openIt = !expandedItems.includes(action.index)
     if (openIt) {
-      return [action.index] // return a single open item
+      // reduce expanded items just to this one
+      nextExpandedItems = [action.index]
+      nextFocalIndex = action.index
+      return { expandedItems: nextExpandedItems, focalIndex: nextFocalIndex }
     }
   }
 }
 
-const dfltExpandedReducer = multiExpandedReducer
-
 function useExpandable({
-  reducer = dfltExpandedReducer,
-  initialState = [],
+  initialState = {
+    expandedItems: [],
+    focalIndex: undefined
+  },
+  reducer = permissiveReducer,
   items = []
 } = {}) {
   const memoizedReducer = React.useCallback(reducer, [])
-  const [expandedItems, dispatch] = React.useReducer(
-    memoizedReducer,
-    initialState
-  )
+  const [
+    state = { expandedItems: [], focalIndex: undefined },
+    dispatch
+  ] = React.useReducer(memoizedReducer, initialState)
 
+  const { expandedItems, focalIndex } = state
   const toggleItemFn = (index) => {
     dispatch({
       type: actionTypes.toggle_index,
@@ -69,7 +101,7 @@ function useExpandable({
     })
   }
 
-  return { expandedItems, toggleItemFn }
+  return { expandedItems, focalIndex, toggleItemFn }
 }
 
 export {
@@ -77,6 +109,6 @@ export {
   combineExpansionReducers,
   preventCloseReducer,
   singleExpandedReducer,
-  multiExpandedReducer,
+  permissiveReducer,
   actionTypes
 }

@@ -43,7 +43,7 @@ function App() {
             <div style={accordion}>
               <Accordion
                 items={items}
-                initialExpanded={[0]}
+                initialExpandedItems={[0]}
                 expansionReducer={combineExpansionReducers(
                   singleExpandedReducer,
                   preventCloseReducer
@@ -56,7 +56,7 @@ function App() {
             <div style={accordion}>
               <Accordion
                 items={nestedItems}
-                initialExpanded={[0]}
+                initialExpandedItems={[1]}
                 inputItemsReducer={nestedItemsClosure(nestedItemOverrides)}
                 layoutReducer={nestedLayoutReducer}
                 expansionReducer={singlePeerExpandedReducer}
