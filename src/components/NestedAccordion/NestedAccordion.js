@@ -185,7 +185,7 @@ function nestedLayoutReducer(components, action) {
               {createButton(
                 index,
                 action.expandedItems.includes(index),
-                action.toggleItem,
+                action.toggleItemFn,
                 item.icon,
                 item.title,
                 <ArrowupIcon width="100%" height="2em" />,

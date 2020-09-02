@@ -60,14 +60,16 @@ function useExpandable({
     memoizedReducer,
     initialState
   )
-  const toggleItem = (index) => {
+
+  const toggleItemFn = (index) => {
     dispatch({
       type: actionTypes.toggle_index,
       index: index,
       items: items
     })
   }
-  return { expandedItems, toggleItem }
+
+  return { expandedItems, toggleItemFn }
 }
 
 export {

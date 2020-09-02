@@ -91,6 +91,7 @@ function createContents(isOpen = false, contents) {
 }
 
 function verticalBelowLayoutReducer(components, action) {
+  console.log('layout reducer:', action.toggleItemFn)
   switch (action.type) {
     case layoutActionTypes.map_items:
       return action.items.map((item, index) => {
@@ -103,7 +104,7 @@ function verticalBelowLayoutReducer(components, action) {
             {createButton(
               index,
               action.expandedItems.includes(index),
-              action.toggleItem,
+              action.toggleItemFn,
               item.title,
               '👇',
               '👈'
@@ -137,12 +138,12 @@ function useAccordion({
   initialExpanded = []
 } = {}) {
   const normalizedItems = useRef(inputItemsReducer(items))
-  const { expandedItems, toggleItem } = useExpandable({
+  const { expandedItems, toggleItemFn } = useExpandable({
     initialState: initialExpanded,
     reducer: expansionReducer,
     items: normalizedItems.current
   })
-  const memoizedToggleItem = useCallback(toggleItem, [])
+  const memoizedToggleItem = useCallback(toggleItemFn, [])
 
   const memoizedLayoutReducer = useCallback(layoutReducer, [])
   const [components, dispatch] = useReducer(memoizedLayoutReducer, [])
@@ -151,7 +152,7 @@ function useAccordion({
     dispatch({
       type: layoutActionTypes.map_items,
       items: normalizedItems.current,
-      toggleItem: memoizedToggleItem,
+      toggleItemFn: memoizedToggleItem,
       expandedItems: expandedItems || []
     })
     return
