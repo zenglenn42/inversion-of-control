@@ -157,25 +157,26 @@ function createEmptyItem(depth, index) {
   return <div key={`${depth}_empty_${index}`} style={{ display: 'none' }}></div>
 }
 
-function isVisible(item, items, expandedItems = []) {
+function isVisible(item, expandedItems = [], allItems) {
   // Item has no parent so can't be occluded by that.
   if (!item.parent) return true
 
   // Item has a parent but expandedItems is undefined.
   if (item.parent && expandedItems === undefined) return false
 
-  // Item is visible if all it's ancestors are expanded.
+  // Item is visible if all its parents are expanded.
+  const parentItem = allItems[item.parent]
   return (
     expandedItems.includes(item.parent) &&
-    isVisible(items[item.parent], items, expandedItems)
+    isVisible(parentItem, expandedItems, allItems)
   )
 }
 
 function nestedLayoutReducer(components, action) {
   switch (action.type) {
     case layoutActionTypes.map_items:
-      return action.items.map((item, index) => {
-        if (isVisible(item, action.items, action.expandedItems)) {
+      return action.allItems.map((item, index) => {
+        if (isVisible(item, action.expandedItems, action.allItems)) {
           return (
             <AccordionItem
               key={`${item.depth}_${item.title}_${index}`}
@@ -218,16 +219,17 @@ function singlePeerExpandedReducer(expandedItems = [], action) {
   function isaParent(item) {
     return item.contents === undefined
   }
-  function removePeersOf(index, array, items) {
-    const depth = items[index].depth
-    return array.filter(
+  function removeExpandedPeersOf(itemIndex, expandedItems, allItems) {
+    const depth = allItems[itemIndex].depth
+    return expandedItems.filter(
       (i) =>
-        items[i].depth !== depth ||
+        allItems[i].depth !== depth ||
         // don't remove peers that are parents of sub-accordions
-        (items[i].depth === depth &&
-          (isaParent(items[i]) || isaParent(items[index])))
+        (allItems[i].depth === depth &&
+          (isaParent(allItems[i]) || isaParent(allItems[itemIndex])))
     )
   }
+
   if (action.type === expandableActionTypes.toggle_index) {
     return expandedItems.includes(action.index)
       ? // closeIt
@@ -236,7 +238,11 @@ function singlePeerExpandedReducer(expandedItems = [], action) {
         : undefined // allow combineReducers to chain reducers
       : // openIt
         [
-          ...removePeersOf(action.index, expandedItems, action.items),
+          ...removeExpandedPeersOf(
+            action.index,
+            expandedItems,
+            action.allItems
+          ),
           action.index
         ]
   }

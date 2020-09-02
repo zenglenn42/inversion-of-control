@@ -91,10 +91,9 @@ function createContents(isOpen = false, contents) {
 }
 
 function verticalBelowLayoutReducer(components, action) {
-  console.log('layout reducer:', action.toggleItemFn)
   switch (action.type) {
     case layoutActionTypes.map_items:
-      return action.items.map((item, index) => {
+      return action.allItems.map((item, index) => {
         return (
           <AccordionItem
             key={`${item.depth}_${item.title}_${index}`}
@@ -151,9 +150,9 @@ function useAccordion({
   useEffect(() => {
     dispatch({
       type: layoutActionTypes.map_items,
-      items: normalizedItems.current,
       toggleItemFn: memoizedToggleItem,
-      expandedItems: expandedItems || []
+      expandedItems: expandedItems || [],
+      allItems: normalizedItems.current
     })
     return
   }, [normalizedItems, memoizedToggleItem, expandedItems])

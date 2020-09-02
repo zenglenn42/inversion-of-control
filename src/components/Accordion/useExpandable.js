@@ -65,7 +65,7 @@ function useExpandable({
     dispatch({
       type: actionTypes.toggle_index,
       index: index,
-      items: items
+      allItems: items
     })
   }
 
