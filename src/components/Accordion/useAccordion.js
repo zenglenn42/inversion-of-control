@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useReducer, useRef } from 'react'
-import posed from 'react-pose'
+import { motion } from 'framer-motion'
 import styled from '@emotion/styled'
 import {
   useExpandable,
@@ -32,15 +32,27 @@ const AccordionButton = styled('button')(
       : null
 )
 
-const PoseAccordionContents = posed.div({
-  open: { maxHeight: 200 },
-  closed: { maxHeight: 0 }
-})
+const MotionAccordionContents = (props) => {
+  const { isOpen, ...other } = props
+  const variants = {
+    open: { maxHeight: 200 },
+    closed: { maxHeight: 0 }
+  }
 
-function AccordionContents({ isOpen, ...props }) {
   return (
-    <PoseAccordionContents
-      pose={isOpen ? 'open' : 'closed'}
+    <motion.div
+      initial="closed"
+      animate={isOpen ? 'open' : 'closed'}
+      transition={{ duration: 0.25, ease: [0.04, 0.62, 0.23, 0.98] }}
+      variants={variants}
+      {...other}
+    />
+  )
+}
+
+function AccordionContents(props) {
+  return (
+    <MotionAccordionContents
       style={{ overflowY: 'hidden', textAlign: 'justify' }}
       {...props}
     />
