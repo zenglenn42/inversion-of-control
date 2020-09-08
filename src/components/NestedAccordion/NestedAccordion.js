@@ -151,9 +151,9 @@ function createButton(
         >
           {icon ? <span style={{ marginRight: '1em' }}>{icon}</span> : <></>}
           <span
-            style={{
-              fontWeight: isOpen ? 'bold' : null
-            }}
+          // style={{
+          //   fontWeight: isOpen ? 'bold' : null
+          // }}
           >
             {text}
           </span>
