@@ -105,18 +105,20 @@ const AccordionButton = styled('button')(
     padding: 0,
     fontSize: 20,
     border: 'none',
-    backgroundColor: 'unset',
-    ':focus': {
-      outline: 'none',
-      backgroundColor: 'rgba(255, 255, 255, 0.4)'
-    }
-  },
-  ({ isOpen }) =>
-    isOpen
-      ? {
-          backgroundColor: 'rgba(255, 255, 255, 0.2)'
-        }
-      : null
+    backgroundColor: 'unset'
+    // Feels a bit annoying, actually.
+    //
+    // '&:hover': {
+    //   borderLeft: '1px solid #ddd'
+    // }
+  }
+  // ,
+  // ({ isOpen }) =>
+  //   isOpen
+  //     ? {
+  //         backgroundColor: '#ddd'
+  //       }
+  //     : null
 )
 
 function createButton(
@@ -137,8 +139,7 @@ function createButton(
           width: '100%',
           padding: '0.125em 0',
           borderRadius: '0.125em',
-          border: '1px solid rgba(0, 0, 128, 0.1)',
-          backgroundColor: index === focalIndex ? 'gray' : 'inherit'
+          backgroundColor: index === focalIndex ? '#ddd' : 'inherit'
         }}
       >
         <span
@@ -149,7 +150,13 @@ function createButton(
           }}
         >
           {icon ? <span style={{ marginRight: '1em' }}>{icon}</span> : <></>}
-          <span>{text}</span>
+          <span
+            style={{
+              fontWeight: isOpen ? 'bold' : null
+            }}
+          >
+            {text}
+          </span>
         </span>
         <div style={{ flex: '1' }} />
         <span>{isOpen ? expandedEmoji : collapsedEmoji}</span>

@@ -6,32 +6,6 @@ import {
   permissiveReducer as dfltExpansionReducer
 } from './useExpandable'
 
-const AccordionButton = styled('button')(
-  {
-    textAlign: 'left',
-    minWidth: 80,
-    cursor: 'pointer',
-    flex: 1,
-    paddingTop: 10,
-    paddingBottom: 10,
-    paddingLeft: 0,
-    paddingRight: 0,
-    fontSize: 20,
-    border: 'none',
-    backgroundColor: 'unset',
-    ':focus': {
-      outline: 'none',
-      backgroundColor: 'rgba(255, 255, 255, 0.4)'
-    }
-  },
-  ({ isOpen }) =>
-    isOpen
-      ? {
-          backgroundColor: 'rgba(255, 255, 255, 0.2)'
-        }
-      : null
-)
-
 const MotionAccordionContents = (props) => {
   const { isOpen, ...other } = props
   const variants = {
@@ -73,6 +47,31 @@ const AccordionItem = styled('div')(
 )
 
 export const layoutActionTypes = { map_items: 'map_items' }
+
+const AccordionButton = styled('button')(
+  {
+    textAlign: 'left',
+    minWidth: 80,
+    cursor: 'pointer',
+    flex: 1,
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingLeft: 0,
+    paddingRight: 0,
+    fontSize: 20,
+    border: 'none',
+    backgroundColor: 'unset',
+    '&:hover': {
+      outline: '1px solid #ccc'
+    }
+  },
+  ({ isOpen }) =>
+    isOpen
+      ? {
+          backgroundColor: '#ddd'
+        }
+      : null
+)
 
 function createButton(
   index,
