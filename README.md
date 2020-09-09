@@ -560,7 +560,7 @@ The replacement layout reducer is referenced as a prop in the Accordion:
 # App.js
 
 import { Accordion } from './components/Accordion/Accordion'
-import { nestedItemsClosure } from './components/NestedAccordion/NestedAccordion'
+import { nestedItemsClosure, nestedLayoutReducer } from './components/NestedAccordion/NestedAccordion'
 
 const nestedItems = [..];
 
