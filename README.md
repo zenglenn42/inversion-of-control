@@ -525,7 +525,55 @@ But this has me thinking.
 
 If I had access to the index of the most recently clicked item, I could use _that_ for prop-driven background styling. Even better, it could drive some react-router code to display more interesting content, like a related youtube video in its own dedicated section. This fits with my other goal of evolving the component into a slideout menu drawer where you're also manipulating routes and components in reaction to menu clicks.
 
-So I [augment](https://github.com/zenglenn42/inversion-of-control/commit/12e2a993040f3aebedc77ea226d644ec4d987ab2) the state managed by useExpandable to include a `focalIndex` in addition to the `expandedItems` array. Interestingly, this doesn't break legacy code that invokes useAccordion. The new field can simply be ignored. But I use it to [emphasize](https://github.com/zenglenn42/inversion-of-control/blob/5a580b7cec535e1382e0f05c70fb3172e1e34d0e/src/components/NestedAccordion/NestedAccordion.js#L142) the most recently clicked item.
+So I [augment](https://github.com/zenglenn42/inversion-of-control/commit/12e2a993040f3aebedc77ea226d644ec4d987ab2) the state managed by useExpandable to include a `focalIndex` in addition to the `expandedItems` array.
+
+Now I can style against that state by overriding the default layout logic in useAccordion with my nesting-aware layout function:
+
+```javascript
+# NestedAccordion.js
+
+function nestedLayoutReducer(components, action) {
+  ..
+  return action.allItems.map((item, index) => {(
+      <AccordionItem>
+        <AccordionButton isOpen={isOpen} onClick={() => toggleFn(index)} >
+          <div
+            style={{
+              display: 'inline-flex',
+              width: '100%',
+              padding: '0.125em 0',
+              borderRadius: '0.125em',
+              backgroundColor: index === focalIndex ? '#ddd' : 'inherit'
+            }}
+          >
+          ..
+          </div>
+          </AccordionButton>
+      </AccordionItem>
+  )})
+}
+```
+
+The replacement layout reducer is referenced as a prop in the Accordion:
+
+```javascript
+# App.js
+
+import { Accordion } from './components/Accordion/Accordion'
+import { nestedItemsClosure } from './components/NestedAccordion/NestedAccordion'
+
+const nestedItems = [..];
+
+function App() {
+  return (
+    <Accordion
+      items={nestedItems}
+      inputItemsReducer={nestedItemsClosure()}
+      layoutReducer={nestedLayoutReducer}
+    />
+  )
+}
+```
 
 ## [Summary](#contents)
 
