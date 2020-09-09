@@ -527,6 +527,9 @@ Here's what I learned:
   - The nested Accordion has unique visibility and indentation requirements not met by the original (flat) component.
   - I replaced it with an enhanced [layout reducer](https://github.com/zenglenn42/inversion-of-control/blob/a2683ab2ff9700b988a784acdd4ea5a385c56553/src/components/hooks/useAccordion.js#L195) which may be passed in as an Accordion [prop](https://github.com/zenglenn42/inversion-of-control/blob/a2683ab2ff9700b988a784acdd4ea5a385c56553/src/components/hooks/useAccordion.js#L180).
   - I'm not sure I needed to make this a _reducer_, per-se, since it only responds to one **[map-items](https://github.com/zenglenn42/inversion-of-control/blob/7fa84b2f270aa9b446a23bd3317faa95b9781188/src/components/hooks/useAccordion.js#L113)** action. I could probably strip away the dispatcher to just invoke a render prop.
+  - The animation associated with collapsing an accordion item only applies when that item has content (e.g. some wikipedia text). It _doesn't_ apply to our synthetically inserted parent-of-sub-accordion items we inject into the normalized input data. Consequently, you may notice the absence of animation when you close the classification tree, for example. That's because we have made all the item `<div>'s` peers. We could address this by nesting the sub-accordion divs within the parent item divs. Then the parent divs would have actual content subject to collapsing-div animation. Perhaps you could have two data structures driving layout state:
+    - a flat array for the expanded/contracted state of a given item
+    - some nested json to drive the nested div layout
 
 - Does this pattern deliver on its promise?
 
@@ -557,4 +560,3 @@ But it's not always clear what the right props and features _are_.
 For a recursive Accordion, for example, what would `min_viewable_items` _mean_ precisely? Is it the minimum number of items expanded across the entire Accordion (including sub-accordions)? Is it the minimum number of items open at a given depth? If the latter, should we also count items that are expanded parent nodes of sub-accordions?
 
 With inversion of control, the client developer may implement the behavior they _need_, hopefully as a simple extension to code bundled with the component.
-
