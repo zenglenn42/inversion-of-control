@@ -24,6 +24,7 @@ Here, I riff on an example of Kent's to add recursive behavior to his Accordion 
   - [Input Reducer](#input-reducer)
   - [Layout Reducer](#layout-reducer)
   - [singlePeer Expansion Reducer](#singlePeer-expansion-reducer)
+  - [focalIndex feature](#focalIndex-feature)
   - ### [**Demo**](https://nested-accordion.herokuapp.com/) ☚
 - [Summary](#summary)
 - [Conclusion](#conclusion)
@@ -509,6 +510,22 @@ function App() {
 }
 
 ```
+
+### [focalIndex feature](#contents)
+
+Okay, I can't resist adding one [feature](https://github.com/zenglenn42/inversion-of-control/commit/12e2a993040f3aebedc77ea226d644ec4d987ab2).
+
+I'd like to add some styling for the title section of a selected item ... a gray background perhaps.
+
+![alt](docs/images/focalIndex.png)
+
+Kent's original code uses a '&:focus' idiom with the styled Emotion button component to achieve this effect. However, when I upgrade to the latest version of that library, I hit either a regression or maybe a porting goof on my part. Weirdly, '&:hover' still seems to work just fine.
+
+But this has me thinking.
+
+If I had access to the index of the most recently clicked item, I could use _that_ for prop-driven background styling. Even better, it could drive some react-router code to display more interesting content, like a related youtube video in its own dedicated section. This fits with my other goal of evolving the component into a slideout menu drawer where you're also manipulating routes and components in reaction to menu clicks.
+
+So I [augment](https://github.com/zenglenn42/inversion-of-control/commit/12e2a993040f3aebedc77ea226d644ec4d987ab2) the state managed by useExpandable to include a `focalIndex` in addition to the `expandedItems` array. Interestingly, this doesn't break legacy code that invokes useAccordion. The new field can simply be ignored. But I use it to [emphasize](https://github.com/zenglenn42/inversion-of-control/blob/5a580b7cec535e1382e0f05c70fb3172e1e34d0e/src/components/NestedAccordion/NestedAccordion.js#L142) the most recently clicked item.
 
 ## [Summary](#contents)
 
