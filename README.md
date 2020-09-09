@@ -24,7 +24,7 @@ Here, I riff on an example of Kent's to add recursive behavior to his Accordion 
   - [Input Reducer](#input-reducer)
   - [Layout Reducer](#layout-reducer)
   - [singlePeer Expansion Reducer](#singlePeer-expansion-reducer)
-  - [focalIndex feature](#focalIndex-feature)
+  - [Feature: focalIndex](#feature-focalIndex)
   - ### [**Demo**](https://nested-accordion.herokuapp.com/) ☚
 - [Summary](#summary)
 - [Conclusion](#conclusion)
@@ -185,7 +185,11 @@ Control is _inverted_ by enabling the component consumer to extend behavior in t
 
 **Hmm ... that gives me an idea.**
 
-I've been playing with menu drawers that open to the side of the main content and allow a user to navigate a hierarchy of selectable options. The options themselves often expand to reveal sub-options. The expansion behavior of the accordion reminds me of that.
+I've been playing with menu drawers that open to the side of the main content and allow a user to navigate a hierarchy of selectable options.
+
+![alt](docs/images/menu-drawer.png)
+
+The options themselves often expand to reveal sub-options. The expansion behavior of the accordion reminds me of that.
 
 Could I create my own Accordion state reducer to enable _nested_ Accordions ... as a step toward a drawer list component?
 
@@ -511,9 +515,9 @@ function App() {
 
 ```
 
-### [focalIndex feature](#contents)
+### [Feature: focalIndex](#contents)
 
-Okay, I can't resist adding one [feature](https://github.com/zenglenn42/inversion-of-control/commit/12e2a993040f3aebedc77ea226d644ec4d987ab2).
+Okay, I can't resist adding one feature.
 
 I'd like to add some styling for the title section of a selected item ... a gray background perhaps.
 
