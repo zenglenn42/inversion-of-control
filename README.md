@@ -304,7 +304,7 @@ const items = [
 
 ### [Input Reducer](#contents)
 
-But we have a nested input schema. Either we need to make the render recursion-friendly or somehow flatten the input data before it gets mapped.
+For the recursive Accordion, we have nested input data. So how can we make that work while leveraging the existing implementation? Should we override the layout code with something recursion-friendly or maybe flatten the input data before it gets mapped?
 
 I opt for the latter to minimize changes to the underlying component since that's the point of this pattern.
 
