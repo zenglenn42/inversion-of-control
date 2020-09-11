@@ -629,3 +629,7 @@ But it's not always clear what the right props and features _are_.
 For a recursive Accordion, for example, what would `min_viewable_items` _mean_ precisely? Is it the minimum number of items expanded across the entire Accordion (including sub-accordions)? Is it the minimum number of items open at a given depth? If the latter, should we also count items that are expanded parent nodes of sub-accordions?
 
 With inversion of control, the client developer may implement the behavior they _need_, hopefully as a simple extension to code bundled with the component.
+
+Oh yeah, I _did_ turn the nested accordion into a menu drawer as well ...
+
+[![DEMO MENU DRAWER](docs/images/menu-drawer-compare.png)](https://menu-drawer.herokuapp.com/)
