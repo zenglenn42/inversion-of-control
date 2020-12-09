@@ -1,8 +1,8 @@
-## Inversion of Control Software Pattern [(demo)](https://nested-accordion.herokuapp.com/)
+## Use 'Inversion of Control' to extend an Accordion component [(demo)](https://nested-accordion.herokuapp.com/)
 
-### _Fighting prop-bloat and maintenance blues in your React components_
+### _Fight maintenance blues in your React components with this software pattern_
 
-![alt](docs/images/raoul-croes-paINEyfzcuc-unsplash.jpg)
+![alt](docs/images/blog-splash.png)
 _<h6>Photo by <a href="https://unsplash.com/@rxcroes?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Raoul Croes</a></h6>_
 
 I'm investigating **inversion of control**, a software design principle I recently [discovered](https://kentcdodds.com/blog/inversion-of-control) from Kent Dodds.
